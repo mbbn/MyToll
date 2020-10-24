@@ -53,7 +53,7 @@ const Header = (props: IHeaderProps) => {
       <LoadingBar className="loading-bar" />
       <Navbar dark expand="sm" fixed="top" className="jh-navbar">
         <NavbarToggler aria-label="Menu" onClick={toggleMenu} />
-        <Brand />
+        {!isRTL(Storage.session.get('locale')) ? <Brand />:null}
         <Collapse isOpen={menuOpen} navbar>
           <Nav id="header-tabs" className="ml-auto" navbar>
             <Home />
@@ -65,6 +65,7 @@ const Header = (props: IHeaderProps) => {
             <AccountMenu isAuthenticated={props.isAuthenticated} />
           </Nav>
         </Collapse>
+        {isRTL(Storage.session.get('locale')) ? <Brand />:null}
       </Navbar>
     </div>
   );

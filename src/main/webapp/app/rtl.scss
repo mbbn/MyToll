@@ -159,4 +159,11 @@ html[dir='rtl'] {
       }
     }
   }
+  .jh-navbar {
+    a.nav-link {
+      > span {
+        margin-right: 5px;
+      }
+    }
+  }
 }
