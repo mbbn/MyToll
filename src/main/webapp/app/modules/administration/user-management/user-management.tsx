@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { Button, Table, Row, Badge } from 'reactstrap';
+import { Button, Table, Row, Badge, Card } from 'reactstrap';
 import { Translate, TextFormat, JhiPagination, JhiItemCount, getSortState } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -62,7 +62,7 @@ export const UserManagement = (props: IUserManagementProps) => {
 
   const { users, account, match, totalItems } = props;
   return (
-    <div>
+    <Card>
       <h2 id="user-management-page-heading">
         <Translate contentKey="userManagement.home.title">Users</Translate>
         <Link to={`${match.url}/new`} className="btn btn-primary float-right jh-create-entity">
@@ -197,7 +197,7 @@ export const UserManagement = (props: IUserManagementProps) => {
       ) : (
         ''
       )}
-    </div>
+    </Card>
   );
 };
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
-import { Input, Row, Table } from 'reactstrap';
+import { Input, Row, Table, Card } from 'reactstrap';
 import { Translate, TextFormat, JhiPagination, JhiItemCount, getSortState, IPaginationBaseState } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -94,7 +94,7 @@ export const AuditsPage = (props: IAuditsPageProps) => {
   const { audits, totalItems } = props;
 
   return (
-    <div>
+    <Card>
       <h2 id="audits-page-heading">Audits</h2>
       <span>
         <Translate contentKey="audits.filter.from">from</Translate>
@@ -162,7 +162,7 @@ export const AuditsPage = (props: IAuditsPageProps) => {
       ) : (
         ''
       )}
-    </div>
+    </Card>
   );
 };
 

@@ -3,7 +3,9 @@
 @import 'node_modules/bootstrap/scss/bootstrap';
 @import 'rtl.scss';
 body {
-  background: #fafafa;
+  background: url('../content/images/Taieri.svg') center;
+  background-size: cover;
+  //background: #fafafa;
   margin: 0;
 }
 
@@ -24,6 +26,7 @@ a {
 
 .app-container {
   box-sizing: border-box;
+  min-height: 90vh;
   .view-container {
     width: 100%;
     height: calc(100% - 40px);

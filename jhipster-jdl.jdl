@@ -1,0 +1,4 @@
+entity Plate {
+	plain String minlength(8) maxlength(8) required 
+    plain Integer minlength(9) maxlength(9) required 
+}

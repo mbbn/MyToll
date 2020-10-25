@@ -2,9 +2,8 @@
 Main page styles
 ========================================================================== */
 .hipster {
-  display: inline-block;
-  width: 100%;
-  height: 497px;
-  background: url('../../../content/images/jhipster_family_member_1.svg') no-repeat center top;
-  background-size: contain;
+  background: url('../../../content/images/Taieri.svg') center;
+  background-size: cover;
+  padding: 10px 10px 10px 10px;
+  min-height: 100%;
 }
