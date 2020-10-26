@@ -1,0 +1,28 @@
+{
+  "myTollApp": {
+    "plateBill": {
+      "home": {
+        "title": "Plate Bills",
+        "createLabel": "Create a new Plate Bill",
+        "createOrEditLabel": "Create or edit a Plate Bill",
+        "notFound": "No Plate Bills found"
+      },
+      "created": "A new Plate Bill is created with identifier {{ param }}",
+      "updated": "A Plate Bill is updated with identifier {{ param }}",
+      "deleted": "A Plate Bill is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Plate Bill {{ id }}?"
+      },
+      "detail": {
+        "title": "Plate Bill"
+      },
+      "category": "Category",
+      "creationTime": "Creation Time",
+      "creationBy": "Creation By",
+      "lastUpdateTime": "Last Update Time",
+      "lastUpdatedBy": "Last Updated By",
+      "billType": "Bill Type",
+      "plate": "Plate"
+    }
+  }
+}

@@ -4,6 +4,10 @@
     "subtitle": "This is your homepage",
     "logged": {
       "message": "You are logged in as user \"{{username}}\"."
+    },
+    "tabs": {
+      "freeWayTolls": "FreeWay Tolls",
+      "marginalTolls": "Marginal Tolls"
     }
   }
 }

@@ -1,0 +1,9 @@
+{
+  "myTollApp": {
+    "PlateType": {
+      "null": "",
+      "NORMAL": "NORMAL",
+      "FORMAL": "FORMAL"
+    }
+  }
+}

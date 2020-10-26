@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { Button, Table, Row, Badge, Card } from 'reactstrap';
+import { Button, Table, Row, Badge, Card, CardHeader, CardBody, CardFooter } from 'reactstrap';
 import { Translate, TextFormat, JhiPagination, JhiItemCount, getSortState } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -63,14 +63,17 @@ export const UserManagement = (props: IUserManagementProps) => {
   const { users, account, match, totalItems } = props;
   return (
     <Card>
-      <h2 id="user-management-page-heading">
-        <Translate contentKey="userManagement.home.title">Users</Translate>
-        <Link to={`${match.url}/new`} className="btn btn-primary float-right jh-create-entity">
-          <FontAwesomeIcon icon="plus" /> <Translate contentKey="userManagement.home.createLabel">Create a new user</Translate>
-        </Link>
-      </h2>
-      <Table responsive striped>
-        <thead>
+      <CardHeader>
+        <h2 id="user-management-page-heading">
+          <Translate contentKey="userManagement.home.title">Users</Translate>
+          <Link to={`${match.url}/new`} className="btn btn-primary float-right jh-create-entity">
+            <FontAwesomeIcon icon="plus" /> <Translate contentKey="userManagement.home.createLabel">Create a new user</Translate>
+          </Link>
+        </h2>
+      </CardHeader>
+      <CardBody>
+        <Table responsive striped>
+          <thead className="thead-dark">
           <tr>
             <th className="hand" onClick={sort('id')}>
               <Translate contentKey="global.field.id">ID</Translate>
@@ -106,8 +109,8 @@ export const UserManagement = (props: IUserManagementProps) => {
             </th>
             <th />
           </tr>
-        </thead>
-        <tbody>
+          </thead>
+          <tbody>
           {users.map((user, i) => (
             <tr id={user.login} key={`user-${i}`}>
               <td>
@@ -132,10 +135,10 @@ export const UserManagement = (props: IUserManagementProps) => {
               <td>
                 {user.authorities
                   ? user.authorities.map((authority, j) => (
-                      <div key={`user-auth-${i}-${j}`}>
-                        <Badge color="info">{authority}</Badge>
-                      </div>
-                    ))
+                    <div key={`user-auth-${i}-${j}`}>
+                      <Badge color="info">{authority}</Badge>
+                    </div>
+                  ))
                   : null}
               </td>
               <td>
@@ -177,26 +180,29 @@ export const UserManagement = (props: IUserManagementProps) => {
               </td>
             </tr>
           ))}
-        </tbody>
-      </Table>
-      {props.totalItems ? (
-        <div className={users && users.length > 0 ? '' : 'd-none'}>
-          <Row className="justify-content-center">
-            <JhiItemCount page={pagination.activePage} total={totalItems} itemsPerPage={pagination.itemsPerPage} i18nEnabled />
-          </Row>
-          <Row className="justify-content-center">
-            <JhiPagination
-              activePage={pagination.activePage}
-              onSelect={handlePagination}
-              maxButtons={5}
-              itemsPerPage={pagination.itemsPerPage}
-              totalItems={props.totalItems}
-            />
-          </Row>
-        </div>
-      ) : (
-        ''
-      )}
+          </tbody>
+        </Table>
+      </CardBody>
+      <CardFooter>
+        {props.totalItems ? (
+          <div className={users && users.length > 0 ? '' : 'd-none'}>
+            <Row className="justify-content-center">
+              <JhiItemCount page={pagination.activePage} total={totalItems} itemsPerPage={pagination.itemsPerPage} i18nEnabled />
+            </Row>
+            <Row className="justify-content-center">
+              <JhiPagination
+                activePage={pagination.activePage}
+                onSelect={handlePagination}
+                maxButtons={5}
+                itemsPerPage={pagination.itemsPerPage}
+                totalItems={props.totalItems}
+              />
+            </Row>
+          </div>
+        ) : (
+          ''
+        )}
+      </CardFooter>
     </Card>
   );
 };

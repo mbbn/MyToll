@@ -1,0 +1,29 @@
+{
+  "myTollApp": {
+    "baseInfo": {
+      "home": {
+        "title": "اطلاعات پایه",
+        "createLabel": "ایجاد رکورد جدید",
+        "createOrEditLabel": "ایجاد با ویرایش اطلاعات پایه",
+        "notFound": "رکوردی یافت نشد"
+      },
+      "created": "رکورد جدید با شناسه {{ param }} ساخته شد",
+      "updated": "A Base Info is updated with identifier {{ param }}",
+      "deleted": "A Base Info is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Base Info {{ id }}?"
+      },
+      "detail": {
+        "title": "اطلاعات پایه"
+      },
+      "title": "عنوان",
+      "code": "کد",
+      "category": "دسته",
+      "creationTime": "زمان ایحاد",
+      "creationBy": "ایجاد شده توسط",
+      "lastUpdateTime": "زمان بروزرسانی",
+      "lastUpdatedBy": "بروزرسانی شده توسط",
+      "group": "گروه"
+    }
+  }
+}

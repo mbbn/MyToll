@@ -2,11 +2,13 @@
   "global": {
     "title": "MyToll",
     "browsehappy": "شما از مرورگر <strong>قدیمی</strong> استفاده می‌کنید. لطفا <a href=\"http://browsehappy.com/?locale=en\">مرورگر خود را به روز کنید</a>",
+    "logout": "شما با موفقیت خارج شدید!",
     "menu": {
       "home": "خانه",
       "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
       "entities": {
         "main": "ماهیت ها",
+        "baseInfo": "اطلاعات پایه",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

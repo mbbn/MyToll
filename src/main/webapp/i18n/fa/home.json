@@ -4,6 +4,10 @@
     "subtitle": "این صفحه اصلی شماست",
     "logged": {
       "message": "شما وارد شدید با کاربر \"{{username}}\"."
+    },
+    "tabs": {
+      "freeWayTolls": "عوارض آزادراه",
+      "marginalTolls": "عوارض حاشیه"
     }
   }
 }

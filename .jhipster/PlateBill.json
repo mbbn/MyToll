@@ -1,0 +1,69 @@
+{
+  "name": "PlateBill",
+  "fields": [
+    {
+      "fieldName": "category",
+      "fieldType": "BillCategory",
+      "fieldValues": "SIDEPARK,HIGHWAY,PARKING,CITYTAX",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "creationTime",
+      "fieldType": "ZonedDateTime",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "creationBy",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "lastUpdateTime",
+      "fieldType": "ZonedDateTime",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "lastUpdatedBy",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "required"
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "baseInfo",
+      "otherEntityRelationshipName": "plateBill",
+      "relationshipName": "billType",
+      "otherEntityField": "id"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "plate",
+      "otherEntityRelationshipName": "bills",
+      "relationshipName": "plate",
+      "otherEntityField": "id"
+    }
+  ],
+  "changelogDate": "20201025042336",
+  "entityTableName": "plate_bill",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*",
+  "skipClient": true
+}

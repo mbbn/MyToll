@@ -1,4 +1,66 @@
-entity Plate {
-	plain String minlength(8) maxlength(8) required 
-    plain Integer minlength(9) maxlength(9) required 
+@search
+entity BaseInfo {
+	title String required
+    code String required
+    category BaseInfoCategory required
+    creationTime ZonedDateTime required
+    creationBy String required
+    lastUpdateTime ZonedDateTime required
+    lastUpdatedBy String required
 }
+
+enum BaseInfoCategory {
+    PLATE_MAP
+}
+
+entity Customer {
+	mobile Integer required
+    creationTime ZonedDateTime required
+    creationBy String required
+    lastUpdateTime ZonedDateTime required
+    lastUpdatedBy String required
+}
+
+entity Plate {
+	plain String minlength(8) maxlength(8) required
+    code Integer required
+    type PlateType required
+    creationTime ZonedDateTime required
+    creationBy String required
+    lastUpdateTime ZonedDateTime required
+    lastUpdatedBy String required
+}
+
+enum PlateType {
+	NORMAL,
+    FORMAL
+}
+
+entity PlateBill {
+	category BillCategory required
+    creationTime ZonedDateTime required
+    creationBy String required
+    lastUpdateTime ZonedDateTime required
+    lastUpdatedBy String required
+}
+
+enum BillCategory {
+	SIDEPARK,
+    HIGHWAY,
+    PARKING,
+    CITYTAX
+}
+
+relationship ManyToOne {
+    BaseInfo{group} to BaseInfo
+    PlateBill{billType} to BaseInfo
+}
+
+relationship OneToMany {
+    Customer{plates} to Plate
+    Plate{bills} to PlateBill
+}
+
+skipClient Plate, PlateBill
+paginate BaseInfo with pagination
+paginate Customer with pagination

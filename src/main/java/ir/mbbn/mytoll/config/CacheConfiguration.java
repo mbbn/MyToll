@@ -47,6 +47,7 @@ public class CacheConfiguration {
             createCache(cm, ir.mbbn.mytoll.domain.User.class.getName());
             createCache(cm, ir.mbbn.mytoll.domain.Authority.class.getName());
             createCache(cm, ir.mbbn.mytoll.domain.User.class.getName() + ".authorities");
+            createCache(cm, ir.mbbn.mytoll.domain.BaseInfo.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }
