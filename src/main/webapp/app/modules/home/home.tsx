@@ -72,9 +72,13 @@ export const Home = (props: IHomeProp) => {
             <TabContent activeTab={activeTab}>
               <TabPane tabId="1">
                 <AvForm model={{}} onSubmit={saveEntity}>
-                  <Row className="justify-content-center" style={{borderStyle: "solid", borderRadius: 10, margin: 5}}>
-                    <Col sm="3" style={{borderLeftStyle: "solid"}}>
-                      <AvInput
+                  <Row className="justify-content-center" style={{borderStyle: "solid", borderRadius: 10, margin: 5, direction: 'ltr'}}>
+                    <Col sm="1" style={{
+                      background: "url('../../../../content/images/iran.png') 3px 5px / 80% no-repeat rgb(4, 111, 218)",
+                      padding: 1
+                    }}/>
+                    <Col sm="2">
+                      <AvInput style={{fontSize: 30}}
                         id="base-info-title"
                         type="text"
                         name="title"
@@ -84,20 +88,9 @@ export const Home = (props: IHomeProp) => {
                         }}
                       />
                     </Col>
-                    <Col sm="4">
-                      <AvInput
-                        id="base-info-title"
-                        type="text"
-                        name="title"
-                        maxLength="3"
-                        validate={{
-                          required: { value: true, errorMessage: translate('entity.validation.required') },
-                        }}
-                      />
-                    </Col>
                     <Col sm="2">
                       <Row style={{borderStyle: "solid", borderRadius: 5, margin: 2, borderWidth: 1}}>
-                        <AvInput
+                        <AvInput style={{fontSize: 30}}
                           id="base-info-category"
                           type="select"
                           className="form-control"
@@ -108,8 +101,20 @@ export const Home = (props: IHomeProp) => {
                         </AvInput>
                       </Row>
                     </Col>
-                    <Col sm="2">
-                      <AvInput
+                    <Col sm="4">
+                      <AvInput style={{fontSize: 30}}
+                        id="base-info-title"
+                        type="text"
+                        name="title"
+                        maxLength="3"
+                        validate={{
+                          required: { value: true, errorMessage: translate('entity.validation.required') },
+                        }}
+                      />
+                    </Col>
+
+                    <Col sm="3" style={{borderLeftStyle: "solid"}}>
+                      <AvInput style={{fontSize: 30}}
                         id="base-info-title"
                         type="text"
                         name="title"
@@ -119,13 +124,10 @@ export const Home = (props: IHomeProp) => {
                         }}
                       />
                     </Col>
-                    <Col sm="1" style={{background: "rgb(4 111 218)", padding: 5}}>
-                      <img style={{width: 25}} src="../../../../content/images/iran.png"/>
-                    </Col>
                   </Row>
-                  <Row>
-                    <Col sm="12">
-                      <AvInput
+                  <Row className="justify-content-center">
+                    <Col sm="8" style={{borderRadius: 10, borderWidth:1, borderStyle: 'solid', direction: 'ltr'}}>
+                      <AvInput style={{fontSize: 30, textAlign: 'center'}}
                         id="base-info-title"
                         type="text"
                         name="title"

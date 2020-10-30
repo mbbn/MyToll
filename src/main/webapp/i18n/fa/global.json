@@ -9,6 +9,9 @@
       "entities": {
         "main": "ماهیت ها",
         "baseInfo": "اطلاعات پایه",
+        "customer": "مشتری",
+        "plate": "پلاک",
+        "plateBill": "عوارض",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

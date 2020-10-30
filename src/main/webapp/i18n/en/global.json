@@ -9,6 +9,9 @@
       "entities": {
         "main": "Entities",
         "baseInfo": "Base Info",
+        "customer": "Customer",
+        "plate": "Plate",
+        "plateBill": "Plate Bill",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

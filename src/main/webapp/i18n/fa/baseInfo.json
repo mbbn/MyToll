@@ -2,28 +2,28 @@
   "myTollApp": {
     "baseInfo": {
       "home": {
-        "title": "اطلاعات پایه",
-        "createLabel": "ایجاد رکورد جدید",
-        "createOrEditLabel": "ایجاد با ویرایش اطلاعات پایه",
-        "notFound": "رکوردی یافت نشد"
+        "title": "Base Infos",
+        "createLabel": "Create a new Base Info",
+        "createOrEditLabel": "Create or edit a Base Info",
+        "notFound": "No Base Infos found"
       },
-      "created": "رکورد جدید با شناسه {{ param }} ساخته شد",
+      "created": "A new Base Info is created with identifier {{ param }}",
       "updated": "A Base Info is updated with identifier {{ param }}",
       "deleted": "A Base Info is deleted with identifier {{ param }}",
       "delete": {
         "question": "Are you sure you want to delete Base Info {{ id }}?"
       },
       "detail": {
-        "title": "اطلاعات پایه"
+        "title": "Base Info"
       },
-      "title": "عنوان",
-      "code": "کد",
-      "category": "دسته",
-      "creationTime": "زمان ایحاد",
-      "creationBy": "ایجاد شده توسط",
-      "lastUpdateTime": "زمان بروزرسانی",
-      "lastUpdatedBy": "بروزرسانی شده توسط",
-      "group": "گروه"
+      "title": "Title",
+      "code": "Code",
+      "category": "Category",
+      "creationTime": "Creation Time",
+      "creationBy": "Creation By",
+      "lastUpdateTime": "Last Update Time",
+      "lastUpdatedBy": "Last Updated By",
+      "group": "Group"
     }
   }
 }

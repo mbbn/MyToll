@@ -67,58 +67,50 @@ export const BaseInfo = (props: IBaseInfoProps) => {
   const { baseInfoList, match, loading, totalItems } = props;
   return (
     <Card>
-      <CardHeader>
-        <h2 id="base-info-heading">
-          <Translate contentKey="myTollApp.baseInfo.home.title">Base Infos</Translate>
-          <Link to={`${match.url}/new`} className="btn btn-primary float-right jh-create-entity" id="jh-create-entity">
-            <FontAwesomeIcon icon="plus" />
-            &nbsp;
-            <Translate contentKey="myTollApp.baseInfo.home.createLabel">Create new Base Info</Translate>
-          </Link>
-        </h2>
-      </CardHeader>
-      <CardBody>
-        <div className="table-responsive">
-          {baseInfoList && baseInfoList.length > 0 ? (
-            <Table responsive striped>
-              <thead className="thead-dark">
+      <h2 id="base-info-heading">
+        <Translate contentKey="myTollApp.baseInfo.home.title">Base Infos</Translate>
+        <Link to={`${match.url}/new`} className="btn btn-primary float-right jh-create-entity" id="jh-create-entity">
+          <FontAwesomeIcon icon="plus" />
+          &nbsp;
+          <Translate contentKey="myTollApp.baseInfo.home.createLabel">Create new Base Info</Translate>
+        </Link>
+      </h2>
+      <div className="table-responsive">
+        {baseInfoList && baseInfoList.length > 0 ? (
+          <Table responsive>
+            <thead>
               <tr>
-                <th className="hand" onclick={sort('id')}>
-                  <Translate contentKey="global.field.id">ID</Translate> <FontAwesomeIcon icon="sort"/>
+                <th className="hand" onClick={sort('id')}>
+                  <Translate contentKey="global.field.id">ID</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
-                <th className="hand" onclick={sort('title')}>
-                  <Translate contentKey="myTollApp.baseInfo.title">Title</Translate> <FontAwesomeIcon icon="sort"/>
+                <th className="hand" onClick={sort('title')}>
+                  <Translate contentKey="myTollApp.baseInfo.title">Title</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
-                <th className="hand" onclick={sort('code')}>
-                  <Translate contentKey="myTollApp.baseInfo.code">Code</Translate> <FontAwesomeIcon icon="sort"/>
+                <th className="hand" onClick={sort('code')}>
+                  <Translate contentKey="myTollApp.baseInfo.code">Code</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
-                <th className="hand" onclick={sort('category')}>
-                  <Translate contentKey="myTollApp.baseInfo.category">Category</Translate> <FontAwesomeIcon
-                  icon="sort"/>
+                <th className="hand" onClick={sort('category')}>
+                  <Translate contentKey="myTollApp.baseInfo.category">Category</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
-                <th className="hand" onclick={sort('creationTime')}>
-                  <Translate contentKey="myTollApp.baseInfo.creationTime">Creation Time</Translate> <FontAwesomeIcon
-                  icon="sort"/>
+                <th className="hand" onClick={sort('creationTime')}>
+                  <Translate contentKey="myTollApp.baseInfo.creationTime">Creation Time</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
-                <th className="hand" onclick={sort('creationBy')}>
-                  <Translate contentKey="myTollApp.baseInfo.creationBy">Creation By</Translate> <FontAwesomeIcon
-                  icon="sort"/>
+                <th className="hand" onClick={sort('creationBy')}>
+                  <Translate contentKey="myTollApp.baseInfo.creationBy">Creation By</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
-                <th className="hand" onclick={sort('lastUpdateTime')}>
-                  <Translate contentKey="myTollApp.baseInfo.lastUpdateTime">Last Update Time</Translate>
-                  <FontAwesomeIcon icon="sort"/>
+                <th className="hand" onClick={sort('lastUpdateTime')}>
+                  <Translate contentKey="myTollApp.baseInfo.lastUpdateTime">Last Update Time</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
-                <th className="hand" onclick={sort('lastUpdatedBy')}>
-                  <Translate contentKey="myTollApp.baseInfo.lastUpdatedBy">Last Updated By</Translate> <FontAwesomeIcon
-                  icon="sort"/>
+                <th className="hand" onClick={sort('lastUpdatedBy')}>
+                  <Translate contentKey="myTollApp.baseInfo.lastUpdatedBy">Last Updated By</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
                 <th>
-                  <Translate contentKey="myTollApp.baseInfo.group">Group</Translate> <FontAwesomeIcon icon="sort"/>
+                  <Translate contentKey="myTollApp.baseInfo.group">Group</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
-                <th/>
+                <th />
               </tr>
-              </thead>
-              <tbody>
+            </thead>
+            <tbody>
               {baseInfoList.map((baseInfo, i) => (
                 <tr key={`entity-${i}`}>
                   <td>
@@ -129,24 +121,21 @@ export const BaseInfo = (props: IBaseInfoProps) => {
                   <td>{baseInfo.title}</td>
                   <td>{baseInfo.code}</td>
                   <td>
-                    <Translate contentKey={`myTollApp.BaseInfoCategory.${baseInfo.category}`}/>
+                    <Translate contentKey={`myTollApp.BaseInfoCategory.${baseInfo.category}`} />
                   </td>
                   <td>
-                    {baseInfo.creationTime ?
-                      <TextFormat type="date" value={baseInfo.creationTime} format={APP_DATE_FORMAT}/> : null}
+                    {baseInfo.creationTime ? <TextFormat type="date" value={baseInfo.creationTime} format={APP_DATE_FORMAT} /> : null}
                   </td>
                   <td>{baseInfo.creationBy}</td>
                   <td>
-                    {baseInfo.lastUpdateTime ?
-                      <TextFormat type="date" value={baseInfo.lastUpdateTime} format={APP_DATE_FORMAT}/> : null}
+                    {baseInfo.lastUpdateTime ? <TextFormat type="date" value={baseInfo.lastUpdateTime} format={APP_DATE_FORMAT} /> : null}
                   </td>
                   <td>{baseInfo.lastUpdatedBy}</td>
-                  <td>{baseInfo.group ?
-                    <Link to={`base-info/${baseInfo.group.id}`}>{baseInfo.group.id}</Link> : ''}</td>
+                  <td>{baseInfo.group ? <Link to={`base-info/${baseInfo.group.id}`}>{baseInfo.group.id}</Link> : ''}</td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`${match.url}/${baseInfo.id}`} color="info" size="sm">
-                        <FontAwesomeIcon icon="eye"/>{' '}
+                        <FontAwesomeIcon icon="eye" />{' '}
                         <span className="d-none d-md-inline">
                           <Translate contentKey="entity.action.view">View</Translate>
                         </span>
@@ -157,7 +146,7 @@ export const BaseInfo = (props: IBaseInfoProps) => {
                         color="primary"
                         size="sm"
                       >
-                        <FontAwesomeIcon icon="pencil-alt"/>{' '}
+                        <FontAwesomeIcon icon="pencil-alt" />{' '}
                         <span className="d-none d-md-inline">
                           <Translate contentKey="entity.action.edit">Edit</Translate>
                         </span>
@@ -168,7 +157,7 @@ export const BaseInfo = (props: IBaseInfoProps) => {
                         color="danger"
                         size="sm"
                       >
-                        <FontAwesomeIcon icon="trash"/>{' '}
+                        <FontAwesomeIcon icon="trash" />{' '}
                         <span className="d-none d-md-inline">
                           <Translate contentKey="entity.action.delete">Delete</Translate>
                         </span>
@@ -177,38 +166,34 @@ export const BaseInfo = (props: IBaseInfoProps) => {
                   </td>
                 </tr>
               ))}
-              </tbody>
-            </Table>
-          ) : (
-            !loading && (
-              <div className="alert alert-warning">
-                <Translate contentKey="myTollApp.baseInfo.home.notFound">No Base Infos found</Translate>
-              </div>
-            )
-          )}
-        </div>
-      </CardBody>
-      <CardFooter>
-        {props.totalItems ? (
-          <div className={baseInfoList && baseInfoList.length > 0 ? '' : 'd-none'}>
-            <Row className="justify-content-center">
-              <JhiItemCount page={paginationState.activePage} total={totalItems} itemsPerPage={paginationState.itemsPerPage} i18nEnabled />
-            </Row>
-            <Row className="justify-content-center">
-              <JhiPagination
-                activePage={paginationState.activePage}
-                onSelect={handlePagination}
-                maxButtons={5}
-                itemsPerPage={paginationState.itemsPerPage}
-                totalItems={props.totalItems}
-              />
-            </Row>
-          </div>
+            </tbody>
+          </Table>
         ) : (
-          ''
+          !loading && (
+            <div className="alert alert-warning">
+              <Translate contentKey="myTollApp.baseInfo.home.notFound">No Base Infos found</Translate>
+            </div>
+          )
         )}
-      </CardFooter>
-
+      </div>
+      {props.totalItems ? (
+        <div className={baseInfoList && baseInfoList.length > 0 ? '' : 'd-none'}>
+          <Row className="justify-content-center">
+            <JhiItemCount page={paginationState.activePage} total={totalItems} itemsPerPage={paginationState.itemsPerPage} i18nEnabled />
+          </Row>
+          <Row className="justify-content-center">
+            <JhiPagination
+              activePage={paginationState.activePage}
+              onSelect={handlePagination}
+              maxButtons={5}
+              itemsPerPage={paginationState.itemsPerPage}
+              totalItems={props.totalItems}
+            />
+          </Row>
+        </div>
+      ) : (
+        ''
+      )}
     </Card>
   );
 };

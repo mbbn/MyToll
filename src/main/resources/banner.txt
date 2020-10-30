@@ -1,10 +1,10 @@
 
-  ${AnsiColor.GREEN}      ██╗${AnsiColor.CYAN} ██╗   ██╗ ████████╗ ███████╗   ██████╗ ████████╗ ████████╗ ███████╗
-  ${AnsiColor.GREEN}      ██║${AnsiColor.CYAN} ██║   ██║ ╚══██╔══╝ ██╔═══██╗ ██╔════╝ ╚══██╔══╝ ██╔═════╝ ██╔═══██╗
-  ${AnsiColor.GREEN}      ██║${AnsiColor.CYAN} ████████║    ██║    ███████╔╝ ╚█████╗     ██║    ██████╗   ███████╔╝
-  ${AnsiColor.GREEN}██╗   ██║${AnsiColor.CYAN} ██╔═══██║    ██║    ██╔════╝   ╚═══██╗    ██║    ██╔═══╝   ██╔══██║
-  ${AnsiColor.GREEN}╚██████╔╝${AnsiColor.CYAN} ██║   ██║ ████████╗ ██║       ██████╔╝    ██║    ████████╗ ██║  ╚██╗
-  ${AnsiColor.GREEN} ╚═════╝ ${AnsiColor.CYAN} ╚═╝   ╚═╝ ╚═══════╝ ╚═╝       ╚═════╝     ╚═╝    ╚═══════╝ ╚═╝   ╚═╝
+${AnsiColor.GREEN}888b     d888 Y88b   d88P    ${AnsiColor.CYAN}88888888888 .d88888b.  888      888
+${AnsiColor.GREEN}8888b   d8888  Y88b d88P     ${AnsiColor.CYAN}    888    d88P" "Y88b 888      888
+${AnsiColor.GREEN}88888b.d88888   Y88o88P      ${AnsiColor.CYAN}    888    888     888 888      888
+${AnsiColor.GREEN}888Y88888P888    Y888P        ${AnsiColor.CYAN}   888    888     888 888      888
+${AnsiColor.GREEN}888 Y888P 888     888         ${AnsiColor.CYAN}   888    888     888 888      888
+${AnsiColor.GREEN}888  Y8P  888     888   888888${AnsiColor.CYAN}   888    888     888 888      888
+${AnsiColor.GREEN}888   "   888     888         ${AnsiColor.CYAN}   888    Y88b. .d88P 888      888
+${AnsiColor.GREEN}888       888     888         ${AnsiColor.CYAN}   888     "Y88888P"  88888888 88888888
 
-${AnsiColor.BRIGHT_BLUE}:: JHipster 🤓  :: Running Spring Boot ${spring-boot.version} ::
-:: https://www.jhipster.tech ::${AnsiColor.DEFAULT}

@@ -16,6 +16,18 @@ import passwordReset, { PasswordResetState } from 'app/modules/account/password-
 import baseInfo, {
   BaseInfoState
 } from 'app/entities/base-info/base-info.reducer';
+// prettier-ignore
+import customer, {
+  CustomerState
+} from 'app/entities/customer/customer.reducer';
+// prettier-ignore
+import plate, {
+  PlateState
+} from 'app/entities/plate/plate.reducer';
+// prettier-ignore
+import plateBill, {
+  PlateBillState
+} from 'app/entities/plate-bill/plate-bill.reducer';
 /* jhipster-needle-add-reducer-import - JHipster will add reducer here */
 
 export interface IRootState {
@@ -30,6 +42,9 @@ export interface IRootState {
   readonly password: PasswordState;
   readonly settings: SettingsState;
   readonly baseInfo: BaseInfoState;
+  readonly customer: CustomerState;
+  readonly plate: PlateState;
+  readonly plateBill: PlateBillState;
   /* jhipster-needle-add-reducer-type - JHipster will add reducer type here */
   readonly loadingBar: any;
 }
@@ -46,6 +61,9 @@ const rootReducer = combineReducers<IRootState>({
   password,
   settings,
   baseInfo,
+  customer,
+  plate,
+  plateBill,
   /* jhipster-needle-add-reducer-combine - JHipster will add reducer here */
   loadingBar,
 });

@@ -45,7 +45,7 @@
       "relationshipName": "plates"
     }
   ],
-  "changelogDate": "20201025042136",
+  "changelogDate": "20201026194554",
   "entityTableName": "customer",
   "dto": "no",
   "pagination": "pagination",
@@ -55,6 +55,5 @@
   "readOnly": false,
   "embedded": false,
   "clientRootFolder": "",
-  "applications": "*",
-  "skipClient": true
+  "applications": "*"
 }

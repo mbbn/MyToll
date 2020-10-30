@@ -54,7 +54,7 @@
       "otherEntityField": "id"
     }
   ],
-  "changelogDate": "20201025042336",
+  "changelogDate": "20201026194754",
   "entityTableName": "plate_bill",
   "dto": "no",
   "pagination": "no",
@@ -64,6 +64,5 @@
   "readOnly": false,
   "embedded": false,
   "clientRootFolder": "",
-  "applications": "*",
-  "skipClient": true
+  "applications": "*"
 }

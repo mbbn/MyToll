@@ -71,7 +71,7 @@
       "otherEntityField": "id"
     }
   ],
-  "changelogDate": "20201025035145",
+  "changelogDate": "20201026194654",
   "entityTableName": "plate",
   "dto": "no",
   "pagination": "no",
@@ -81,6 +81,5 @@
   "readOnly": false,
   "embedded": false,
   "clientRootFolder": "",
-  "applications": "*",
-  "skipClient": true
+  "applications": "*"
 }

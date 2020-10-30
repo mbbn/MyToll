@@ -61,6 +61,5 @@ relationship OneToMany {
     Plate{bills} to PlateBill
 }
 
-skipClient Plate, PlateBill
 paginate BaseInfo with pagination
 paginate Customer with pagination
