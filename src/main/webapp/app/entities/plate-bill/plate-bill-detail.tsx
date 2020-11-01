@@ -64,11 +64,11 @@ export const PlateBillDetail = (props: IPlateBillDetailProps) => {
           <dt>
             <Translate contentKey="myTollApp.plateBill.billType">Bill Type</Translate>
           </dt>
-          <dd>{plateBillEntity.billType ? plateBillEntity.billType.id : ''}</dd>
+          <dd>{plateBillEntity.billTypeId ? plateBillEntity.billTypeId : ''}</dd>
           <dt>
             <Translate contentKey="myTollApp.plateBill.plate">Plate</Translate>
           </dt>
-          <dd>{plateBillEntity.plate ? plateBillEntity.plate.id : ''}</dd>
+          <dd>{plateBillEntity.plateId ? plateBillEntity.plateId : ''}</dd>
         </dl>
         <Button tag={Link} to="/plate-bill" replace color="info">
           <FontAwesomeIcon icon="arrow-left" />{' '}

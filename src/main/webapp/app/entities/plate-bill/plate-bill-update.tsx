@@ -166,7 +166,7 @@ export const PlateBillUpdate = (props: IPlateBillUpdateProps) => {
                 <Label for="plate-bill-billType">
                   <Translate contentKey="myTollApp.plateBill.billType">Bill Type</Translate>
                 </Label>
-                <AvInput id="plate-bill-billType" type="select" className="form-control" name="billType.id">
+                <AvInput id="plate-bill-billType" type="select" className="form-control" name="billTypeId">
                   <option value="" key="0" />
                   {baseInfos
                     ? baseInfos.map(otherEntity => (
@@ -181,7 +181,7 @@ export const PlateBillUpdate = (props: IPlateBillUpdateProps) => {
                 <Label for="plate-bill-plate">
                   <Translate contentKey="myTollApp.plateBill.plate">Plate</Translate>
                 </Label>
-                <AvInput id="plate-bill-plate" type="select" className="form-control" name="plate.id">
+                <AvInput id="plate-bill-plate" type="select" className="form-control" name="plateId">
                   <option value="" key="0" />
                   {plates
                     ? plates.map(otherEntity => (

@@ -1,7 +1,7 @@
 package ir.mbbn.mytoll.web.rest;
 
 import ir.mbbn.mytoll.domain.PlateBill;
-import ir.mbbn.mytoll.repository.PlateBillRepository;
+import ir.mbbn.mytoll.service.PlateBillService;
 import ir.mbbn.mytoll.web.rest.errors.BadRequestAlertException;
 
 import io.github.jhipster.web.util.HeaderUtil;
@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -24,7 +23,6 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping("/api")
-@Transactional
 public class PlateBillResource {
 
     private final Logger log = LoggerFactory.getLogger(PlateBillResource.class);
@@ -34,10 +32,10 @@ public class PlateBillResource {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
-    private final PlateBillRepository plateBillRepository;
+    private final PlateBillService plateBillService;
 
-    public PlateBillResource(PlateBillRepository plateBillRepository) {
-        this.plateBillRepository = plateBillRepository;
+    public PlateBillResource(PlateBillService plateBillService) {
+        this.plateBillService = plateBillService;
     }
 
     /**
@@ -53,7 +51,7 @@ public class PlateBillResource {
         if (plateBill.getId() != null) {
             throw new BadRequestAlertException("A new plateBill cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        PlateBill result = plateBillRepository.save(plateBill);
+        PlateBill result = plateBillService.save(plateBill);
         return ResponseEntity.created(new URI("/api/plate-bills/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -74,7 +72,7 @@ public class PlateBillResource {
         if (plateBill.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        PlateBill result = plateBillRepository.save(plateBill);
+        PlateBill result = plateBillService.save(plateBill);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, plateBill.getId().toString()))
             .body(result);
@@ -88,7 +86,7 @@ public class PlateBillResource {
     @GetMapping("/plate-bills")
     public List<PlateBill> getAllPlateBills() {
         log.debug("REST request to get all PlateBills");
-        return plateBillRepository.findAll();
+        return plateBillService.findAll();
     }
 
     /**
@@ -100,7 +98,7 @@ public class PlateBillResource {
     @GetMapping("/plate-bills/{id}")
     public ResponseEntity<PlateBill> getPlateBill(@PathVariable Long id) {
         log.debug("REST request to get PlateBill : {}", id);
-        Optional<PlateBill> plateBill = plateBillRepository.findById(id);
+        Optional<PlateBill> plateBill = plateBillService.findOne(id);
         return ResponseUtil.wrapOrNotFound(plateBill);
     }
 
@@ -113,7 +111,7 @@ public class PlateBillResource {
     @DeleteMapping("/plate-bills/{id}")
     public ResponseEntity<Void> deletePlateBill(@PathVariable Long id) {
         log.debug("REST request to delete PlateBill : {}", id);
-        plateBillRepository.deleteById(id);
+        plateBillService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }
 }

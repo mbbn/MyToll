@@ -3,6 +3,7 @@ package ir.mbbn.mytoll.web.rest;
 import ir.mbbn.mytoll.MyTollApp;
 import ir.mbbn.mytoll.domain.PlateBill;
 import ir.mbbn.mytoll.repository.PlateBillRepository;
+import ir.mbbn.mytoll.service.PlateBillService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -52,6 +53,9 @@ public class PlateBillResourceIT {
 
     @Autowired
     private PlateBillRepository plateBillRepository;
+
+    @Autowired
+    private PlateBillService plateBillService;
 
     @Autowired
     private EntityManager em;
@@ -280,7 +284,7 @@ public class PlateBillResourceIT {
     @Transactional
     public void updatePlateBill() throws Exception {
         // Initialize the database
-        plateBillRepository.saveAndFlush(plateBill);
+        plateBillService.save(plateBill);
 
         int databaseSizeBeforeUpdate = plateBillRepository.findAll().size();
 
@@ -331,7 +335,7 @@ public class PlateBillResourceIT {
     @Transactional
     public void deletePlateBill() throws Exception {
         // Initialize the database
-        plateBillRepository.saveAndFlush(plateBill);
+        plateBillService.save(plateBill);
 
         int databaseSizeBeforeDelete = plateBillRepository.findAll().size();
 

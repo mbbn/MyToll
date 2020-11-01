@@ -54,11 +54,11 @@
       "otherEntityField": "id"
     }
   ],
-  "changelogDate": "20201026194754",
+  "changelogDate": "20201101164252",
   "entityTableName": "plate_bill",
-  "dto": "no",
+  "dto": true,
   "pagination": "no",
-  "service": "no",
+  "service": "serviceClass",
   "jpaMetamodelFiltering": false,
   "fluentMethods": true,
   "readOnly": false,

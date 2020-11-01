@@ -79,8 +79,8 @@ export const PlateBill = (props: IPlateBillProps) => {
                     {plateBill.lastUpdateTime ? <TextFormat type="date" value={plateBill.lastUpdateTime} format={APP_DATE_FORMAT} /> : null}
                   </td>
                   <td>{plateBill.lastUpdatedBy}</td>
-                  <td>{plateBill.billType ? <Link to={`base-info/${plateBill.billType.id}`}>{plateBill.billType.id}</Link> : ''}</td>
-                  <td>{plateBill.plate ? <Link to={`plate/${plateBill.plate.id}`}>{plateBill.plate.id}</Link> : ''}</td>
+                  <td>{plateBill.billTypeId ? <Link to={`base-info/${plateBill.billTypeId}`}>{plateBill.billTypeId}</Link> : ''}</td>
+                  <td>{plateBill.plateId ? <Link to={`plate/${plateBill.plateId}`}>{plateBill.plateId}</Link> : ''}</td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`${match.url}/${plateBill.id}`} color="info" size="sm">

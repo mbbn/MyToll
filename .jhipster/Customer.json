@@ -4,37 +4,27 @@
     {
       "fieldName": "mobile",
       "fieldType": "Integer",
-      "fieldValidateRules": [
-        "required"
-      ]
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "creationTime",
       "fieldType": "ZonedDateTime",
-      "fieldValidateRules": [
-        "required"
-      ]
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "creationBy",
       "fieldType": "String",
-      "fieldValidateRules": [
-        "required"
-      ]
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "lastUpdateTime",
       "fieldType": "ZonedDateTime",
-      "fieldValidateRules": [
-        "required"
-      ]
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "lastUpdatedBy",
       "fieldType": "String",
-      "fieldValidateRules": [
-        "required"
-      ]
+      "fieldValidateRules": ["required"]
     }
   ],
   "relationships": [
@@ -45,7 +35,7 @@
       "relationshipName": "plates"
     }
   ],
-  "changelogDate": "20201026194554",
+  "changelogDate": "20201101155455",
   "entityTableName": "customer",
   "dto": "no",
   "pagination": "pagination",

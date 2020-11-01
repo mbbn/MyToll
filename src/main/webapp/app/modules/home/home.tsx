@@ -97,45 +97,53 @@ export const Home = (props: IHomeProp) => {
                                    }}/>
                         </Col>
                         <Col xs="3" style={{padding: 0}}>
-                          <AvInput style={{fontSize: 30, textAlignLast: 'center'}}
+                          <AvInput style={{
+                            fontSize: 30,
+                            textAlignLast: 'center',
+                            borderStyle: 'solid',
+                            borderWidth: 1,
+                            borderRadius: 10,
+                            margin: 1
+                          }}
                                    id="plate-part2"
                                    type="select"
                                    className="form-control"
                                    name="part2"
-                                   value={'10'}
+                                   value={''}
                           >
-                            <option value="10">{translate('myTollApp.plate.alphabet.10')}</option>
-                            <option value="11">{translate('myTollApp.plate.alphabet.11')}</option>
-                            <option value="12">{translate('myTollApp.plate.alphabet.12')}</option>
-                            <option value="13">{translate('myTollApp.plate.alphabet.13')}</option>
-                            <option value="14">{translate('myTollApp.plate.alphabet.14')}</option>
-                            <option value="15">{translate('myTollApp.plate.alphabet.15')}</option>
-                            <option value="16">{translate('myTollApp.plate.alphabet.16')}</option>
-                            <option value="17">{translate('myTollApp.plate.alphabet.17')}</option>
-                            <option value="18">{translate('myTollApp.plate.alphabet.18')}</option>
-                            <option value="19">{translate('myTollApp.plate.alphabet.19')}</option>
-                            <option value="20">{translate('myTollApp.plate.alphabet.20')}</option>
-                            <option value="21">{translate('myTollApp.plate.alphabet.21')}</option>
-                            <option value="22">{translate('myTollApp.plate.alphabet.22')}</option>
-                            <option value="23">{translate('myTollApp.plate.alphabet.23')}</option>
-                            <option value="24">{translate('myTollApp.plate.alphabet.24')}</option>
-                            <option value="25">{translate('myTollApp.plate.alphabet.25')}</option>
-                            <option value="26">{translate('myTollApp.plate.alphabet.26')}</option>
-                            <option value="27">{translate('myTollApp.plate.alphabet.27')}</option>
-                            <option value="28">{translate('myTollApp.plate.alphabet.28')}</option>
-                            <option value="29">{translate('myTollApp.plate.alphabet.29')}</option>
-                            <option value="30">{translate('myTollApp.plate.alphabet.30')}</option>
-                            <option value="31">{translate('myTollApp.plate.alphabet.31')}</option>
-                            <option value="32">{translate('myTollApp.plate.alphabet.32')}</option>
-                            <option value="33">{translate('myTollApp.plate.alphabet.33')}</option>
-                            <option value="34">{translate('myTollApp.plate.alphabet.34')}</option>
-                            <option value="35">{translate('myTollApp.plate.alphabet.35')}</option>
-                            <option value="36">{translate('myTollApp.plate.alphabet.36')}</option>
-                            <option value="37">{translate('myTollApp.plate.alphabet.37')}</option>
-                            <option value="38">{translate('myTollApp.plate.alphabet.38')}</option>
-                            <option value="39">{translate('myTollApp.plate.alphabet.39')}</option>
-                            <option value="40">{translate('myTollApp.plate.alphabet.40')}</option>
-                            <option value="41">{translate('myTollApp.plate.alphabet.41')}</option>
+                            <option/>
+                            <option value="10">{translate('myTollApp.PlateAlphabet.A10')}</option>
+                            <option value="11">{translate('myTollApp.PlateAlphabet.A11')}</option>
+                            <option value="12">{translate('myTollApp.PlateAlphabet.A12')}</option>
+                            <option value="13">{translate('myTollApp.PlateAlphabet.A13')}</option>
+                            <option value="14">{translate('myTollApp.PlateAlphabet.A14')}</option>
+                            <option value="15">{translate('myTollApp.PlateAlphabet.A15')}</option>
+                            <option value="16">{translate('myTollApp.PlateAlphabet.A16')}</option>
+                            <option value="17">{translate('myTollApp.PlateAlphabet.A17')}</option>
+                            <option value="18">{translate('myTollApp.PlateAlphabet.A18')}</option>
+                            <option value="19">{translate('myTollApp.PlateAlphabet.A19')}</option>
+                            <option value="20">{translate('myTollApp.PlateAlphabet.A20')}</option>
+                            <option value="21">{translate('myTollApp.PlateAlphabet.A21')}</option>
+                            <option value="22">{translate('myTollApp.PlateAlphabet.A22')}</option>
+                            <option value="23">{translate('myTollApp.PlateAlphabet.A23')}</option>
+                            <option value="24">{translate('myTollApp.PlateAlphabet.A24')}</option>
+                            <option value="25">{translate('myTollApp.PlateAlphabet.A25')}</option>
+                            <option value="26">{translate('myTollApp.PlateAlphabet.A26')}</option>
+                            <option value="27">{translate('myTollApp.PlateAlphabet.A27')}</option>
+                            <option value="28">{translate('myTollApp.PlateAlphabet.A28')}</option>
+                            <option value="29">{translate('myTollApp.PlateAlphabet.A29')}</option>
+                            <option value="30">{translate('myTollApp.PlateAlphabet.A30')}</option>
+                            <option value="31">{translate('myTollApp.PlateAlphabet.A31')}</option>
+                            <option value="32">{translate('myTollApp.PlateAlphabet.A32')}</option>
+                            <option value="33">{translate('myTollApp.PlateAlphabet.A33')}</option>
+                            <option value="34">{translate('myTollApp.PlateAlphabet.A34')}</option>
+                            <option value="35">{translate('myTollApp.PlateAlphabet.A35')}</option>
+                            <option value="36">{translate('myTollApp.PlateAlphabet.A36')}</option>
+                            <option value="37">{translate('myTollApp.PlateAlphabet.A37')}</option>
+                            <option value="38">{translate('myTollApp.PlateAlphabet.A38')}</option>
+                            <option value="39">{translate('myTollApp.PlateAlphabet.A39')}</option>
+                            <option value="40">{translate('myTollApp.PlateAlphabet.A40')}</option>
+                            <option value="41">{translate('myTollApp.PlateAlphabet.A41')}</option>
                           </AvInput>
                         </Col>
                         <Col xs="3" style={{padding: 0}}>
@@ -193,16 +201,11 @@ export const Home = (props: IHomeProp) => {
                     </Col>
                   </Row>
                   <Row className="justify-content-center">
-                    <Col xs="2" style={{paddingTop: 20, paddingRight: 20}}>
-                      <Label id="mobileLabel" for="plate-bill-plate" style={{fontSize: 25, margin: 0}}>
-                        {translate('myTollApp.customer.mobile')}
-                      </Label>
+                    <Col xs="5">
+                      <DatePicker className={"input"} timePicker={false} label={translate('myTollApp.customer.mobile')}/>
                     </Col>
-                    <Col xs="4">
-                      <DatePicker className={"input"} timePicker={false}/>
-                    </Col>
-                    <Col xs="4">
-                      <DatePicker className={"input"} timePicker={false}/>
+                    <Col xs="5">
+                      <DatePicker className={"input"} timePicker={false} label={translate('myTollApp.customer.mobile')}/>
                     </Col>
                   </Row>
                   <Row>
