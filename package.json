@@ -16,6 +16,7 @@
     "axios": "0.19.2",
     "bootstrap": "4.4.1",
     "bootstrap-material-design": "^4.1.3",
+    "jalali-react-datepicker": "^1.2.0",
     "loaders.css": "0.1.2",
     "lodash": "4.17.15",
     "moment": "2.24.0",

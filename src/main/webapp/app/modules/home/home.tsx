@@ -17,34 +17,36 @@ import {
   CardBody,
   CardFooter,
   TabContent,
-  TabPane
+  TabPane,
+  Label,
+  Button
 } from 'reactstrap';
 import {Fab} from '@material-ui/core'
 import classnames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
+import { DatePicker } from "jalali-react-datepicker";
 import { IRootState } from 'app/shared/reducers';
 import {convertDateTimeToServer} from "app/shared/util/date-utils";
 
 export type IHomeProp = StateProps;
 
 export const Home = (props: IHomeProp) => {
-  const { account } = props;
+  const { account, plateBillEntity } = props;
   const [activeTab, setActiveTab] = useState('1');
   const toggle = tab => {
     if(activeTab !== tab) setActiveTab(tab);
   };
 
   const saveEntity = (event, errors, values) => {
-    values.creationTime = convertDateTimeToServer(values.creationTime);
-    values.lastUpdateTime = convertDateTimeToServer(values.lastUpdateTime);
-
     if (errors.length === 0) {
       const entity = {
-        ...values,
+        mobile: values['mobile'],
+        plate: values['part1'] + values['part2'] + values['part3'] + values['part4'],
       };
 
       // props.createEntity(entity);
+      /* eslint-disable no-console */
+      console.log(entity);
     }
   };
 
@@ -71,54 +73,119 @@ export const Home = (props: IHomeProp) => {
           <CardBody>
             <TabContent activeTab={activeTab}>
               <TabPane tabId="1">
-                <AvForm model={{}} onSubmit={saveEntity}>
-                  <Row className="justify-content-center" style={{borderStyle: "solid", borderRadius: 10, margin: 5, direction: 'ltr'}}>
-                    <Col sm="1" style={{
-                      background: "url('../../../../content/images/iran.png') 3px 5px / 80% no-repeat rgb(4, 111, 218)",
-                      padding: 1
-                    }}/>
-                    <Col sm="2">
-                      <AvInput style={{fontSize: 30}}
-                        id="base-info-title"
-                        type="text"
-                        name="title"
-                        maxLength="2"
-                        validate={{
-                          required: { value: true, errorMessage: translate('entity.validation.required') },
-                        }}
-                      />
+                <AvForm model={plateBillEntity} onSubmit={saveEntity}>
+                  <Row>
+                    <Col xs="2" style={{paddingTop: 25, paddingRight: 25}}>
+                      <Label id="plateLabel" for="plate-bill-plate" style={{fontSize: 30}}>
+                        <Translate contentKey="myTollApp.plateBill.plate">Plate</Translate>
+                      </Label>
                     </Col>
-                    <Col sm="2">
-                      <Row style={{borderStyle: "solid", borderRadius: 5, margin: 2, borderWidth: 1}}>
-                        <AvInput style={{fontSize: 30}}
-                          id="base-info-category"
-                          type="select"
-                          className="form-control"
-                          name="category"
-                          value={'PLATE_MAP'}
-                        >
-                          <option value="PLATE_MAP">{translate('myTollApp.BaseInfoCategory.PLATE_MAP')}</option>
-                        </AvInput>
+                    <Col xs="10">
+                      <Row className="justify-content-center" style={{borderStyle: "solid", borderRadius: 10, margin: 5, direction: 'ltr'}}>
+                        <Col xs="1" style={{
+                          background: "url('../../../../content/images/iran.png') 3px 5px / 80% no-repeat rgb(4, 111, 218)",
+                          padding: 1
+                        }}/>
+                        <Col xs="2" style={{padding: 0}}>
+                          <AvInput style={{fontSize: 30, textAlign: 'center'}}
+                                   id="plate-part1"
+                                   type="text"
+                                   name="part1"
+                                   maxLength="2"
+                                   validate={{
+                                     required: {value: true, errorMessage: translate('entity.validation.required')},
+                                   }}/>
+                        </Col>
+                        <Col xs="3" style={{padding: 0}}>
+                          <AvInput style={{fontSize: 30, textAlignLast: 'center'}}
+                                   id="plate-part2"
+                                   type="select"
+                                   className="form-control"
+                                   name="part2"
+                                   value={'10'}
+                          >
+                            <option value="10">{translate('myTollApp.plate.alphabet.10')}</option>
+                            <option value="11">{translate('myTollApp.plate.alphabet.11')}</option>
+                            <option value="12">{translate('myTollApp.plate.alphabet.12')}</option>
+                            <option value="13">{translate('myTollApp.plate.alphabet.13')}</option>
+                            <option value="14">{translate('myTollApp.plate.alphabet.14')}</option>
+                            <option value="15">{translate('myTollApp.plate.alphabet.15')}</option>
+                            <option value="16">{translate('myTollApp.plate.alphabet.16')}</option>
+                            <option value="17">{translate('myTollApp.plate.alphabet.17')}</option>
+                            <option value="18">{translate('myTollApp.plate.alphabet.18')}</option>
+                            <option value="19">{translate('myTollApp.plate.alphabet.19')}</option>
+                            <option value="20">{translate('myTollApp.plate.alphabet.20')}</option>
+                            <option value="21">{translate('myTollApp.plate.alphabet.21')}</option>
+                            <option value="22">{translate('myTollApp.plate.alphabet.22')}</option>
+                            <option value="23">{translate('myTollApp.plate.alphabet.23')}</option>
+                            <option value="24">{translate('myTollApp.plate.alphabet.24')}</option>
+                            <option value="25">{translate('myTollApp.plate.alphabet.25')}</option>
+                            <option value="26">{translate('myTollApp.plate.alphabet.26')}</option>
+                            <option value="27">{translate('myTollApp.plate.alphabet.27')}</option>
+                            <option value="28">{translate('myTollApp.plate.alphabet.28')}</option>
+                            <option value="29">{translate('myTollApp.plate.alphabet.29')}</option>
+                            <option value="30">{translate('myTollApp.plate.alphabet.30')}</option>
+                            <option value="31">{translate('myTollApp.plate.alphabet.31')}</option>
+                            <option value="32">{translate('myTollApp.plate.alphabet.32')}</option>
+                            <option value="33">{translate('myTollApp.plate.alphabet.33')}</option>
+                            <option value="34">{translate('myTollApp.plate.alphabet.34')}</option>
+                            <option value="35">{translate('myTollApp.plate.alphabet.35')}</option>
+                            <option value="36">{translate('myTollApp.plate.alphabet.36')}</option>
+                            <option value="37">{translate('myTollApp.plate.alphabet.37')}</option>
+                            <option value="38">{translate('myTollApp.plate.alphabet.38')}</option>
+                            <option value="39">{translate('myTollApp.plate.alphabet.39')}</option>
+                            <option value="40">{translate('myTollApp.plate.alphabet.40')}</option>
+                            <option value="41">{translate('myTollApp.plate.alphabet.41')}</option>
+                          </AvInput>
+                        </Col>
+                        <Col xs="3" style={{padding: 0}}>
+                          <AvInput style={{fontSize: 30, textAlign: 'center'}}
+                                   id="plate-part3"
+                                   type="text"
+                                   name="part3"
+                                   maxLength="3"
+                                   validate={{
+                                     required: { value: true, errorMessage: translate('entity.validation.required') },
+                                   }}
+                          />
+                        </Col>
+                        <Col xs="3" style={{borderLeftStyle: "solid"}}>
+                          <Label id="plateLabel" for="plate-bill-plate" style={{fontSize: 30, margin: 0}}>
+                            {translate('myTollApp.plate.iran')}
+                          </Label>
+                          <AvInput style={{fontSize: 20, textAlign: 'center'}}
+                                   id="plate-part4"
+                                   type="text"
+                                   name="part4"
+                                   maxLength="2"
+                                   validate={{
+                                     required: { value: true, errorMessage: translate('entity.validation.required') },
+                                   }}
+                          />
+                        </Col>
                       </Row>
                     </Col>
-                    <Col sm="4">
-                      <AvInput style={{fontSize: 30}}
-                        id="base-info-title"
-                        type="text"
-                        name="title"
-                        maxLength="3"
-                        validate={{
-                          required: { value: true, errorMessage: translate('entity.validation.required') },
-                        }}
-                      />
+                  </Row>
+                  <Row className="justify-content-center">
+                    <Col xs="2" style={{paddingTop: 20, paddingRight: 20}}>
+                      <Label id="mobileLabel" for="plate-bill-plate" style={{fontSize: 25, margin: 0}}>
+                        {translate('myTollApp.customer.mobile')}
+                      </Label>
                     </Col>
-
-                    <Col sm="3" style={{borderLeftStyle: "solid"}}>
-                      <AvInput style={{fontSize: 30}}
+                    <Col xs="9">
+                      <AvField style={{
+                        fontSize: 30,
+                        textAlign: 'center',
+                        borderRadius: 10,
+                        borderWidth: 1,
+                        borderStyle: 'solid',
+                        direction: 'ltr',
+                        margin: 5
+                      }}
                         id="base-info-title"
                         type="text"
-                        name="title"
-                        maxLength="2"
+                        name="mobile"
+                        maxLength="11"
                         validate={{
                           required: { value: true, errorMessage: translate('entity.validation.required') },
                         }}
@@ -126,17 +193,24 @@ export const Home = (props: IHomeProp) => {
                     </Col>
                   </Row>
                   <Row className="justify-content-center">
-                    <Col sm="8" style={{borderRadius: 10, borderWidth:1, borderStyle: 'solid', direction: 'ltr'}}>
-                      <AvInput style={{fontSize: 30, textAlign: 'center'}}
-                        id="base-info-title"
-                        type="text"
-                        name="title"
-                        maxLength="11"
-                        validate={{
-                          required: { value: true, errorMessage: translate('entity.validation.required') },
-                        }}
-                      />
+                    <Col xs="2" style={{paddingTop: 20, paddingRight: 20}}>
+                      <Label id="mobileLabel" for="plate-bill-plate" style={{fontSize: 25, margin: 0}}>
+                        {translate('myTollApp.customer.mobile')}
+                      </Label>
                     </Col>
+                    <Col xs="4">
+                      <DatePicker className={"input"} timePicker={false}/>
+                    </Col>
+                    <Col xs="4">
+                      <DatePicker className={"input"} timePicker={false}/>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Button color="primary" id="save-entity" type="submit">
+                      <FontAwesomeIcon icon="save" />
+                      &nbsp;
+                      <Translate contentKey="entity.action.save">Save</Translate>
+                    </Button>
                   </Row>
                 </AvForm>
               </TabPane>
@@ -187,6 +261,7 @@ export const Home = (props: IHomeProp) => {
 const mapStateToProps = storeState => ({
   account: storeState.authentication.account,
   isAuthenticated: storeState.authentication.isAuthenticated,
+  plateBillEntity: storeState.plateBill.entity,
 });
 
 type StateProps = ReturnType<typeof mapStateToProps>;
