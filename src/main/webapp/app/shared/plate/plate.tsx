@@ -14,7 +14,7 @@ export interface IPlateProps {
   error?: boolean;
   helperText?: string;
 
-  onChangePlate?(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void
+  onChangePlate?(plateCode: number): void
   onBlurPlate?(event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>): void
 }
 
@@ -76,9 +76,7 @@ const Plate = (props: IPlateProps) => {
 
     const value = !isNaN(Number(valueStr)) ? Number(valueStr) : null;
     if (props.onChangePlate && value !== null) {
-      event.target.name = props.name;
-      event.target.value = value;
-      props.onChangePlate(event);
+      props.onChangePlate(value);
     }
   };
 

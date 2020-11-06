@@ -9,6 +9,7 @@ import {Row, Col, Alert} from 'reactstrap';
 import {Freeway} from "app/modules/toll/freeway";
 import Marginal from "app/modules/toll/marginal";
 import TollDataTable from "app/modules/toll/tollDataTable";
+import {createEntity} from "app/entities/toll-request/toll-request.reducer";
 
 export type IHomeProp = StateProps;
 
@@ -33,7 +34,7 @@ export const Home = (props: IHomeProp) => {
               id={`toll-0`}
               aria-labelledby={`simple-tab-0`}
             >
-              <Freeway tollRequestEntity={null}/>
+              <Freeway createEntity={createEntity} tollRequestEntity={null}/>
             </div>
             <div
               role="tabpanel"

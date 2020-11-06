@@ -8,8 +8,9 @@ import TextField from "app/component/TextField";
 import DatePicker from "app/component/DatePicker";
 import { connect } from 'react-redux';
 import {createEntity} from 'app/entities/toll-request/toll-request.reducer';
+import {convertDateTimeToServer} from "app/shared/util/date-utils";
 
-export type IFreewayProps = StateProps;
+export interface IFreewayProps extends StateProps, DispatchProps {}
 
 export const Freeway = (props: IFreewayProps) => {
   const { tollRequestEntity } = props;
@@ -18,7 +19,7 @@ export const Freeway = (props: IFreewayProps) => {
     const errors = {};
     if (!values['plate']) {
       errors['plate'] = translate('myTollApp.plateBill.error.plateIsNull');
-    } else if(!/^[0-9]{9}$/g.test(values['plate'])){
+    } else if(!(/^[0-9]{9}$/g).test(values['plate'])){
       errors['plate'] = translate('myTollApp.plateBill.error.invalidPlate');
     }
     if (!values['mobile']) {
@@ -36,12 +37,15 @@ export const Freeway = (props: IFreewayProps) => {
   };
 
   const save = (values: any) => {
-    const entity = {
-      mobile: values['mobile'],
-      plate: values['part1'] + values['part2'] + values['part3'] + values['part4'],
-    };
+    values.fromDate = convertDateTimeToServer(values.fromDate);
+    values.toDate = convertDateTimeToServer(values.toDate);
 
-    props.createEntity(entity);
+    const entity = {
+      ...tollRequestEntity,
+      ...values
+    };
+    /* eslint no-console: off */
+    console.log(entity ,props.createEntity(entity));
   };
 
   return (<>
@@ -49,20 +53,21 @@ export const Freeway = (props: IFreewayProps) => {
       <form onSubmit={handleSubmit}>
         <Grid container>
           <Grid item xs={12}>
-            <Plate name={'plate'} error={touched['plate'] && errors['plate'] !== undefined} helperText={touched['plate'] ? errors['plate']:null}
-                   onBlurPlate={handleBlur} onChangePlate={handleChange}/>
+            <Plate name={'plate'} error={errors['plate'] !== undefined}
+                   helperText={errors['plate'] ? String(errors['plate']) : ''}
+                   onBlurPlate={handleBlur} onChangePlate={plateCode => setFieldValue('plate', plateCode)}/>
             <TextField name={'mobile'} onChange={handleChange} onBlur={handleBlur} maxLength={11} required
-                       error={touched['mobile'] && errors['mobile'] !== undefined} helperText={touched['mobile'] ? errors['mobile']:null}
+                       error={errors['mobile'] !== undefined} helperText={errors['mobile']}
                        label={translate('myTollApp.customer.mobile')}/>
           </Grid>
         </Grid>
         <Grid container>
           <Grid item xs={6}>
-            <DatePicker name={'fromDate'} value={null} error={touched['fromDate'] && errors['fromDate'] !== undefined} helperText={touched['fromDate'] ? errors['fromDate']:null}
+            <DatePicker name={'fromDate'} value={null} error={errors['fromDate'] !== undefined} helperText={errors['fromDate']}
                         onBlur={handleBlur} onChange={date => {setFieldValue('fromDate', date)}} label={translate('myTollApp.plateBill.fromDate')} required/>
           </Grid>
           <Grid item xs={6}>
-            <DatePicker name={'toDate'} value={null} error={touched['toDate'] && errors['toDate'] !== undefined} helperText={touched['toDate'] ? errors['toDate']:null}
+            <DatePicker name={'toDate'} value={null} error={errors['toDate'] !== undefined} helperText={errors['toDate']}
                         onBlur={handleBlur} onChange={date => {setFieldValue('toDate', date)}} label={translate('myTollApp.plateBill.toDate')} required/>
           </Grid>
         </Grid>

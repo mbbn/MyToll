@@ -7,7 +7,7 @@ export interface ITextFieldProps {
 }
 
 const TextField = (props: ITextFieldProps & TextFieldProps) => {
-  const {name, variant, maxLength} = props;
+  const {name, variant, maxLength, onChange} = props;
 
   return (
     <FormControl>
@@ -15,6 +15,9 @@ const TextField = (props: ITextFieldProps & TextFieldProps) => {
                     onChange={event => {
                       if (maxLength) {
                         event.target.value = event.target.value.substr(0, maxLength)
+                      }
+                      if(onChange){
+                        onChange(event);
                       }
                     }}/>
     </FormControl>);

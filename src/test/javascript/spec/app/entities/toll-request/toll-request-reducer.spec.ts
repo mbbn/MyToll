@@ -7,14 +7,8 @@ import sinon from 'sinon';
 
 import reducer, {
   ACTION_TYPES,
-  createEntity,
-  deleteEntity,
-  getEntities,
-  getEntity,
-  updateEntity,
-  reset,
 } from 'app/entities/toll-request/toll-request.reducer';
-import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
+import {SUCCESS, FAILURE} from 'app/shared/reducers/action-type.util';
 import { ITollRequest, defaultValue } from 'app/shared/model/toll-request.model';
 
 describe('Entities reducer tests', () => {
@@ -58,54 +52,11 @@ describe('Entities reducer tests', () => {
     });
   });
 
-  describe('Requests', () => {
-    it('should set state to loading', () => {
-      testMultipleTypes([REQUEST(ACTION_TYPES.FETCH_TOLLREQUEST_LIST), REQUEST(ACTION_TYPES.FETCH_TOLLREQUEST)], {}, state => {
-        expect(state).toMatchObject({
-          errorMessage: null,
-          updateSuccess: false,
-          loading: true,
-        });
-      });
-    });
-
-    it('should set state to updating', () => {
-      testMultipleTypes(
-        [REQUEST(ACTION_TYPES.CREATE_TOLLREQUEST), REQUEST(ACTION_TYPES.UPDATE_TOLLREQUEST), REQUEST(ACTION_TYPES.DELETE_TOLLREQUEST)],
-        {},
-        state => {
-          expect(state).toMatchObject({
-            errorMessage: null,
-            updateSuccess: false,
-            updating: true,
-          });
-        }
-      );
-    });
-
-    it('should reset the state', () => {
-      expect(
-        reducer(
-          { ...initialState, loading: true },
-          {
-            type: ACTION_TYPES.RESET,
-          }
-        )
-      ).toEqual({
-        ...initialState,
-      });
-    });
-  });
-
   describe('Failures', () => {
     it('should set a message in errorMessage', () => {
       testMultipleTypes(
         [
-          FAILURE(ACTION_TYPES.FETCH_TOLLREQUEST_LIST),
-          FAILURE(ACTION_TYPES.FETCH_TOLLREQUEST),
           FAILURE(ACTION_TYPES.CREATE_TOLLREQUEST),
-          FAILURE(ACTION_TYPES.UPDATE_TOLLREQUEST),
-          FAILURE(ACTION_TYPES.DELETE_TOLLREQUEST),
         ],
         'error message',
         state => {
@@ -118,35 +69,6 @@ describe('Entities reducer tests', () => {
       );
     });
   });
-
-  describe('Successes', () => {
-    it('should fetch all entities', () => {
-      const payload = { data: [{ 1: 'fake1' }, { 2: 'fake2' }] };
-      expect(
-        reducer(undefined, {
-          type: SUCCESS(ACTION_TYPES.FETCH_TOLLREQUEST_LIST),
-          payload,
-        })
-      ).toEqual({
-        ...initialState,
-        loading: false,
-        entities: payload.data,
-      });
-    });
-
-    it('should fetch a single entity', () => {
-      const payload = { data: { 1: 'fake1' } };
-      expect(
-        reducer(undefined, {
-          type: SUCCESS(ACTION_TYPES.FETCH_TOLLREQUEST),
-          payload,
-        })
-      ).toEqual({
-        ...initialState,
-        loading: false,
-        entity: payload.data,
-      });
-    });
 
     it('should create/update entity', () => {
       const payload = { data: 'fake payload' };
@@ -163,19 +85,6 @@ describe('Entities reducer tests', () => {
       });
     });
 
-    it('should delete entity', () => {
-      const payload = 'fake payload';
-      const toTest = reducer(undefined, {
-        type: SUCCESS(ACTION_TYPES.DELETE_TOLLREQUEST),
-        payload,
-      });
-      expect(toTest).toMatchObject({
-        updating: false,
-        updateSuccess: true,
-      });
-    });
-  });
-
   describe('Actions', () => {
     let store;
 
@@ -187,95 +96,6 @@ describe('Entities reducer tests', () => {
       axios.post = sinon.stub().returns(Promise.resolve(resolvedObject));
       axios.put = sinon.stub().returns(Promise.resolve(resolvedObject));
       axios.delete = sinon.stub().returns(Promise.resolve(resolvedObject));
-    });
-
-    it('dispatches ACTION_TYPES.FETCH_TOLLREQUEST_LIST actions', async () => {
-      const expectedActions = [
-        {
-          type: REQUEST(ACTION_TYPES.FETCH_TOLLREQUEST_LIST),
-        },
-        {
-          type: SUCCESS(ACTION_TYPES.FETCH_TOLLREQUEST_LIST),
-          payload: resolvedObject,
-        },
-      ];
-      await store.dispatch(getEntities()).then(() => expect(store.getActions()).toEqual(expectedActions));
-    });
-
-    it('dispatches ACTION_TYPES.FETCH_TOLLREQUEST actions', async () => {
-      const expectedActions = [
-        {
-          type: REQUEST(ACTION_TYPES.FETCH_TOLLREQUEST),
-        },
-        {
-          type: SUCCESS(ACTION_TYPES.FETCH_TOLLREQUEST),
-          payload: resolvedObject,
-        },
-      ];
-      await store.dispatch(getEntity(42666)).then(() => expect(store.getActions()).toEqual(expectedActions));
-    });
-
-    it('dispatches ACTION_TYPES.CREATE_TOLLREQUEST actions', async () => {
-      const expectedActions = [
-        {
-          type: REQUEST(ACTION_TYPES.CREATE_TOLLREQUEST),
-        },
-        {
-          type: SUCCESS(ACTION_TYPES.CREATE_TOLLREQUEST),
-          payload: resolvedObject,
-        },
-        {
-          type: REQUEST(ACTION_TYPES.FETCH_TOLLREQUEST_LIST),
-        },
-        {
-          type: SUCCESS(ACTION_TYPES.FETCH_TOLLREQUEST_LIST),
-          payload: resolvedObject,
-        },
-      ];
-      await store.dispatch(createEntity({ id: 1 })).then(() => expect(store.getActions()).toEqual(expectedActions));
-    });
-
-    it('dispatches ACTION_TYPES.UPDATE_TOLLREQUEST actions', async () => {
-      const expectedActions = [
-        {
-          type: REQUEST(ACTION_TYPES.UPDATE_TOLLREQUEST),
-        },
-        {
-          type: SUCCESS(ACTION_TYPES.UPDATE_TOLLREQUEST),
-          payload: resolvedObject,
-        },
-      ];
-      await store.dispatch(updateEntity({ id: 1 })).then(() => expect(store.getActions()).toEqual(expectedActions));
-    });
-
-    it('dispatches ACTION_TYPES.DELETE_TOLLREQUEST actions', async () => {
-      const expectedActions = [
-        {
-          type: REQUEST(ACTION_TYPES.DELETE_TOLLREQUEST),
-        },
-        {
-          type: SUCCESS(ACTION_TYPES.DELETE_TOLLREQUEST),
-          payload: resolvedObject,
-        },
-        {
-          type: REQUEST(ACTION_TYPES.FETCH_TOLLREQUEST_LIST),
-        },
-        {
-          type: SUCCESS(ACTION_TYPES.FETCH_TOLLREQUEST_LIST),
-          payload: resolvedObject,
-        },
-      ];
-      await store.dispatch(deleteEntity(42666)).then(() => expect(store.getActions()).toEqual(expectedActions));
-    });
-
-    it('dispatches ACTION_TYPES.RESET actions', async () => {
-      const expectedActions = [
-        {
-          type: ACTION_TYPES.RESET,
-        },
-      ];
-      await store.dispatch(reset());
-      expect(store.getActions()).toEqual(expectedActions);
     });
   });
 });

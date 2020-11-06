@@ -12,7 +12,6 @@ export interface IDatePickerProps {
   label?:string;
   required?:boolean;
   error?: boolean;
-  helperText?: string;
 
   onChange?(date: any): void
   onBlur?(event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>): void
