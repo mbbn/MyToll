@@ -1,13 +1,17 @@
 import React from 'react';
-import MenuItem from 'app/shared/layout/menus/menu-item';
-import { DropdownItem } from 'reactstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {MenuList, MenuItem} from '@material-ui/core'
+import {IconButton, Link} from '@material-ui/core';
+import {List} from '@material-ui/icons';
 import { Translate, translate } from 'react-jhipster';
-import { NavLink as Link } from 'react-router-dom';
-import { NavDropdown } from './menu-components';
 
 export const EntitiesMenu = props => (
-  <NavDropdown
+    <IconButton>
+        <List/>
+        <span>
+        <Translate contentKey="global.menu.home">global.menu.entities.main</Translate>
+      </span>
+    </IconButton>
+  /* <NavDropdown
     icon="th-list"
     name={translate('global.menu.entities.main')}
     id="entity-menu"
@@ -25,6 +29,6 @@ export const EntitiesMenu = props => (
     <MenuItem icon="asterisk" to="/plate-bill">
       <Translate contentKey="global.menu.entities.plateBill" />
     </MenuItem>
-    {/* jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here */}
-  </NavDropdown>
+    {/!* jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here *!/}
+  </NavDropdown>*/
 );

@@ -46,10 +46,8 @@ enum PlateAlphabet {
 @dto
 entity PlateBill {
 	category BillCategory required
-    creationTime ZonedDateTime required
-    creationBy String required
-    lastUpdateTime ZonedDateTime required
-    lastUpdatedBy String required
+    fromDate LocalDate required
+    toDate LocalDate required
 }
 
 enum BillCategory {

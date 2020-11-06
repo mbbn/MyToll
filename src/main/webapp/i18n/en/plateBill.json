@@ -17,10 +17,8 @@
         "title": "Plate Bill"
       },
       "category": "Category",
-      "creationTime": "Creation Time",
-      "creationBy": "Creation By",
-      "lastUpdateTime": "Last Update Time",
-      "lastUpdatedBy": "Last Updated By",
+      "fromDate": "From Date",
+      "toDate": "To Date",
       "billType": "Bill Type",
       "plate": "Plate"
     }

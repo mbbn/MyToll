@@ -17,6 +17,13 @@ import { hasAnyAuthority } from 'app/shared/auth/private-route';
 import ErrorBoundary from 'app/shared/error/error-boundary';
 import { AUTHORITIES } from 'app/config/constants';
 import AppRoutes from 'app/routes';
+import {StylesProvider, jssPreset, ThemeProvider} from "@material-ui/core/styles";
+import { create } from "jss";
+import rtl from "jss-rtl";
+import myTollTheme from "app/ContextManager";
+
+// Configure JSS
+const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
 
 const baseHref = document.querySelector('base').getAttribute('href').replace(/\/$/, '');
 
@@ -30,28 +37,33 @@ export const App = (props: IAppProps) => {
 
   const paddingTop = '60px';
   return (
-    <Router basename={baseHref}>
-      <div className="app-container" style={{ paddingTop }}>
-        <ToastContainer position={toast.POSITION.TOP_LEFT} className="toastify-container" toastClassName="toastify-toast" />
-        <ErrorBoundary>
-          <Header
-            isAuthenticated={props.isAuthenticated}
-            isAdmin={props.isAdmin}
-            currentLocale={props.currentLocale}
-            onLocaleChange={props.setLocale}
-            ribbonEnv={props.ribbonEnv}
-            isInProduction={props.isInProduction}
-            isSwaggerEnabled={props.isSwaggerEnabled}
-          />
-        </ErrorBoundary>
-        <div className="container-fluid view-container" id="app-view-container">
-          <ErrorBoundary>
-            <AppRoutes />
-          </ErrorBoundary>
-        </div>
-      </div>
-      <Footer />
-    </Router>
+    <StylesProvider jss={jss}>
+      <ThemeProvider theme={myTollTheme}>
+        <Router basename={baseHref}>
+          <div className="app-container" style={{paddingTop}}>
+            <ToastContainer position={toast.POSITION.TOP_LEFT} className="toastify-container"
+                            toastClassName="toastify-toast"/>
+            <ErrorBoundary>
+              <Header
+                isAuthenticated={props.isAuthenticated}
+                isAdmin={props.isAdmin}
+                currentLocale={props.currentLocale}
+                onLocaleChange={props.setLocale}
+                ribbonEnv={props.ribbonEnv}
+                isInProduction={props.isInProduction}
+                isSwaggerEnabled={props.isSwaggerEnabled}
+              />
+            </ErrorBoundary>
+            <div className="container-fluid view-container" id="app-view-container">
+              <ErrorBoundary>
+                <AppRoutes/>
+              </ErrorBoundary>
+            </div>
+          </div>
+          <Footer/>
+        </Router>
+      </ThemeProvider>
+    </StylesProvider>
   );
 };
 

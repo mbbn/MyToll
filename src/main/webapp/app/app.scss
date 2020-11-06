@@ -1,11 +1,10 @@
 // Override Boostrap variables
 // Import Bootstrap source files from node_modules
-@import 'node_modules/bootstrap-material-design/scss/bootstrap-material-design';
+@import 'node_modules/bootstrap/scss/bootstrap';
 @import 'rtl.scss';
 body {
   background: url('../content/images/Taieri.svg') #111111 center;
   background-size: cover;
-  //background: #fafafa;
   margin: 0;
 }
 
@@ -314,17 +313,19 @@ http://stackoverflow.com/questions/23436430/bootstrap-3-input-group-100-width */
 }
 
 /* jhipster-needle-scss-add-main JHipster will add new css style */
-.card-body{
-  padding: 5px 0;
-}
-
 .input {
   font-size: 22px;
   text-align: center;
   border-radius: 10px;
   border-width: 1px;
   border-style: solid;
-  direction: ltr;
+  //direction: ltr;
   margin: 5px;
   width: 100%;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }

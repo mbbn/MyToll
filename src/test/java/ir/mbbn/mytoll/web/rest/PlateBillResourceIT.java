@@ -15,13 +15,10 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
-import java.time.Instant;
-import java.time.ZonedDateTime;
-import java.time.ZoneOffset;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
 
-import static ir.mbbn.mytoll.web.rest.TestUtil.sameInstant;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -39,17 +36,11 @@ public class PlateBillResourceIT {
     private static final BillCategory DEFAULT_CATEGORY = BillCategory.SIDEPARK;
     private static final BillCategory UPDATED_CATEGORY = BillCategory.HIGHWAY;
 
-    private static final ZonedDateTime DEFAULT_CREATION_TIME = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
-    private static final ZonedDateTime UPDATED_CREATION_TIME = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
+    private static final LocalDate DEFAULT_FROM_DATE = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_FROM_DATE = LocalDate.now(ZoneId.systemDefault());
 
-    private static final String DEFAULT_CREATION_BY = "AAAAAAAAAA";
-    private static final String UPDATED_CREATION_BY = "BBBBBBBBBB";
-
-    private static final ZonedDateTime DEFAULT_LAST_UPDATE_TIME = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
-    private static final ZonedDateTime UPDATED_LAST_UPDATE_TIME = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
-
-    private static final String DEFAULT_LAST_UPDATED_BY = "AAAAAAAAAA";
-    private static final String UPDATED_LAST_UPDATED_BY = "BBBBBBBBBB";
+    private static final LocalDate DEFAULT_TO_DATE = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_TO_DATE = LocalDate.now(ZoneId.systemDefault());
 
     @Autowired
     private PlateBillRepository plateBillRepository;
@@ -74,10 +65,8 @@ public class PlateBillResourceIT {
     public static PlateBill createEntity(EntityManager em) {
         PlateBill plateBill = new PlateBill()
             .category(DEFAULT_CATEGORY)
-            .creationTime(DEFAULT_CREATION_TIME)
-            .creationBy(DEFAULT_CREATION_BY)
-            .lastUpdateTime(DEFAULT_LAST_UPDATE_TIME)
-            .lastUpdatedBy(DEFAULT_LAST_UPDATED_BY);
+            .fromDate(DEFAULT_FROM_DATE)
+            .toDate(DEFAULT_TO_DATE);
         return plateBill;
     }
     /**
@@ -89,10 +78,8 @@ public class PlateBillResourceIT {
     public static PlateBill createUpdatedEntity(EntityManager em) {
         PlateBill plateBill = new PlateBill()
             .category(UPDATED_CATEGORY)
-            .creationTime(UPDATED_CREATION_TIME)
-            .creationBy(UPDATED_CREATION_BY)
-            .lastUpdateTime(UPDATED_LAST_UPDATE_TIME)
-            .lastUpdatedBy(UPDATED_LAST_UPDATED_BY);
+            .fromDate(UPDATED_FROM_DATE)
+            .toDate(UPDATED_TO_DATE);
         return plateBill;
     }
 
@@ -116,10 +103,8 @@ public class PlateBillResourceIT {
         assertThat(plateBillList).hasSize(databaseSizeBeforeCreate + 1);
         PlateBill testPlateBill = plateBillList.get(plateBillList.size() - 1);
         assertThat(testPlateBill.getCategory()).isEqualTo(DEFAULT_CATEGORY);
-        assertThat(testPlateBill.getCreationTime()).isEqualTo(DEFAULT_CREATION_TIME);
-        assertThat(testPlateBill.getCreationBy()).isEqualTo(DEFAULT_CREATION_BY);
-        assertThat(testPlateBill.getLastUpdateTime()).isEqualTo(DEFAULT_LAST_UPDATE_TIME);
-        assertThat(testPlateBill.getLastUpdatedBy()).isEqualTo(DEFAULT_LAST_UPDATED_BY);
+        assertThat(testPlateBill.getFromDate()).isEqualTo(DEFAULT_FROM_DATE);
+        assertThat(testPlateBill.getToDate()).isEqualTo(DEFAULT_TO_DATE);
     }
 
     @Test
@@ -163,10 +148,10 @@ public class PlateBillResourceIT {
 
     @Test
     @Transactional
-    public void checkCreationTimeIsRequired() throws Exception {
+    public void checkFromDateIsRequired() throws Exception {
         int databaseSizeBeforeTest = plateBillRepository.findAll().size();
         // set the field null
-        plateBill.setCreationTime(null);
+        plateBill.setFromDate(null);
 
         // Create the PlateBill, which fails.
 
@@ -182,48 +167,10 @@ public class PlateBillResourceIT {
 
     @Test
     @Transactional
-    public void checkCreationByIsRequired() throws Exception {
+    public void checkToDateIsRequired() throws Exception {
         int databaseSizeBeforeTest = plateBillRepository.findAll().size();
         // set the field null
-        plateBill.setCreationBy(null);
-
-        // Create the PlateBill, which fails.
-
-
-        restPlateBillMockMvc.perform(post("/api/plate-bills")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(plateBill)))
-            .andExpect(status().isBadRequest());
-
-        List<PlateBill> plateBillList = plateBillRepository.findAll();
-        assertThat(plateBillList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    public void checkLastUpdateTimeIsRequired() throws Exception {
-        int databaseSizeBeforeTest = plateBillRepository.findAll().size();
-        // set the field null
-        plateBill.setLastUpdateTime(null);
-
-        // Create the PlateBill, which fails.
-
-
-        restPlateBillMockMvc.perform(post("/api/plate-bills")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(plateBill)))
-            .andExpect(status().isBadRequest());
-
-        List<PlateBill> plateBillList = plateBillRepository.findAll();
-        assertThat(plateBillList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    public void checkLastUpdatedByIsRequired() throws Exception {
-        int databaseSizeBeforeTest = plateBillRepository.findAll().size();
-        // set the field null
-        plateBill.setLastUpdatedBy(null);
+        plateBill.setToDate(null);
 
         // Create the PlateBill, which fails.
 
@@ -249,10 +196,8 @@ public class PlateBillResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(plateBill.getId().intValue())))
             .andExpect(jsonPath("$.[*].category").value(hasItem(DEFAULT_CATEGORY.toString())))
-            .andExpect(jsonPath("$.[*].creationTime").value(hasItem(sameInstant(DEFAULT_CREATION_TIME))))
-            .andExpect(jsonPath("$.[*].creationBy").value(hasItem(DEFAULT_CREATION_BY)))
-            .andExpect(jsonPath("$.[*].lastUpdateTime").value(hasItem(sameInstant(DEFAULT_LAST_UPDATE_TIME))))
-            .andExpect(jsonPath("$.[*].lastUpdatedBy").value(hasItem(DEFAULT_LAST_UPDATED_BY)));
+            .andExpect(jsonPath("$.[*].fromDate").value(hasItem(DEFAULT_FROM_DATE.toString())))
+            .andExpect(jsonPath("$.[*].toDate").value(hasItem(DEFAULT_TO_DATE.toString())));
     }
     
     @Test
@@ -267,10 +212,8 @@ public class PlateBillResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(plateBill.getId().intValue()))
             .andExpect(jsonPath("$.category").value(DEFAULT_CATEGORY.toString()))
-            .andExpect(jsonPath("$.creationTime").value(sameInstant(DEFAULT_CREATION_TIME)))
-            .andExpect(jsonPath("$.creationBy").value(DEFAULT_CREATION_BY))
-            .andExpect(jsonPath("$.lastUpdateTime").value(sameInstant(DEFAULT_LAST_UPDATE_TIME)))
-            .andExpect(jsonPath("$.lastUpdatedBy").value(DEFAULT_LAST_UPDATED_BY));
+            .andExpect(jsonPath("$.fromDate").value(DEFAULT_FROM_DATE.toString()))
+            .andExpect(jsonPath("$.toDate").value(DEFAULT_TO_DATE.toString()));
     }
     @Test
     @Transactional
@@ -294,10 +237,8 @@ public class PlateBillResourceIT {
         em.detach(updatedPlateBill);
         updatedPlateBill
             .category(UPDATED_CATEGORY)
-            .creationTime(UPDATED_CREATION_TIME)
-            .creationBy(UPDATED_CREATION_BY)
-            .lastUpdateTime(UPDATED_LAST_UPDATE_TIME)
-            .lastUpdatedBy(UPDATED_LAST_UPDATED_BY);
+            .fromDate(UPDATED_FROM_DATE)
+            .toDate(UPDATED_TO_DATE);
 
         restPlateBillMockMvc.perform(put("/api/plate-bills")
             .contentType(MediaType.APPLICATION_JSON)
@@ -309,10 +250,8 @@ public class PlateBillResourceIT {
         assertThat(plateBillList).hasSize(databaseSizeBeforeUpdate);
         PlateBill testPlateBill = plateBillList.get(plateBillList.size() - 1);
         assertThat(testPlateBill.getCategory()).isEqualTo(UPDATED_CATEGORY);
-        assertThat(testPlateBill.getCreationTime()).isEqualTo(UPDATED_CREATION_TIME);
-        assertThat(testPlateBill.getCreationBy()).isEqualTo(UPDATED_CREATION_BY);
-        assertThat(testPlateBill.getLastUpdateTime()).isEqualTo(UPDATED_LAST_UPDATE_TIME);
-        assertThat(testPlateBill.getLastUpdatedBy()).isEqualTo(UPDATED_LAST_UPDATED_BY);
+        assertThat(testPlateBill.getFromDate()).isEqualTo(UPDATED_FROM_DATE);
+        assertThat(testPlateBill.getToDate()).isEqualTo(UPDATED_TO_DATE);
     }
 
     @Test

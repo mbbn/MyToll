@@ -10,29 +10,15 @@
       ]
     },
     {
-      "fieldName": "creationTime",
-      "fieldType": "ZonedDateTime",
+      "fieldName": "fromDate",
+      "fieldType": "LocalDate",
       "fieldValidateRules": [
         "required"
       ]
     },
     {
-      "fieldName": "creationBy",
-      "fieldType": "String",
-      "fieldValidateRules": [
-        "required"
-      ]
-    },
-    {
-      "fieldName": "lastUpdateTime",
-      "fieldType": "ZonedDateTime",
-      "fieldValidateRules": [
-        "required"
-      ]
-    },
-    {
-      "fieldName": "lastUpdatedBy",
-      "fieldType": "String",
+      "fieldName": "toDate",
+      "fieldType": "LocalDate",
       "fieldValidateRules": [
         "required"
       ]

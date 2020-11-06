@@ -4,10 +4,8 @@ import { BillCategory } from 'app/shared/model/enumerations/bill-category.model'
 export interface IPlateBill {
   id?: number;
   category?: BillCategory;
-  creationTime?: string;
-  creationBy?: string;
-  lastUpdateTime?: string;
-  lastUpdatedBy?: string;
+  fromDate?: string;
+  toDate?: string;
   billTypeId?: number;
   plateId?: number;
 }

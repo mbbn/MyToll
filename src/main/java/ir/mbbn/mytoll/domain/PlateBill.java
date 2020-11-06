@@ -8,7 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
-import java.time.ZonedDateTime;
+import java.time.LocalDate;
 
 import ir.mbbn.mytoll.domain.enumeration.BillCategory;
 
@@ -32,20 +32,12 @@ public class PlateBill implements Serializable {
     private BillCategory category;
 
     @NotNull
-    @Column(name = "creation_time", nullable = false)
-    private ZonedDateTime creationTime;
+    @Column(name = "from_date", nullable = false)
+    private LocalDate fromDate;
 
     @NotNull
-    @Column(name = "creation_by", nullable = false)
-    private String creationBy;
-
-    @NotNull
-    @Column(name = "last_update_time", nullable = false)
-    private ZonedDateTime lastUpdateTime;
-
-    @NotNull
-    @Column(name = "last_updated_by", nullable = false)
-    private String lastUpdatedBy;
+    @Column(name = "to_date", nullable = false)
+    private LocalDate toDate;
 
     @ManyToOne
     @JsonIgnoreProperties(value = "plateBills", allowSetters = true)
@@ -77,56 +69,30 @@ public class PlateBill implements Serializable {
         this.category = category;
     }
 
-    public ZonedDateTime getCreationTime() {
-        return creationTime;
+    public LocalDate getFromDate() {
+        return fromDate;
     }
 
-    public PlateBill creationTime(ZonedDateTime creationTime) {
-        this.creationTime = creationTime;
+    public PlateBill fromDate(LocalDate fromDate) {
+        this.fromDate = fromDate;
         return this;
     }
 
-    public void setCreationTime(ZonedDateTime creationTime) {
-        this.creationTime = creationTime;
+    public void setFromDate(LocalDate fromDate) {
+        this.fromDate = fromDate;
     }
 
-    public String getCreationBy() {
-        return creationBy;
+    public LocalDate getToDate() {
+        return toDate;
     }
 
-    public PlateBill creationBy(String creationBy) {
-        this.creationBy = creationBy;
+    public PlateBill toDate(LocalDate toDate) {
+        this.toDate = toDate;
         return this;
     }
 
-    public void setCreationBy(String creationBy) {
-        this.creationBy = creationBy;
-    }
-
-    public ZonedDateTime getLastUpdateTime() {
-        return lastUpdateTime;
-    }
-
-    public PlateBill lastUpdateTime(ZonedDateTime lastUpdateTime) {
-        this.lastUpdateTime = lastUpdateTime;
-        return this;
-    }
-
-    public void setLastUpdateTime(ZonedDateTime lastUpdateTime) {
-        this.lastUpdateTime = lastUpdateTime;
-    }
-
-    public String getLastUpdatedBy() {
-        return lastUpdatedBy;
-    }
-
-    public PlateBill lastUpdatedBy(String lastUpdatedBy) {
-        this.lastUpdatedBy = lastUpdatedBy;
-        return this;
-    }
-
-    public void setLastUpdatedBy(String lastUpdatedBy) {
-        this.lastUpdatedBy = lastUpdatedBy;
+    public void setToDate(LocalDate toDate) {
+        this.toDate = toDate;
     }
 
     public BaseInfo getBillType() {
@@ -178,10 +144,8 @@ public class PlateBill implements Serializable {
         return "PlateBill{" +
             "id=" + getId() +
             ", category='" + getCategory() + "'" +
-            ", creationTime='" + getCreationTime() + "'" +
-            ", creationBy='" + getCreationBy() + "'" +
-            ", lastUpdateTime='" + getLastUpdateTime() + "'" +
-            ", lastUpdatedBy='" + getLastUpdatedBy() + "'" +
+            ", fromDate='" + getFromDate() + "'" +
+            ", toDate='" + getToDate() + "'" +
             "}";
     }
 }

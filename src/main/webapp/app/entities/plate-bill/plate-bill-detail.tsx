@@ -32,35 +32,21 @@ export const PlateBillDetail = (props: IPlateBillDetailProps) => {
           </dt>
           <dd>{plateBillEntity.category}</dd>
           <dt>
-            <span id="creationTime">
-              <Translate contentKey="myTollApp.plateBill.creationTime">Creation Time</Translate>
+            <span id="fromDate">
+              <Translate contentKey="myTollApp.plateBill.fromDate">From Date</Translate>
             </span>
           </dt>
           <dd>
-            {plateBillEntity.creationTime ? <TextFormat value={plateBillEntity.creationTime} type="date" format={APP_DATE_FORMAT} /> : null}
+            {plateBillEntity.fromDate ? <TextFormat value={plateBillEntity.fromDate} type="date" format={APP_LOCAL_DATE_FORMAT} /> : null}
           </dd>
           <dt>
-            <span id="creationBy">
-              <Translate contentKey="myTollApp.plateBill.creationBy">Creation By</Translate>
-            </span>
-          </dt>
-          <dd>{plateBillEntity.creationBy}</dd>
-          <dt>
-            <span id="lastUpdateTime">
-              <Translate contentKey="myTollApp.plateBill.lastUpdateTime">Last Update Time</Translate>
+            <span id="toDate">
+              <Translate contentKey="myTollApp.plateBill.toDate">To Date</Translate>
             </span>
           </dt>
           <dd>
-            {plateBillEntity.lastUpdateTime ? (
-              <TextFormat value={plateBillEntity.lastUpdateTime} type="date" format={APP_DATE_FORMAT} />
-            ) : null}
+            {plateBillEntity.toDate ? <TextFormat value={plateBillEntity.toDate} type="date" format={APP_LOCAL_DATE_FORMAT} /> : null}
           </dd>
-          <dt>
-            <span id="lastUpdatedBy">
-              <Translate contentKey="myTollApp.plateBill.lastUpdatedBy">Last Updated By</Translate>
-            </span>
-          </dt>
-          <dd>{plateBillEntity.lastUpdatedBy}</dd>
           <dt>
             <Translate contentKey="myTollApp.plateBill.billType">Bill Type</Translate>
           </dt>

@@ -1,9 +1,7 @@
 import React from 'react';
 import { Translate } from 'react-jhipster';
-
-import { NavItem, NavLink, NavbarBrand } from 'reactstrap';
-import { NavLink as Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {Link} from '@material-ui/core';
+import {HomeSharp} from '@material-ui/icons';
 
 import appConfig from 'app/config/constants';
 
@@ -14,22 +12,17 @@ export const BrandIcon = props => (
 );
 
 export const Brand = props => (
-  <NavbarBrand tag={Link} to="/" className="brand-logo">
-    <BrandIcon />
+  <Link href={"/"} className="brand-logo" dir="ltr">
+    <BrandIcon/>
     <span className="brand-title">
       <Translate contentKey="global.title">MyToll</Translate>
     </span>
     <span className="navbar-version">{appConfig.VERSION}</span>
-  </NavbarBrand>
+  </Link>
 );
 
 export const Home = props => (
-  <NavItem>
-    <NavLink tag={Link} to="/" className="d-flex align-items-center">
-      <FontAwesomeIcon icon="home" />
-      <span>
-        <Translate contentKey="global.menu.home">Home</Translate>
-      </span>
-    </NavLink>
-  </NavItem>
-);
+  <Link>
+    <HomeSharp/>
+    <Translate contentKey="global.menu.home">Home</Translate>
+  </Link>);

@@ -40,16 +40,10 @@ export const PlateBill = (props: IPlateBillProps) => {
                   <Translate contentKey="myTollApp.plateBill.category">Category</Translate>
                 </th>
                 <th>
-                  <Translate contentKey="myTollApp.plateBill.creationTime">Creation Time</Translate>
+                  <Translate contentKey="myTollApp.plateBill.fromDate">From Date</Translate>
                 </th>
                 <th>
-                  <Translate contentKey="myTollApp.plateBill.creationBy">Creation By</Translate>
-                </th>
-                <th>
-                  <Translate contentKey="myTollApp.plateBill.lastUpdateTime">Last Update Time</Translate>
-                </th>
-                <th>
-                  <Translate contentKey="myTollApp.plateBill.lastUpdatedBy">Last Updated By</Translate>
+                  <Translate contentKey="myTollApp.plateBill.toDate">To Date</Translate>
                 </th>
                 <th>
                   <Translate contentKey="myTollApp.plateBill.billType">Bill Type</Translate>
@@ -72,13 +66,9 @@ export const PlateBill = (props: IPlateBillProps) => {
                     <Translate contentKey={`myTollApp.BillCategory.${plateBill.category}`} />
                   </td>
                   <td>
-                    {plateBill.creationTime ? <TextFormat type="date" value={plateBill.creationTime} format={APP_DATE_FORMAT} /> : null}
+                    {plateBill.fromDate ? <TextFormat type="date" value={plateBill.fromDate} format={APP_LOCAL_DATE_FORMAT} /> : null}
                   </td>
-                  <td>{plateBill.creationBy}</td>
-                  <td>
-                    {plateBill.lastUpdateTime ? <TextFormat type="date" value={plateBill.lastUpdateTime} format={APP_DATE_FORMAT} /> : null}
-                  </td>
-                  <td>{plateBill.lastUpdatedBy}</td>
+                  <td>{plateBill.toDate ? <TextFormat type="date" value={plateBill.toDate} format={APP_LOCAL_DATE_FORMAT} /> : null}</td>
                   <td>{plateBill.billTypeId ? <Link to={`base-info/${plateBill.billTypeId}`}>{plateBill.billTypeId}</Link> : ''}</td>
                   <td>{plateBill.plateId ? <Link to={`plate/${plateBill.plateId}`}>{plateBill.plateId}</Link> : ''}</td>
                   <td className="text-right">

@@ -47,9 +47,6 @@ export const PlateBillUpdate = (props: IPlateBillUpdateProps) => {
   }, [props.updateSuccess]);
 
   const saveEntity = (event, errors, values) => {
-    values.creationTime = convertDateTimeToServer(values.creationTime);
-    values.lastUpdateTime = convertDateTimeToServer(values.lastUpdateTime);
-
     if (errors.length === 0) {
       const entity = {
         ...plateBillEntity,
@@ -105,58 +102,28 @@ export const PlateBillUpdate = (props: IPlateBillUpdateProps) => {
                 </AvInput>
               </AvGroup>
               <AvGroup>
-                <Label id="creationTimeLabel" for="plate-bill-creationTime">
-                  <Translate contentKey="myTollApp.plateBill.creationTime">Creation Time</Translate>
-                </Label>
-                <AvInput
-                  id="plate-bill-creationTime"
-                  type="datetime-local"
-                  className="form-control"
-                  name="creationTime"
-                  placeholder={'YYYY-MM-DD HH:mm'}
-                  value={isNew ? displayDefaultDateTime() : convertDateTimeFromServer(props.plateBillEntity.creationTime)}
-                  validate={{
-                    required: { value: true, errorMessage: translate('entity.validation.required') },
-                  }}
-                />
-              </AvGroup>
-              <AvGroup>
-                <Label id="creationByLabel" for="plate-bill-creationBy">
-                  <Translate contentKey="myTollApp.plateBill.creationBy">Creation By</Translate>
+                <Label id="fromDateLabel" for="plate-bill-fromDate">
+                  <Translate contentKey="myTollApp.plateBill.fromDate">From Date</Translate>
                 </Label>
                 <AvField
-                  id="plate-bill-creationBy"
-                  type="text"
-                  name="creationBy"
-                  validate={{
-                    required: { value: true, errorMessage: translate('entity.validation.required') },
-                  }}
-                />
-              </AvGroup>
-              <AvGroup>
-                <Label id="lastUpdateTimeLabel" for="plate-bill-lastUpdateTime">
-                  <Translate contentKey="myTollApp.plateBill.lastUpdateTime">Last Update Time</Translate>
-                </Label>
-                <AvInput
-                  id="plate-bill-lastUpdateTime"
-                  type="datetime-local"
+                  id="plate-bill-fromDate"
+                  type="date"
                   className="form-control"
-                  name="lastUpdateTime"
-                  placeholder={'YYYY-MM-DD HH:mm'}
-                  value={isNew ? displayDefaultDateTime() : convertDateTimeFromServer(props.plateBillEntity.lastUpdateTime)}
+                  name="fromDate"
                   validate={{
                     required: { value: true, errorMessage: translate('entity.validation.required') },
                   }}
                 />
               </AvGroup>
               <AvGroup>
-                <Label id="lastUpdatedByLabel" for="plate-bill-lastUpdatedBy">
-                  <Translate contentKey="myTollApp.plateBill.lastUpdatedBy">Last Updated By</Translate>
+                <Label id="toDateLabel" for="plate-bill-toDate">
+                  <Translate contentKey="myTollApp.plateBill.toDate">To Date</Translate>
                 </Label>
                 <AvField
-                  id="plate-bill-lastUpdatedBy"
-                  type="text"
-                  name="lastUpdatedBy"
+                  id="plate-bill-toDate"
+                  type="date"
+                  className="form-control"
+                  name="toDate"
                   validate={{
                     required: { value: true, errorMessage: translate('entity.validation.required') },
                   }}

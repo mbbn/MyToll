@@ -2,16 +2,27 @@ import './header.scss';
 
 import React, { useState, useEffect } from 'react';
 import { Translate, Storage } from 'react-jhipster';
-import { Navbar, Nav, NavbarToggler, NavbarBrand, Collapse } from 'reactstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
-import { NavLink as Link } from 'react-router-dom';
+import {AppBar, Toolbar, Link} from '@material-ui/core';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import MenuIcon from '@material-ui/icons/Menu';
 import LoadingBar from 'react-redux-loading-bar';
-
 import { isRTL } from 'app/config/translation';
-
 import { Home, Brand } from './header-components';
 import { AdminMenu, EntitiesMenu, AccountMenu, LocaleMenu } from '../menus';
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      flexGrow: 1,
+    },
+    menuButton: {
+      marginLeft: theme.spacing(1),
+    },
+    title: {
+      flexGrow: 1,
+    },
+  }),
+);
 
 export interface IHeaderProps {
   isAuthenticated: boolean;
@@ -26,6 +37,7 @@ export interface IHeaderProps {
 const Header = (props: IHeaderProps) => {
   const [menuOpen, setMenuOpen] = useState(false);
   useEffect(() => document.querySelector('html').setAttribute('dir', isRTL(Storage.session.get('locale')) ? 'rtl' : 'ltr'));
+  const classes = useStyles();
 
   const handleLocaleChange = event => {
     const langKey = event.target.value;
@@ -48,25 +60,25 @@ const Header = (props: IHeaderProps) => {
   /* jhipster-needle-add-element-to-menu - JHipster will add new menu items here */
 
   return (
-    <div id="app-header">
+    <div id="app-header" className={classes.root}>
       {renderDevRibbon()}
       <LoadingBar className="loading-bar" />
-      <Navbar dark expand="sm" fixed="top" className="jh-navbar">
-        <NavbarToggler aria-label="Menu" onClick={toggleMenu} />
-        {!isRTL(Storage.session.get('locale')) ? <Brand />:null}
-        <Collapse isOpen={menuOpen} navbar>
-          <Nav id="header-tabs" className="ml-auto" navbar>
-            <Home />
-            {props.isAuthenticated && <EntitiesMenu />}
-            {props.isAuthenticated && props.isAdmin && (
-              <AdminMenu showSwagger={props.isSwaggerEnabled} showDatabase={!props.isInProduction} />
-            )}
-            <LocaleMenu currentLocale={props.currentLocale} onClick={handleLocaleChange} />
-            <AccountMenu isAuthenticated={props.isAuthenticated} />
-          </Nav>
-        </Collapse>
-        {isRTL(Storage.session.get('locale')) ? <Brand />:null}
-      </Navbar>
+      <AppBar position={"fixed"}>
+        <Toolbar variant={"dense"}>
+          <Link className={classes.menuButton} color="inherit" aria-label="menu">
+            <MenuIcon />
+          </Link>
+          {!isRTL(Storage.session.get('locale')) ? <Brand />:null}
+          <Home />
+          {props.isAuthenticated && <EntitiesMenu />}
+          {props.isAuthenticated && props.isAdmin && (
+            <AdminMenu showSwagger={props.isSwaggerEnabled} showDatabase={!props.isInProduction} />
+          )}
+          <LocaleMenu currentLocale={props.currentLocale} onClick={handleLocaleChange} />
+          <AccountMenu isAuthenticated={props.isAuthenticated} />
+          {isRTL(Storage.session.get('locale')) ? <Brand />:null}
+        </Toolbar>
+      </AppBar>
     </div>
   );
 };

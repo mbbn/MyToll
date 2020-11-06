@@ -16,11 +16,17 @@
       "detail": {
         "title": "Plate Bill"
       },
+      "error": {
+        "plateIsNull": "پلاک را وارد نمایید",
+        "invalidPlate": "پلاک وارد شده اشتباه است",
+        "mobileIsNull": "شماره موبایل را وارد نمایید",
+        "invalidMobile": "شماره موبایل وارد شده اشتباه است",
+        "fromDateIsNull": "تاریخ شروع را وارد نمایید",
+        "toDateIsNull": "تاریخ پایان را وارد نمایید"
+      },
       "category": "Category",
-      "creationTime": "Creation Time",
-      "creationBy": "Creation By",
-      "lastUpdateTime": "Last Update Time",
-      "lastUpdatedBy": "Last Updated By",
+      "fromDate": "از تاریخ",
+      "toDate": "تا تاریخ",
       "billType": "Bill Type",
       "plate": "پلاک"
     }
