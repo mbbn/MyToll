@@ -1,0 +1,25 @@
+{
+  "myTollApp": {
+    "tollRequest": {
+      "home": {
+        "title": "Toll Requests",
+        "createLabel": "Create a new Toll Request",
+        "createOrEditLabel": "Create or edit a Toll Request",
+        "notFound": "No Toll Requests found"
+      },
+      "created": "A new Toll Request is created with identifier {{ param }}",
+      "updated": "A Toll Request is updated with identifier {{ param }}",
+      "deleted": "A Toll Request is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Toll Request {{ id }}?"
+      },
+      "detail": {
+        "title": "Toll Request"
+      },
+      "plate": "Plate",
+      "mobile": "Mobile",
+      "fromDate": "From Date",
+      "toDate": "To Date"
+    }
+  }
+}

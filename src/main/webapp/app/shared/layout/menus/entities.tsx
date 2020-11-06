@@ -1,16 +1,16 @@
 import React from 'react';
-import {MenuList, MenuItem} from '@material-ui/core'
-import {IconButton, Link} from '@material-ui/core';
-import {List} from '@material-ui/icons';
+import { MenuList, MenuItem } from '@material-ui/core';
+import { IconButton, Link } from '@material-ui/core';
+import { List } from '@material-ui/icons';
 import { Translate, translate } from 'react-jhipster';
 
 export const EntitiesMenu = props => (
-    <IconButton>
-        <List/>
-        <span>
-        <Translate contentKey="global.menu.home">global.menu.entities.main</Translate>
-      </span>
-    </IconButton>
+  <IconButton>
+    <List />
+    <span>
+      <Translate contentKey="global.menu.home">global.menu.entities.main</Translate>
+    </span>
+  </IconButton>
   /* <NavDropdown
     icon="th-list"
     name={translate('global.menu.entities.main')}
@@ -28,6 +28,9 @@ export const EntitiesMenu = props => (
     </MenuItem>
     <MenuItem icon="asterisk" to="/plate-bill">
       <Translate contentKey="global.menu.entities.plateBill" />
+    </MenuItem>
+    <MenuItem icon="asterisk" to="/toll-request">
+      <Translate contentKey="global.menu.entities.tollRequest" />
     </MenuItem>
     {/!* jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here *!/}
   </NavDropdown>*/

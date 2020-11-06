@@ -28,6 +28,10 @@ import plate, {
 import plateBill, {
   PlateBillState
 } from 'app/entities/plate-bill/plate-bill.reducer';
+// prettier-ignore
+import tollRequest, {
+  TollRequestState
+} from 'app/entities/toll-request/toll-request.reducer';
 /* jhipster-needle-add-reducer-import - JHipster will add reducer here */
 
 export interface IRootState {
@@ -45,6 +49,7 @@ export interface IRootState {
   readonly customer: CustomerState;
   readonly plate: PlateState;
   readonly plateBill: PlateBillState;
+  readonly tollRequest: TollRequestState;
   /* jhipster-needle-add-reducer-type - JHipster will add reducer type here */
   readonly loadingBar: any;
 }
@@ -64,6 +69,7 @@ const rootReducer = combineReducers<IRootState>({
   customer,
   plate,
   plateBill,
+  tollRequest,
   /* jhipster-needle-add-reducer-combine - JHipster will add reducer here */
   loadingBar,
 });

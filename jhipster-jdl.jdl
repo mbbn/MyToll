@@ -57,6 +57,15 @@ enum BillCategory {
     CITYTAX
 }
 
+@dto
+@service(serviceImpl)
+entity TollRequest {
+    plate Integer required
+    mobile String required
+    fromDate LocalDate required
+    toDate LocalDate required
+}
+
 relationship ManyToOne {
     BaseInfo{group} to BaseInfo
     PlateBill{billType} to BaseInfo

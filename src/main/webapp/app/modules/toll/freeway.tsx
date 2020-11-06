@@ -1,21 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import {FormControl, FormLabel, Button} from '@material-ui/core'
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import { red, blue, common } from '@material-ui/core/colors';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import InputLabel from '@material-ui/core/InputLabel';
+import React from 'react';
+import {Button} from '@material-ui/core'
 import Grid from '@material-ui/core/Grid';
 import { Formik } from 'formik';
 import { translate} from 'react-jhipster';
 import Plate from "app/shared/plate/plate";
 import TextField from "app/component/TextField";
 import DatePicker from "app/component/DatePicker";
+import { connect } from 'react-redux';
+import {createEntity} from 'app/entities/toll-request/toll-request.reducer';
 
-export interface IFreewayProps {
-  a ?: string;
-}
+export type IFreewayProps = StateProps;
 
-const Freeway = (props: IFreewayProps) => {
+export const Freeway = (props: IFreewayProps) => {
+  const { tollRequestEntity } = props;
 
   const isValid = (values: any) => {
     const errors = {};
@@ -38,9 +35,17 @@ const Freeway = (props: IFreewayProps) => {
     return errors;
   };
 
+  const save = (values: any) => {
+    const entity = {
+      mobile: values['mobile'],
+      plate: values['part1'] + values['part2'] + values['part3'] + values['part4'],
+    };
+
+    props.createEntity(entity);
+  };
+
   return (<>
-    <Formik initialValues={{}} validate={values => isValid(values)} onSubmit={values => {
-    }}>{({handleSubmit, errors, touched, handleChange, handleBlur, setFieldValue}) => (
+    <Formik initialValues={{}} validate={values => isValid(values)} onSubmit={save}>{({handleSubmit, errors, touched, handleChange, handleBlur, setFieldValue}) => (
       <form onSubmit={handleSubmit}>
         <Grid container>
           <Grid item xs={12}>
@@ -71,4 +76,15 @@ const Freeway = (props: IFreewayProps) => {
   </>);
 };
 
-export default Freeway;
+const mapStateToProps = storeState => ({
+  tollRequestEntity: storeState.tollRequest.entity,
+});
+
+const mapDispatchToProps = {
+  createEntity,
+};
+
+type StateProps = ReturnType<typeof mapStateToProps>;
+type DispatchProps = typeof mapDispatchToProps;
+
+export default connect(mapStateToProps, mapDispatchToProps)(Freeway);

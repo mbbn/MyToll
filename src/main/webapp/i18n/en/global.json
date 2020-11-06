@@ -12,6 +12,7 @@
         "customer": "Customer",
         "plate": "Plate",
         "plateBill": "Plate Bill",
+        "tollRequest": "Toll Request",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {
