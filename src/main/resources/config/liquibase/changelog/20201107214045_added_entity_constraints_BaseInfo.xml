@@ -6,7 +6,7 @@
     <!--
         Added the constraints for entity BaseInfo.
     -->
-    <changeSet id="20201106235922-2" author="jhipster">
+    <changeSet id="20201107214045-2" author="jhipster">
         
         <addForeignKeyConstraint baseColumnNames="group_id"
                                  baseTableName="base_info"

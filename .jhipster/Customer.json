@@ -45,7 +45,7 @@
       "relationshipName": "plates"
     }
   ],
-  "changelogDate": "20201107000022",
+  "changelogDate": "20201107214145",
   "entityTableName": "customer",
   "dto": "no",
   "pagination": "pagination",

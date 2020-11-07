@@ -6,7 +6,7 @@
     <!--
         Added the constraints for entity PlateBill.
     -->
-    <changeSet id="20201025042336-2" author="jhipster">
+    <changeSet id="20201107214345-2" author="jhipster">
         
         <addForeignKeyConstraint baseColumnNames="bill_type_id"
                                  baseTableName="plate_bill"
