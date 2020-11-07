@@ -53,6 +53,7 @@ public class CacheConfiguration {
             createCache(cm, ir.mbbn.mytoll.domain.Plate.class.getName());
             createCache(cm, ir.mbbn.mytoll.domain.Plate.class.getName() + ".bills");
             createCache(cm, ir.mbbn.mytoll.domain.PlateBill.class.getName());
+            createCache(cm, ir.mbbn.mytoll.domain.TollRequest.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

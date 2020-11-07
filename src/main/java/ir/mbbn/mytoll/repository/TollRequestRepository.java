@@ -1,5 +1,7 @@
 package ir.mbbn.mytoll.repository;
 
+import ir.mbbn.mytoll.domain.TollRequest;
+
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 

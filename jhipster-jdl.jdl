@@ -44,6 +44,7 @@ enum PlateAlphabet {
 }
 
 @dto
+@service(serviceClass)
 entity PlateBill {
 	category BillCategory required
     fromDate LocalDate required
@@ -58,8 +59,8 @@ enum BillCategory {
 }
 
 @dto
-@service(serviceImpl)
-entity TollRequest {
+@service(serviceClass)
+entity TollRequest{
     plate Integer required
     mobile String required
     fromDate LocalDate required
@@ -76,5 +77,7 @@ relationship OneToMany {
     Plate{bills} to PlateBill
 }
 
+dto TollRequest with mapstruct
+service TollRequest with serviceClass
 paginate BaseInfo with pagination
 paginate Customer with pagination

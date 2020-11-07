@@ -31,11 +31,11 @@
     }
   ],
   "relationships": [],
-  "changelogDate": "20201106193350",
+  "changelogDate": "20201107000529",
   "entityTableName": "toll_request",
   "dto": true,
   "pagination": "no",
-  "service": "serviceImpl",
+  "service": "serviceClass",
   "jpaMetamodelFiltering": false,
   "fluentMethods": true,
   "readOnly": false,

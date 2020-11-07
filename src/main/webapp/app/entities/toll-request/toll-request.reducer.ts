@@ -1,20 +1,19 @@
 import axios from 'axios';
-import {ICrudPutAction} from 'react-jhipster';
+import {IPayload} from 'react-jhipster';
 
-import { cleanEntity } from 'app/shared/util/entity-utils';
 import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
 
 import { ITollRequest, defaultValue } from 'app/shared/model/toll-request.model';
-import {getEntities} from "app/entities/plate-bill/plate-bill.reducer";
+import {IPlateBill} from "app/shared/model/plate-bill.model";
+import {cleanEntity} from "app/shared/util/entity-utils";
 
 export const ACTION_TYPES = {
-  CREATE_TOLLREQUEST: 'tollRequest/CREATE_TOLLREQUEST',
+  GET_PLATEBILLS: 'tollRequest/GET_PLATEBILLS',
 };
 
 const initialState = {
   loading: false,
   errorMessage: null,
-  entities: [] as ReadonlyArray<ITollRequest>,
   entity: defaultValue,
   updating: false,
   updateSuccess: false,
@@ -25,10 +24,12 @@ export type TollRequestState = Readonly<typeof initialState>;
 // Reducer
 
 export default (state: TollRequestState = initialState, action): TollRequestState => {
+  /* eslint no-console: off */
+  console.log(state, action);
   switch (action.type) {
-    case REQUEST(ACTION_TYPES.CREATE_TOLLREQUEST):
-    case FAILURE(ACTION_TYPES.CREATE_TOLLREQUEST):
-    case SUCCESS(ACTION_TYPES.CREATE_TOLLREQUEST):
+    case REQUEST(ACTION_TYPES.GET_PLATEBILLS):
+    case FAILURE(ACTION_TYPES.GET_PLATEBILLS):
+    case SUCCESS(ACTION_TYPES.GET_PLATEBILLS):
     default:
       return state;
   }
@@ -37,12 +38,7 @@ export default (state: TollRequestState = initialState, action): TollRequestStat
 const apiUrl = 'api/toll-requests';
 
 // Actions
-
-export const createEntity: ICrudPutAction<ITollRequest> = entity => async dispatch => {
-  const result = await dispatch({
-    type: ACTION_TYPES.CREATE_TOLLREQUEST,
-    payload: axios.post(apiUrl, cleanEntity(entity)),
-  });
-  dispatch(getEntities());
-  return result;
-};
+export const createEntity: (data: ITollRequest) => IPayload<IPlateBill> = entity => ({
+  type: ACTION_TYPES.GET_PLATEBILLS,
+  payload: axios.post<ITollRequest, IPlateBill>(apiUrl,  cleanEntity(entity)).then(),
+});

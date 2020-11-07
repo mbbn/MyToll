@@ -61,7 +61,7 @@
       "otherEntityField": "id"
     }
   ],
-  "changelogDate": "20201101155355",
+  "changelogDate": "20201106235922",
   "entityTableName": "base_info",
   "dto": "no",
   "pagination": "pagination",

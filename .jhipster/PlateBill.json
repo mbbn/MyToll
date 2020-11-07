@@ -40,7 +40,7 @@
       "otherEntityField": "id"
     }
   ],
-  "changelogDate": "20201101164252",
+  "changelogDate": "20201107000222",
   "entityTableName": "plate_bill",
   "dto": true,
   "pagination": "no",

@@ -1,14 +1,15 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Button} from '@material-ui/core'
 import Grid from '@material-ui/core/Grid';
-import { Formik } from 'formik';
-import { translate} from 'react-jhipster';
+import {Formik} from 'formik';
+import {translate} from 'react-jhipster';
 import Plate from "app/shared/plate/plate";
 import TextField from "app/component/TextField";
 import DatePicker from "app/component/DatePicker";
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import {createEntity} from 'app/entities/toll-request/toll-request.reducer';
 import {convertDateTimeToServer} from "app/shared/util/date-utils";
+import {IRootState} from "app/shared/reducers";
 
 export interface IFreewayProps extends StateProps, DispatchProps {}
 
@@ -44,8 +45,7 @@ export const Freeway = (props: IFreewayProps) => {
       ...tollRequestEntity,
       ...values
     };
-    /* eslint no-console: off */
-    console.log(entity ,props.createEntity(entity));
+    props.createEntity(entity);
   };
 
   return (<>
@@ -81,7 +81,7 @@ export const Freeway = (props: IFreewayProps) => {
   </>);
 };
 
-const mapStateToProps = storeState => ({
+const mapStateToProps = (storeState: IRootState) => ({
   tollRequestEntity: storeState.tollRequest.entity,
 });
 

@@ -1,5 +1,6 @@
 package ir.mbbn.mytoll.web.rest;
 
+import ir.mbbn.mytoll.domain.TollRequest;
 import ir.mbbn.mytoll.service.dto.PlateBillDTO;
 
 import org.slf4j.Logger;
