@@ -10,8 +10,8 @@ const TextField = (props: ITextFieldProps & TextFieldProps) => {
   const {name, variant, maxLength, onChange} = props;
 
   return (
-    <FormControl>
-      <MuiTextField fullWidth={true} name={name} variant={variant ? variant : "outlined"} {...props}
+    <FormControl fullWidth={true}>
+      <MuiTextField name={name} variant={variant ? variant : "outlined"} {...props}
                     onChange={event => {
                       if (maxLength) {
                         event.target.value = event.target.value.substr(0, maxLength)

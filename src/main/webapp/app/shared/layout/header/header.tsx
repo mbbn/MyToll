@@ -1,14 +1,14 @@
 import './header.scss';
 
-import React, { useState, useEffect } from 'react';
-import { Translate, Storage } from 'react-jhipster';
+import React, {useState, useEffect} from 'react';
+import {Translate, Storage} from 'react-jhipster';
 import {AppBar, Toolbar, Link} from '@material-ui/core';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import LoadingBar from 'react-redux-loading-bar';
-import { isRTL } from 'app/config/translation';
-import { Home, Brand } from './header-components';
-import { AdminMenu, EntitiesMenu, AccountMenu, LocaleMenu } from '../menus';
+import {isRTL} from 'app/config/translation';
+import {Home, Brand} from './header-components';
+import {AdminMenu, EntitiesMenu, AccountMenu, LocaleMenu} from '../menus';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -64,11 +64,10 @@ const Header = (props: IHeaderProps) => {
       {renderDevRibbon()}
       <LoadingBar className="loading-bar" />
       <AppBar position={"fixed"}>
-        <Toolbar variant={"dense"}>
+        <Toolbar variant={"dense"} disableGutters={true}>
           <Link className={classes.menuButton} color="inherit" aria-label="menu">
             <MenuIcon />
           </Link>
-          {!isRTL(Storage.session.get('locale')) ? <Brand />:null}
           <Home />
           {props.isAuthenticated && <EntitiesMenu />}
           {props.isAuthenticated && props.isAdmin && (
@@ -76,7 +75,7 @@ const Header = (props: IHeaderProps) => {
           )}
           <LocaleMenu currentLocale={props.currentLocale} onClick={handleLocaleChange} />
           <AccountMenu isAuthenticated={props.isAuthenticated} />
-          {isRTL(Storage.session.get('locale')) ? <Brand />:null}
+          <Brand/>
         </Toolbar>
       </AppBar>
     </div>

@@ -1,15 +1,22 @@
 import {createMuiTheme} from "@material-ui/core/styles";
-import {grey, red, cyan, common} from "@material-ui/core/colors";
+import {grey, red, lightBlue, common} from "@material-ui/core/colors";
 
 const myTollTheme = createMuiTheme({
   overrides:{
+    MuiCssBaseline:{
+      '@global':{
+        body:{
+          backgroundColor:grey["300"],
+          fontFamily: 'Iranian Sans'
+        },
+      }
+    },
     MuiCard:{
       root:{
       }
     },
     MuiToolbar: {
       root:{
-        color: common.white
       }
     },
     MuiLink: {
@@ -22,10 +29,15 @@ const myTollTheme = createMuiTheme({
         margin: 3
       }
     },
+    MuiFormLabel:{
+      root:{
+        color: common.black,
+      }
+    },
     MuiInput:{
-      input:{
-        fontSize: 'xx-large',
-        textAlign: 'center'
+      root:{
+        fontSize: 'large',
+        textAlign: 'center',
       },
     },
     MuiInputLabel:{
@@ -39,28 +51,36 @@ const myTollTheme = createMuiTheme({
         color: common.white
       },
     },
+  },
+  props: {
+    MuiOutlinedInput: {
+      labelWidth: 10,
+    },
+    MuiInputBase:{
+      inputProps:{
+        style:{
+          fontSize: 'large',
+        }
+      }
+    },
     MuiSelect:{
-      root: {
-        fontSize: 'xx-large',
+      style:{
+        fontSize: 'large',
+        textAlign: 'center'
+      },
+    },
+    MuiMenuItem:{
+      style:{
+        fontSize: 'large',
         textAlign: 'center'
       }
     }
   },
-  props: {
-    MuiTextField:{
-      InputProps: {
-        style:{
-          fontSize: 'xx-large',
-        }
-      }
-    },
-  },
   palette: {
-    primary: cyan,
-    secondary: grey,
-    error: red,
-    text: {
-    },
+    type: "light",
+    primary: {
+      main: grey["900"]
+    }
   },
   direction: "rtl",
 });

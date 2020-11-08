@@ -86,17 +86,19 @@ const Plate = (props: IPlateProps) => {
       borderStyle: "solid",
       borderRadius: 10,
       borderColor: bColor,
+      // color: myTheme.props.MuiTextField.InputProps.style.color,
+      // backgroundColor: myTheme.props.MuiTextField.InputProps.style.backgroundColor,
       direction: 'ltr'
     }}>
       <Grid item xs={1} style={{
         borderTopLeftRadius: 7,
         borderBottomLeftRadius: 7,
         background: "url('../../../../content/images/iran.png') 3px 5px / 80% no-repeat rgb(4, 111, 218)",
-        height: 100
+        minHeight : 80
       }}/>
       <Grid item xs={2}>
         <TextField name={'part1'} value={part1} error={error} onChange={event => {OnChange(event, "part1")}} onFocus={OnFocused} onBlur={OnBlur}
-                   type={'number'} variant={"standard"} InputProps={{disableUnderline: true}} maxLength={2}/>
+                   type={'number'} variant={"standard"} InputProps={{inputProps:{style:{textAlign: 'center'}},disableUnderline: true}} maxLength={2}/>
       </Grid>
       <Grid item xs={3}>
           <Select name={'part2'} value={part2} error={error} onChange={event => {OnChange(event, "part2")}} onFocus={OnFocused} onBlur={OnBlur}>
@@ -138,13 +140,13 @@ const Plate = (props: IPlateProps) => {
           </Select>
       </Grid>
       <Grid item xs={3}>
-        <TextField name={'part3'} value={part3} error={error} onChange={event => {OnChange(event, "part3")}} onFocus={OnFocused} onBlur={OnBlur} type={'number'} variant={"standard"} InputProps={{disableUnderline: true}} maxLength={3}/>
+        <TextField name={'part3'} value={part3} error={error} onChange={event => {OnChange(event, "part3")}} onFocus={OnFocused} onBlur={OnBlur} type={'number'} variant={"standard"} InputProps={{inputProps:{style:{textAlign: 'center'}},disableUnderline: true}} maxLength={3}/>
       </Grid>
       <Grid item xs={3} style={{borderLeftStyle: "solid", borderColor: bColor}}>
         <div style={{fontSize: 25, textAlign: 'center'}}>
           {translate('myTollApp.plate.iran')}
         </div>
-        <TextField name={'part4'} value={part4} error={error} onChange={event => {OnChange(event, "part4")}} onFocus={OnFocused} onBlur={OnBlur} type={'number'} variant={"standard"} InputProps={{disableUnderline: true}} maxLength={2}/>
+        <TextField name={'part4'} value={part4} error={error} onChange={event => {OnChange(event, "part4")}} onFocus={OnFocused} onBlur={OnBlur} type={'number'} variant={"standard"} InputProps={{inputProps:{style:{textAlign: 'center'}},disableUnderline: true}} maxLength={2}/>
       </Grid>
     </Grid>
     <FormHelperText error={error} style={{marginRight: 15}}>{helperText}</FormHelperText>

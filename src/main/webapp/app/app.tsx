@@ -18,6 +18,7 @@ import ErrorBoundary from 'app/shared/error/error-boundary';
 import { AUTHORITIES } from 'app/config/constants';
 import AppRoutes from 'app/routes';
 import {StylesProvider, jssPreset, ThemeProvider} from "@material-ui/core/styles";
+import {CssBaseline} from '@material-ui/core';
 import { create } from "jss";
 import rtl from "jss-rtl";
 import myTollTheme from "app/ContextManager";
@@ -35,10 +36,11 @@ export const App = (props: IAppProps) => {
     props.getProfile();
   }, []);
 
-  const paddingTop = '60px';
+  const paddingTop = '80px';
   return (
     <StylesProvider jss={jss}>
       <ThemeProvider theme={myTollTheme}>
+        <CssBaseline/>
         <Router basename={baseHref}>
           <div className="app-container" style={{paddingTop}}>
             <ToastContainer position={toast.POSITION.TOP_LEFT} className="toastify-container"

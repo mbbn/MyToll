@@ -12,7 +12,7 @@ export const BrandIcon = props => (
 );
 
 export const Brand = props => (
-  <Link href={"/"} className="brand-logo" dir="ltr">
+  <Link href={"/"} className="brand-logo" style={{marginRight:'auto'}} dir="ltr">
     <BrandIcon/>
     <span className="brand-title">
       <Translate contentKey="global.title">MyToll</Translate>

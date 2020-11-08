@@ -4,8 +4,8 @@ import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {Translate, translate} from 'react-jhipster';
-import {AppBar, Tabs, Tab, Card, CardHeader, CardContent} from '@material-ui/core'
-import {Row, Col, Alert} from 'reactstrap';
+import {AppBar, Tabs, Tab, Card, CardHeader, CardContent, Grid} from '@material-ui/core';
+import {Alert} from '@material-ui/lab';
 import {Freeway} from "app/modules/toll/freeway";
 import Marginal from "app/modules/toll/marginal";
 import TollDataTable from "app/modules/toll/tollDataTable";
@@ -18,8 +18,8 @@ export const Home = (props: IHomeProp) => {
   const [activeTab, setActiveTab] = useState(0);
 
   return (
-    <Row>
-      <Col xs="4">
+    <Grid container spacing={2}>
+      <Grid sm={4} item>
         <Card>
           <AppBar position="static" color="default">
             <Tabs aria-label="simple tabs example" value={activeTab} onChange={(event, value) => {setActiveTab(value)}}>
@@ -46,8 +46,8 @@ export const Home = (props: IHomeProp) => {
             </div>
           </CardContent>
         </Card>
-      </Col>
-      <Col md="8">
+      </Grid>
+      <Grid sm={8} item>
         <Card>
           <CardHeader>
             <h2>
@@ -83,8 +83,8 @@ export const Home = (props: IHomeProp) => {
             <TollDataTable/>
           </CardContent>
         </Card>
-      </Col>
-    </Row>
+      </Grid>
+    </Grid>
   );
 };
 

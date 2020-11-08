@@ -1,11 +1,6 @@
-// Override Boostrap variables
-// Import Bootstrap source files from node_modules
-@import 'node_modules/bootstrap/scss/bootstrap';
-@import 'rtl.scss';
-body {
-  background: url('../content/images/Taieri.svg') #111111 center;
-  background-size: cover;
-  margin: 0;
+@font-face {
+  font-family: "Iranian Sans";
+  src: url("../content/font/IranianSans.ttf");
 }
 
 a {

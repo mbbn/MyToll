@@ -3,7 +3,7 @@ import {Button} from '@material-ui/core'
 import Grid from '@material-ui/core/Grid';
 import {Formik} from 'formik';
 import {translate} from 'react-jhipster';
-import Plate from "app/shared/plate/plate";
+import Plate from "app/component/plate";
 import TextField from "app/component/TextField";
 import DatePicker from "app/component/DatePicker";
 import {connect} from 'react-redux';
@@ -49,17 +49,20 @@ export const Freeway = (props: IFreewayProps) => {
   };
 
   return (<>
-    <Formik initialValues={{}} validate={values => isValid(values)} onSubmit={save}>{({handleSubmit, errors, touched, handleChange, handleBlur, setFieldValue}) => (
+    <Formik initialValues={{}} validate={values => isValid(values)} onSubmit={save}>{({handleSubmit, errors, values, handleChange, handleBlur, setFieldValue}) => (
       <form onSubmit={handleSubmit}>
         <Grid container>
-          <Grid item xs={12}>
-            <Plate name={'plate'} error={errors['plate'] !== undefined}
-                   helperText={errors['plate'] ? String(errors['plate']) : ''}
-                   onBlurPlate={handleBlur} onChangePlate={plateCode => setFieldValue('plate', plateCode)}/>
-            <TextField name={'mobile'} onChange={handleChange} onBlur={handleBlur} maxLength={11} required
-                       error={errors['mobile'] !== undefined} helperText={errors['mobile']}
-                       label={translate('myTollApp.customer.mobile')}/>
-          </Grid>
+          <Plate name={'plate'} error={errors['plate'] !== undefined}
+                 helperText={errors['plate'] ? String(errors['plate']) : ''}
+                 onBlurPlate={handleBlur} onChangePlate={plateCode => setFieldValue('plate', plateCode)}/>
+          <TextField name={'mobile'} onBlur={handleBlur} maxLength={11} required
+                     error={errors['mobile'] !== undefined} helperText={errors['mobile']}
+                     label={translate('myTollApp.customer.mobile')} onChange={event => {
+                       if(isNaN(Number(event.target.value))){
+                         event.target.value = values['mobile'];
+                       }
+            handleChange(event);
+          }}/>
         </Grid>
         <Grid container>
           <Grid item xs={6}>
