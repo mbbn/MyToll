@@ -7,31 +7,19 @@ const myTollTheme = createMuiTheme({
       '@global':{
         body:{
           backgroundColor:grey["300"],
-          fontFamily: 'Iranian Sans'
+          fontFamily: 'IRANSansWeb !important'
         },
       }
     },
-    MuiCard:{
+    MuiIconButton: {
       root:{
-      }
-    },
-    MuiToolbar: {
-      root:{
-      }
-    },
-    MuiLink: {
-      root:{
-        margin: 5
+        color: common.white,
       }
     },
     MuiFormControl:{
       root:{
-        margin: 3
-      }
-    },
-    MuiFormLabel:{
-      root:{
-        color: common.black,
+        marginBottom: 10,
+        marginRight: 5
       }
     },
     MuiInput:{
@@ -45,12 +33,7 @@ const myTollTheme = createMuiTheme({
         fontSize: 20,
         color: red["600"]
       }
-    },
-    MuiButton:{
-      containedPrimary:{
-        color: common.white
-      },
-    },
+    }
   },
   props: {
     MuiOutlinedInput: {
@@ -65,21 +48,19 @@ const myTollTheme = createMuiTheme({
     },
     MuiSelect:{
       style:{
-        fontSize: 'large',
-        textAlign: 'center'
+        // fontSize: 'large',
+        // textAlign: 'center'
       },
     },
-    MuiMenuItem:{
-      style:{
-        fontSize: 'large',
-        textAlign: 'center'
-      }
-    }
   },
   palette: {
     type: "light",
     primary: {
-      main: grey["900"]
+      main: grey["900"],
+      contrastText: common.white
+    },
+    text:{
+      // primary: common.white
     }
   },
   direction: "rtl",

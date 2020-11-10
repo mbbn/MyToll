@@ -1,50 +1,88 @@
 import React, {useState} from 'react';
-import {Link, Menu, MenuItem} from '@material-ui/core';
-import {VerifiedUser} from '@material-ui/icons';
-// import MenuItem from 'app/shared/layout/menus/menu-item';
-import { DropdownItem } from 'reactstrap';
+import { withStyles } from '@material-ui/core/styles';
+import {IconButton, Tooltip} from '@material-ui/core';
+import Menu, { MenuProps } from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { NavLink as Link } from 'react-router-dom';
-import { Translate, translate } from 'react-jhipster';
-import { NavDropdown } from './menu-components';
-import {languages} from "app/config/translation";
+import { translate } from 'react-jhipster';
+
+const StyledMenu = withStyles({
+  paper: {
+    border: '1px solid #d3d4d5',
+  },
+})((props: MenuProps) => (
+  <Menu
+    elevation={0}
+    getContentAnchorEl={null}
+    anchorOrigin={{
+      vertical: 'bottom',
+      horizontal: 'center',
+    }}
+    transformOrigin={{
+      vertical: 'top',
+      horizontal: 'center',
+    }}
+    {...props}
+  />
+));
+
+const StyledMenuItem = withStyles((theme) => ({
+  root: {
+    '&:focus': {
+      backgroundColor: theme.palette.primary.main,
+      '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
+        color: theme.palette.common.white,
+      },
+    },
+  },
+}))(MenuItem);
 
 const accountMenuItemsAuthenticated = (
   <>
-    {/* <MenuItem icon="wrench" to="/account/settings">
-      <Translate contentKey="global.menu.account.settings">Settings</Translate>
-    </MenuItem>
-    <MenuItem icon="lock" to="/account/password">
-      <Translate contentKey="global.menu.account.password">Password</Translate>
-    </MenuItem>
-    <MenuItem icon="sign-out-alt" to="/logout">
-      <Translate contentKey="global.menu.account.logout">Sign out</Translate>
-    </MenuItem>*/}
+     <StyledMenuItem>
+       <FontAwesomeIcon icon={'wrench'}/>
+       {translate('global.menu.account.settings')}
+    </StyledMenuItem>
+    <StyledMenuItem>
+      <FontAwesomeIcon icon={'lock'}/>
+      {translate('global.menu.account.password')}
+    </StyledMenuItem>
+    <StyledMenuItem>
+      <FontAwesomeIcon icon={'sign-out-alt'}/>
+      {translate('global.menu.account.logout')}
+    </StyledMenuItem>
   </>
 );
 
 const accountMenuItems = (
   <>
-    {/* <MenuItem id="login-item" icon="sign-in-alt" to="/login">
-      <Translate contentKey="global.menu.account.login">Sign in</Translate>
-    </MenuItem>
-    <MenuItem icon="sign-in-alt" to="/account/register">
-      <Translate contentKey="global.menu.account.register">Register</Translate>
-    </MenuItem>*/}
+    <StyledMenuItem id="login-item">
+      <FontAwesomeIcon icon={'sign-in-alt'}/>
+      {translate('global.menu.account.login')}
+    </StyledMenuItem>
+    <StyledMenuItem>
+      <FontAwesomeIcon icon={'sign-in-alt'}/>
+      {translate('global.menu.account.register')}
+    </StyledMenuItem>
   </>
 );
 
 export const AccountMenu = ({ isAuthenticated = false }) => {
   const [adminMenu, setAdminMenu] = useState(null);
   return <>
-    <Link aria-controls="account-menu" aria-haspopup="true" onClick={(event)=>{setAdminMenu(event.currentTarget)}}>
-      <VerifiedUser/>
-      <span>{translate('global.menu.account.main')}</span>
-    </Link>
+    <Tooltip title={translate('global.menu.account.main')}>
+      <IconButton aria-controls="account-menu" aria-haspopup="true" onClick={(event)=>{setAdminMenu(event.currentTarget)}}>
+        <FontAwesomeIcon icon={'user'}/>
+      </IconButton>
+    </Tooltip>
+    <StyledMenu id="account-menu"
+          anchorEl={adminMenu}
+          keepMounted
+          onClose={() => setAdminMenu(false)}
+          open={Boolean(adminMenu)}>
+      {isAuthenticated ? accountMenuItemsAuthenticated : accountMenuItems}
+    </StyledMenu>
   </>;
-  /* return <NavDropdown icon="user" name={translate('global.menu.account.main')} id="account-menu">
-    {isAuthenticated ? accountMenuItemsAuthenticated : accountMenuItems}
-  </NavDropdown>;*/
 };
 
 export default AccountMenu;

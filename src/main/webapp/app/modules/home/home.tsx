@@ -23,8 +23,8 @@ export const Home = (props: IHomeProp) => {
         <Card>
           <AppBar position="static" color="default">
             <Tabs aria-label="simple tabs example" value={activeTab} onChange={(event, value) => {setActiveTab(value)}}>
-              <Tab id={'toll-0'} label={translate('home.tabs.freeWayTolls')} icon={<img alt={translate('home.tabs.freeWayTolls')} src="../../../../content/images/Freeway.png"/>}/>
-              <Tab disabled={true} id={'toll-1'} label={translate('home.tabs.marginalTolls')} icon={<img alt={translate('home.tabs.marginalTolls')} src="../../../../content/images/park.png"/>}/>
+              <Tab id={'toll-0'} label={translate('home.tabs.marginalTolls')} icon={<img alt={translate('home.tabs.marginalTolls')} src="../../../../content/images/park.png"/>}/>
+              <Tab disabled={true} id={'toll-1'} label={translate('home.tabs.freeWayTolls')} icon={<img alt={translate('home.tabs.freeWayTolls')} src="../../../../content/images/Freeway.png"/>}/>
             </Tabs>
           </AppBar>
           <CardContent>
@@ -34,7 +34,7 @@ export const Home = (props: IHomeProp) => {
               id={`toll-0`}
               aria-labelledby={`simple-tab-0`}
             >
-              <Freeway createEntity={createEntity} tollRequestEntity={null}/>
+              <Marginal/>
             </div>
             <div
               role="tabpanel"
@@ -42,7 +42,7 @@ export const Home = (props: IHomeProp) => {
               id={`toll-1`}
               aria-labelledby={`simple-tab-1`}
             >
-              <Marginal/>
+              <Freeway createEntity={createEntity} tollRequestEntity={null}/>
             </div>
           </CardContent>
         </Card>

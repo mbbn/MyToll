@@ -2,7 +2,7 @@ import './header.scss';
 
 import React, {useState, useEffect} from 'react';
 import {Translate, Storage} from 'react-jhipster';
-import {AppBar, Toolbar, Link} from '@material-ui/core';
+import {AppBar, Toolbar, Link, Drawer, List, ListItem} from '@material-ui/core';
 import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import LoadingBar from 'react-redux-loading-bar';
@@ -73,7 +73,6 @@ const Header = (props: IHeaderProps) => {
           {props.isAuthenticated && props.isAdmin && (
             <AdminMenu showSwagger={props.isSwaggerEnabled} showDatabase={!props.isInProduction} />
           )}
-          <LocaleMenu currentLocale={props.currentLocale} onClick={handleLocaleChange} />
           <AccountMenu isAuthenticated={props.isAuthenticated} />
           <Brand/>
         </Toolbar>

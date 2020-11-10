@@ -7,9 +7,9 @@ export interface ISelectProps {
 }
 
 const Select = (props: ISelectProps & SelectProps) => {
-  const {name, variant, children} = props;
+  const {name, style, variant, children} = props;
   return (
-    <FormControl>
+    <FormControl style={style}>
       <MuiSelect fullWidth={true} name={name} variant={variant ? variant : "outlined"} {...props}>
         {children}
       </MuiSelect>

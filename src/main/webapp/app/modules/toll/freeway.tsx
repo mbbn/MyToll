@@ -14,24 +14,24 @@ import {IRootState} from "app/shared/reducers";
 export interface IFreewayProps extends StateProps, DispatchProps {}
 
 export const Freeway = (props: IFreewayProps) => {
-  const { tollRequestEntity } = props;
+  const {tollRequestEntity} = props;
 
   const isValid = (values: any) => {
     const errors = {};
     if (!values['plate']) {
       errors['plate'] = translate('myTollApp.plateBill.error.plateIsNull');
-    } else if(!(/^[0-9]{9}$/g).test(values['plate'])){
+    } else if (!(/^[0-9]{9}$/g).test(values['plate'])) {
       errors['plate'] = translate('myTollApp.plateBill.error.invalidPlate');
     }
     if (!values['mobile']) {
       errors['mobile'] = translate('myTollApp.plateBill.error.mobileIsNull');
-    } else if(!/^09[0-9]{9}$/g.test(values['mobile'])){
+    } else if (!/^09[0-9]{9}$/g.test(values['mobile'])) {
       errors['mobile'] = translate('myTollApp.plateBill.error.invalidMobile');
     }
-    if(!values['fromDate']){
+    if (!values['fromDate']) {
       errors['fromDate'] = translate('myTollApp.plateBill.error.fromDateIsNull');
     }
-    if(!values['toDate']){
+    if (!values['toDate']) {
       errors['toDate'] = translate('myTollApp.plateBill.error.toDateIsNull');
     }
     return errors;
