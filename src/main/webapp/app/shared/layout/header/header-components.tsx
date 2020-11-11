@@ -18,7 +18,7 @@ export const Brand = props => (
       <span className="brand-title">
       <Translate contentKey="global.title">MyToll</Translate>
     </span>
-      <span className="navbar-version">{appConfig.VERSION}</span>
+      {/*<span className="navbar-version">{appConfig.VERSION}</span>*/}
     </IconButton>
   </Tooltip>);
 

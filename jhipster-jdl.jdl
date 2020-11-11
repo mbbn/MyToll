@@ -45,13 +45,20 @@ enum PlateAlphabet {
 
 @dto
 @service(serviceClass)
-entity PlateBill {
-	category BillCategory required
+entity Bill {
+	category TaxCategory required
+	billType String required
+	billTypeTitle String required
+	street String required
     fromDate LocalDate required
     toDate LocalDate required
+    billId String required
+    amount Integer required
+    externalNumber String required
+    billDate LocalDate required
 }
 
-enum BillCategory {
+enum TaxCategory {
 	SIDEPARK,
     HIGHWAY,
     PARKING,
@@ -69,12 +76,12 @@ entity TollRequest{
 
 relationship ManyToOne {
     BaseInfo{group} to BaseInfo
-    PlateBill{billType} to BaseInfo
+    Bill{billType} to BaseInfo
 }
 
 relationship OneToMany {
     Customer{plates} to Plate
-    Plate{bills} to PlateBill
+    Plate{bills} to Bill
 }
 
 dto TollRequest with mapstruct
