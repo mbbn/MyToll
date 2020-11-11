@@ -60,7 +60,7 @@ public class Plate implements Serializable {
 
     @OneToMany(mappedBy = "plate")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    private Set<PlateBill> bills = new HashSet<>();
+    private Set<Bill> bills = new HashSet<>();
 
     @ManyToOne
     @JsonIgnoreProperties(value = "plates", allowSetters = true)
@@ -166,29 +166,29 @@ public class Plate implements Serializable {
         this.lastUpdatedBy = lastUpdatedBy;
     }
 
-    public Set<PlateBill> getBills() {
+    public Set<Bill> getBills() {
         return bills;
     }
 
-    public Plate bills(Set<PlateBill> plateBills) {
-        this.bills = plateBills;
+    public Plate bills(Set<Bill> bills) {
+        this.bills = bills;
         return this;
     }
 
-    public Plate addBills(PlateBill plateBill) {
-        this.bills.add(plateBill);
-        plateBill.setPlate(this);
+    public Plate addBills(Bill bill) {
+        this.bills.add(bill);
+        bill.setPlate(this);
         return this;
     }
 
-    public Plate removeBills(PlateBill plateBill) {
-        this.bills.remove(plateBill);
-        plateBill.setPlate(null);
+    public Plate removeBills(Bill bill) {
+        this.bills.remove(bill);
+        bill.setPlate(null);
         return this;
     }
 
-    public void setBills(Set<PlateBill> plateBills) {
-        this.bills = plateBills;
+    public void setBills(Set<Bill> bills) {
+        this.bills = bills;
     }
 
     public Customer getCustomer() {

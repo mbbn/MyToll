@@ -1,0 +1,11 @@
+{
+  "myTollApp": {
+    "TaxCategory": {
+      "null": "",
+      "SIDEPARK": "SIDEPARK",
+      "HIGHWAY": "HIGHWAY",
+      "PARKING": "PARKING",
+      "CITYTAX": "CITYTAX"
+    }
+  }
+}

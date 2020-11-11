@@ -10,9 +10,9 @@
         "main": "ماهیت ها",
         "customer": "مشتری",
         "baseInfo": "اطلاعات پایه",
-        "plate": "پلاک",
-        "plateBill": "عوارض",
         "tollRequest": "درخواست عوارض",
+        "plate": "پلاک",
+        "bill": "قبض",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

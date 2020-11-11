@@ -13,9 +13,9 @@ import reducer, {
   getEntity,
   updateEntity,
   reset,
-} from 'app/entities/plate-bill/plate-bill.reducer';
+} from 'app/entities/bill/bill.reducer';
 import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
-import { IPlateBill, defaultValue } from 'app/shared/model/plate-bill.model';
+import { IBill, defaultValue } from 'app/shared/model/bill.model';
 
 describe('Entities reducer tests', () => {
   function isEmpty(element): boolean {
@@ -29,7 +29,7 @@ describe('Entities reducer tests', () => {
   const initialState = {
     loading: false,
     errorMessage: null,
-    entities: [] as ReadonlyArray<IPlateBill>,
+    entities: [] as ReadonlyArray<IBill>,
     entity: defaultValue,
     updating: false,
     updateSuccess: false,
@@ -60,7 +60,7 @@ describe('Entities reducer tests', () => {
 
   describe('Requests', () => {
     it('should set state to loading', () => {
-      testMultipleTypes([REQUEST(ACTION_TYPES.FETCH_PLATEBILL_LIST), REQUEST(ACTION_TYPES.FETCH_PLATEBILL)], {}, state => {
+      testMultipleTypes([REQUEST(ACTION_TYPES.FETCH_BILL_LIST), REQUEST(ACTION_TYPES.FETCH_BILL)], {}, state => {
         expect(state).toMatchObject({
           errorMessage: null,
           updateSuccess: false,
@@ -71,7 +71,7 @@ describe('Entities reducer tests', () => {
 
     it('should set state to updating', () => {
       testMultipleTypes(
-        [REQUEST(ACTION_TYPES.CREATE_PLATEBILL), REQUEST(ACTION_TYPES.UPDATE_PLATEBILL), REQUEST(ACTION_TYPES.DELETE_PLATEBILL)],
+        [REQUEST(ACTION_TYPES.CREATE_BILL), REQUEST(ACTION_TYPES.UPDATE_BILL), REQUEST(ACTION_TYPES.DELETE_BILL)],
         {},
         state => {
           expect(state).toMatchObject({
@@ -101,11 +101,11 @@ describe('Entities reducer tests', () => {
     it('should set a message in errorMessage', () => {
       testMultipleTypes(
         [
-          FAILURE(ACTION_TYPES.FETCH_PLATEBILL_LIST),
-          FAILURE(ACTION_TYPES.FETCH_PLATEBILL),
-          FAILURE(ACTION_TYPES.CREATE_PLATEBILL),
-          FAILURE(ACTION_TYPES.UPDATE_PLATEBILL),
-          FAILURE(ACTION_TYPES.DELETE_PLATEBILL),
+          FAILURE(ACTION_TYPES.FETCH_BILL_LIST),
+          FAILURE(ACTION_TYPES.FETCH_BILL),
+          FAILURE(ACTION_TYPES.CREATE_BILL),
+          FAILURE(ACTION_TYPES.UPDATE_BILL),
+          FAILURE(ACTION_TYPES.DELETE_BILL),
         ],
         'error message',
         state => {
@@ -124,7 +124,7 @@ describe('Entities reducer tests', () => {
       const payload = { data: [{ 1: 'fake1' }, { 2: 'fake2' }] };
       expect(
         reducer(undefined, {
-          type: SUCCESS(ACTION_TYPES.FETCH_PLATEBILL_LIST),
+          type: SUCCESS(ACTION_TYPES.FETCH_BILL_LIST),
           payload,
         })
       ).toEqual({
@@ -138,7 +138,7 @@ describe('Entities reducer tests', () => {
       const payload = { data: { 1: 'fake1' } };
       expect(
         reducer(undefined, {
-          type: SUCCESS(ACTION_TYPES.FETCH_PLATEBILL),
+          type: SUCCESS(ACTION_TYPES.FETCH_BILL),
           payload,
         })
       ).toEqual({
@@ -152,7 +152,7 @@ describe('Entities reducer tests', () => {
       const payload = { data: 'fake payload' };
       expect(
         reducer(undefined, {
-          type: SUCCESS(ACTION_TYPES.CREATE_PLATEBILL),
+          type: SUCCESS(ACTION_TYPES.CREATE_BILL),
           payload,
         })
       ).toEqual({
@@ -166,7 +166,7 @@ describe('Entities reducer tests', () => {
     it('should delete entity', () => {
       const payload = 'fake payload';
       const toTest = reducer(undefined, {
-        type: SUCCESS(ACTION_TYPES.DELETE_PLATEBILL),
+        type: SUCCESS(ACTION_TYPES.DELETE_BILL),
         payload,
       });
       expect(toTest).toMatchObject({
@@ -189,79 +189,79 @@ describe('Entities reducer tests', () => {
       axios.delete = sinon.stub().returns(Promise.resolve(resolvedObject));
     });
 
-    it('dispatches ACTION_TYPES.FETCH_PLATEBILL_LIST actions', async () => {
+    it('dispatches ACTION_TYPES.FETCH_BILL_LIST actions', async () => {
       const expectedActions = [
         {
-          type: REQUEST(ACTION_TYPES.FETCH_PLATEBILL_LIST),
+          type: REQUEST(ACTION_TYPES.FETCH_BILL_LIST),
         },
         {
-          type: SUCCESS(ACTION_TYPES.FETCH_PLATEBILL_LIST),
+          type: SUCCESS(ACTION_TYPES.FETCH_BILL_LIST),
           payload: resolvedObject,
         },
       ];
       await store.dispatch(getEntities()).then(() => expect(store.getActions()).toEqual(expectedActions));
     });
 
-    it('dispatches ACTION_TYPES.FETCH_PLATEBILL actions', async () => {
+    it('dispatches ACTION_TYPES.FETCH_BILL actions', async () => {
       const expectedActions = [
         {
-          type: REQUEST(ACTION_TYPES.FETCH_PLATEBILL),
+          type: REQUEST(ACTION_TYPES.FETCH_BILL),
         },
         {
-          type: SUCCESS(ACTION_TYPES.FETCH_PLATEBILL),
+          type: SUCCESS(ACTION_TYPES.FETCH_BILL),
           payload: resolvedObject,
         },
       ];
       await store.dispatch(getEntity(42666)).then(() => expect(store.getActions()).toEqual(expectedActions));
     });
 
-    it('dispatches ACTION_TYPES.CREATE_PLATEBILL actions', async () => {
+    it('dispatches ACTION_TYPES.CREATE_BILL actions', async () => {
       const expectedActions = [
         {
-          type: REQUEST(ACTION_TYPES.CREATE_PLATEBILL),
+          type: REQUEST(ACTION_TYPES.CREATE_BILL),
         },
         {
-          type: SUCCESS(ACTION_TYPES.CREATE_PLATEBILL),
+          type: SUCCESS(ACTION_TYPES.CREATE_BILL),
           payload: resolvedObject,
         },
         {
-          type: REQUEST(ACTION_TYPES.FETCH_PLATEBILL_LIST),
+          type: REQUEST(ACTION_TYPES.FETCH_BILL_LIST),
         },
         {
-          type: SUCCESS(ACTION_TYPES.FETCH_PLATEBILL_LIST),
+          type: SUCCESS(ACTION_TYPES.FETCH_BILL_LIST),
           payload: resolvedObject,
         },
       ];
       await store.dispatch(createEntity({ id: 1 })).then(() => expect(store.getActions()).toEqual(expectedActions));
     });
 
-    it('dispatches ACTION_TYPES.UPDATE_PLATEBILL actions', async () => {
+    it('dispatches ACTION_TYPES.UPDATE_BILL actions', async () => {
       const expectedActions = [
         {
-          type: REQUEST(ACTION_TYPES.UPDATE_PLATEBILL),
+          type: REQUEST(ACTION_TYPES.UPDATE_BILL),
         },
         {
-          type: SUCCESS(ACTION_TYPES.UPDATE_PLATEBILL),
+          type: SUCCESS(ACTION_TYPES.UPDATE_BILL),
           payload: resolvedObject,
         },
       ];
       await store.dispatch(updateEntity({ id: 1 })).then(() => expect(store.getActions()).toEqual(expectedActions));
     });
 
-    it('dispatches ACTION_TYPES.DELETE_PLATEBILL actions', async () => {
+    it('dispatches ACTION_TYPES.DELETE_BILL actions', async () => {
       const expectedActions = [
         {
-          type: REQUEST(ACTION_TYPES.DELETE_PLATEBILL),
+          type: REQUEST(ACTION_TYPES.DELETE_BILL),
         },
         {
-          type: SUCCESS(ACTION_TYPES.DELETE_PLATEBILL),
+          type: SUCCESS(ACTION_TYPES.DELETE_BILL),
           payload: resolvedObject,
         },
         {
-          type: REQUEST(ACTION_TYPES.FETCH_PLATEBILL_LIST),
+          type: REQUEST(ACTION_TYPES.FETCH_BILL_LIST),
         },
         {
-          type: SUCCESS(ACTION_TYPES.FETCH_PLATEBILL_LIST),
+          type: SUCCESS(ACTION_TYPES.FETCH_BILL_LIST),
           payload: resolvedObject,
         },
       ];

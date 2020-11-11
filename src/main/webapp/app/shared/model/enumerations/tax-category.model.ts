@@ -1,4 +1,4 @@
-export const enum BillCategory {
+export const enum TaxCategory {
   SIDEPARK = 'SIDEPARK',
 
   HIGHWAY = 'HIGHWAY',

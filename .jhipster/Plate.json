@@ -59,7 +59,7 @@
   "relationships": [
     {
       "relationshipType": "one-to-many",
-      "otherEntityName": "plateBill",
+      "otherEntityName": "bill",
       "otherEntityRelationshipName": "plate",
       "relationshipName": "bills"
     },

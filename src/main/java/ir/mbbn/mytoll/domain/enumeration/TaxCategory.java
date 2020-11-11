@@ -1,8 +1,8 @@
 package ir.mbbn.mytoll.domain.enumeration;
 
 /**
- * The BillCategory enumeration.
+ * The TaxCategory enumeration.
  */
-public enum BillCategory {
+public enum TaxCategory {
     SIDEPARK, HIGHWAY, PARKING, CITYTAX
 }
