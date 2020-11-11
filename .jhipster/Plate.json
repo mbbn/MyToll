@@ -71,7 +71,7 @@
       "otherEntityField": "id"
     }
   ],
-  "changelogDate": "20201107214245",
+  "changelogDate": "20201111153219",
   "entityTableName": "plate",
   "dto": "no",
   "pagination": "no",

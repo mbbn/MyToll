@@ -89,7 +89,7 @@
       "otherEntityField": "id"
     }
   ],
-  "changelogDate": "20201111151638",
+  "changelogDate": "20201111153319",
   "entityTableName": "bill",
   "dto": true,
   "pagination": "no",
