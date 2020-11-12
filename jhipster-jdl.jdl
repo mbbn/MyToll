@@ -76,7 +76,6 @@ entity TollRequest{
 
 relationship ManyToOne {
     BaseInfo{group} to BaseInfo
-    Bill{billType} to BaseInfo
 }
 
 relationship OneToMany {

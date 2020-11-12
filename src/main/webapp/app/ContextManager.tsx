@@ -33,7 +33,12 @@ const myTollTheme = createMuiTheme({
         fontSize: 20,
         color: red["600"]
       }
-    }
+    },
+    MuiButton:{
+      containedPrimary:{
+        color: common.white
+      },
+    },
   },
   props: {
     MuiOutlinedInput: {
@@ -60,7 +65,7 @@ const myTollTheme = createMuiTheme({
       contrastText: common.white
     },
     text:{
-      // primary: common.white
+
     }
   },
   direction: "rtl",

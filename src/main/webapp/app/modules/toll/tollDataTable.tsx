@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import {translate} from 'react-jhipster';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -25,11 +26,13 @@ export const TollDataTable = (props: ITollDataTableProps) => {
     <Table className={classes.table} aria-label="simple table">
       <TableHead>
         <TableRow>
-          <TableCell>Dessert (100g serving)</TableCell>
-          <TableCell align="right">Calories</TableCell>
-          <TableCell align="right">Fat&nbsp;(g)</TableCell>
-          <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-          <TableCell align="right">Protein&nbsp;(g)</TableCell>
+          <TableCell align="center">{translate('myTollApp.bill.billDate')}</TableCell>
+          <TableCell align="center">{translate('myTollApp.bill.plate')}</TableCell>
+          <TableCell align="center">{translate('myTollApp.bill.billTypeTitle')}</TableCell>
+          <TableCell align="center">{translate('myTollApp.bill.street')}</TableCell>
+          <TableCell align="center">{translate('myTollApp.bill.fromDate')}</TableCell>
+          <TableCell align="center">{translate('myTollApp.bill.toDate')}</TableCell>
+          <TableCell align="center">{translate('myTollApp.bill.amount')}</TableCell>
         </TableRow>
       </TableHead>
       <TableBody>

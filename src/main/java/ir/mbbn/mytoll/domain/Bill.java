@@ -69,10 +69,6 @@ public class Bill implements Serializable {
 
     @ManyToOne
     @JsonIgnoreProperties(value = "bills", allowSetters = true)
-    private BaseInfo billType;
-
-    @ManyToOne
-    @JsonIgnoreProperties(value = "bills", allowSetters = true)
     private Plate plate;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

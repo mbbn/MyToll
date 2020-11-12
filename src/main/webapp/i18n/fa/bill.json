@@ -16,18 +16,17 @@
       "detail": {
         "title": "Bill"
       },
-      "category": "Category",
-      "billType": "Bill Type",
-      "billTypeTitle": "Bill Type Title",
-      "street": "Street",
-      "fromDate": "From Date",
-      "toDate": "To Date",
-      "billId": "Bill Id",
-      "amount": "Amount",
-      "externalNumber": "External Number",
-      "billDate": "Bill Date",
-      "billType": "Bill Type",
-      "plate": "Plate"
+      "category": "دسته",
+      "billType": "نوع",
+      "billTypeTitle": "نوع قبض",
+      "street": "خیابان",
+      "fromDate": "از تاریخ",
+      "toDate": "تا تاریخ",
+      "billId": "شناسه قبض",
+      "amount": "مبلغ",
+      "externalNumber": "شماره خارجی",
+      "billDate": "ناریخ قبض",
+      "plate": "پلاک"
     }
   }
 }

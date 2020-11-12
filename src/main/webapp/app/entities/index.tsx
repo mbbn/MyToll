@@ -8,7 +8,6 @@ import BaseInfo from './base-info';
 import Customer from './customer';
 import Plate from './plate';
 import Bill from './bill';
-import TollRequest from './toll-request';
 /* jhipster-needle-add-route-import - JHipster will add routes here */
 
 const Routes = ({ match }) => (
@@ -19,7 +18,6 @@ const Routes = ({ match }) => (
       <ErrorBoundaryRoute path={`${match.url}customer`} component={Customer} />
       <ErrorBoundaryRoute path={`${match.url}plate`} component={Plate} />
       <ErrorBoundaryRoute path={`${match.url}bill`} component={Bill} />
-      <ErrorBoundaryRoute path={`${match.url}toll-request`} component={TollRequest} />
       {/* jhipster-needle-add-route-path - JHipster will add routes here */}
     </Switch>
   </div>
