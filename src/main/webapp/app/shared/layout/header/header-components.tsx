@@ -15,9 +15,9 @@ export const Brand = props => (
   <Tooltip title={translate('global.title')}>
     <IconButton href={"/"} className="brand-logo" style={{marginRight: 'auto'}} dir="ltr">
       <BrandIcon/>
-      <span className="brand-title">
-      <Translate contentKey="global.title">MyToll</Translate>
-    </span>
+      <span>
+        <Translate contentKey="global.title">MyToll</Translate>
+      </span>
       {/* <span className="navbar-version">{appConfig.VERSION}</span>*/}
     </IconButton>
   </Tooltip>);

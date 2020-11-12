@@ -7,8 +7,6 @@ import { Translate, translate, ICrudGetAction, ICrudGetAllAction, ICrudPutAction
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 
-import { IBaseInfo } from 'app/shared/model/base-info.model';
-import { getEntities as getBaseInfos } from 'app/entities/base-info/base-info.reducer';
 import { IPlate } from 'app/shared/model/plate.model';
 import { getEntities as getPlates } from 'app/entities/plate/plate.reducer';
 import { getEntity, updateEntity, createEntity, reset } from './bill.reducer';
@@ -19,11 +17,10 @@ import { mapIdList } from 'app/shared/util/entity-utils';
 export interface IBillUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
 export const BillUpdate = (props: IBillUpdateProps) => {
-  const [billTypeId, setBillTypeId] = useState('0');
   const [plateId, setPlateId] = useState('0');
   const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
 
-  const { billEntity, baseInfos, plates, loading, updating } = props;
+  const { billEntity, plates, loading, updating } = props;
 
   const handleClose = () => {
     props.history.push('/bill');
@@ -36,7 +33,6 @@ export const BillUpdate = (props: IBillUpdateProps) => {
       props.getEntity(props.match.params.id);
     }
 
-    props.getBaseInfos();
     props.getPlates();
   }, []);
 
@@ -224,21 +220,6 @@ export const BillUpdate = (props: IBillUpdateProps) => {
                 />
               </AvGroup>
               <AvGroup>
-                <Label for="bill-billType">
-                  <Translate contentKey="myTollApp.bill.billType">Bill Type</Translate>
-                </Label>
-                <AvInput id="bill-billType" type="select" className="form-control" name="billTypeId">
-                  <option value="" key="0" />
-                  {baseInfos
-                    ? baseInfos.map(otherEntity => (
-                        <option value={otherEntity.id} key={otherEntity.id}>
-                          {otherEntity.id}
-                        </option>
-                      ))
-                    : null}
-                </AvInput>
-              </AvGroup>
-              <AvGroup>
                 <Label for="bill-plate">
                   <Translate contentKey="myTollApp.bill.plate">Plate</Translate>
                 </Label>
@@ -275,7 +256,6 @@ export const BillUpdate = (props: IBillUpdateProps) => {
 };
 
 const mapStateToProps = (storeState: IRootState) => ({
-  baseInfos: storeState.baseInfo.entities,
   plates: storeState.plate.entities,
   billEntity: storeState.bill.entity,
   loading: storeState.bill.loading,
@@ -284,7 +264,6 @@ const mapStateToProps = (storeState: IRootState) => ({
 });
 
 const mapDispatchToProps = {
-  getBaseInfos,
   getPlates,
   getEntity,
   updateEntity,

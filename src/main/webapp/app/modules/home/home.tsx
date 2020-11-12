@@ -8,8 +8,6 @@ import {AppBar, Tabs, Tab, Card, CardHeader, CardContent, Grid} from '@material-
 import {Alert} from '@material-ui/lab';
 import {Freeway} from "app/modules/toll/freeway";
 import Marginal from "app/modules/toll/marginal";
-import TollDataTable from "app/modules/toll/tollDataTable";
-import {createEntity} from "app/entities/toll-request/toll-request.reducer";
 
 export type IHomeProp = StateProps;
 
@@ -42,7 +40,7 @@ export const Home = (props: IHomeProp) => {
               id={`toll-1`}
               aria-labelledby={`simple-tab-1`}
             >
-              <Freeway createEntity={createEntity} tollRequestEntity={null}/>
+              <Freeway/>
             </div>
           </CardContent>
         </Card>
@@ -76,11 +74,6 @@ export const Home = (props: IHomeProp) => {
                 </Alert>
               </div>
             )}
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent>
-            <TollDataTable/>
           </CardContent>
         </Card>
       </Grid>

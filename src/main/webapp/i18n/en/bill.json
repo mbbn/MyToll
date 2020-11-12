@@ -26,7 +26,6 @@
       "amount": "Amount",
       "externalNumber": "External Number",
       "billDate": "Bill Date",
-      "billType": "Bill Type",
       "plate": "Plate"
     }
   }

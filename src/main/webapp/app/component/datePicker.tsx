@@ -6,6 +6,7 @@ import JalaliUtils from "@date-io/jalaali";
 import {DatePicker as MuiDatePicker, DatePickerProps, MuiPickersUtilsProvider} from "@material-ui/pickers";
 
 jMoment.loadPersian({ dialect: "persian-modern", usePersianDigits: true });
+export const JALALI_DATE_FORMAT = 'jYYYY/jMM/jDD';
 
 export interface IDatePickerProps {
   name: string;
@@ -41,13 +42,24 @@ const DatePicker = (props: IDatePickerProps & DatePickerProps) => {
           fullWidth={true}
           inputVariant={'outlined'}
           error={error}
-          labelFunc={date => (date ? date.format("jYYYY/jMM/jDD") : '')}
+          labelFunc={date => (date ? date.format(JALALI_DATE_FORMAT) : '')}
           value={selectedDate}
           onBlur={props.onBlur}
           onChange={OnChangeDate} required={required}/>
       </MuiPickersUtilsProvider>
       <FormHelperText error={error}>{helperText}</FormHelperText>
     </FormControl>);
+};
+
+export const dateStrToJalaliWithFormat:(dateStr: string, dateFormat: string)=>string = (dateStr, dateFormat) => {
+  if(!dateStr || dateStr.length === 0){
+    return null;
+  }
+  return jMoment(dateStr).format(dateFormat);
+};
+
+export const dateStrToJalali:(dateStr: string)=>string = (dateStr) => {
+  return dateStrToJalaliWithFormat(dateStr, JALALI_DATE_FORMAT);
 };
 
 export default DatePicker;

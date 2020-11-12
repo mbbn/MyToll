@@ -86,10 +86,6 @@ export const BillDetail = (props: IBillDetailProps) => {
           </dt>
           <dd>{billEntity.billDate ? <TextFormat value={billEntity.billDate} type="date" format={APP_LOCAL_DATE_FORMAT} /> : null}</dd>
           <dt>
-            <Translate contentKey="myTollApp.bill.billType">Bill Type</Translate>
-          </dt>
-          <dd>{billEntity.billTypeId ? billEntity.billTypeId : ''}</dd>
-          <dt>
             <Translate contentKey="myTollApp.bill.plate">Plate</Translate>
           </dt>
           <dd>{billEntity.plateId ? billEntity.plateId : ''}</dd>

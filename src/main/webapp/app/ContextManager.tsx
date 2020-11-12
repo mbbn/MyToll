@@ -11,9 +11,16 @@ const myTollTheme = createMuiTheme({
         },
       }
     },
-    MuiIconButton: {
+    MuiToolbar: {
       root:{
         color: common.white,
+      }
+    },
+    MuiIconButton: {
+      root:{
+        color: 'inherit'
+      },
+      label:{
       }
     },
     MuiFormControl:{
@@ -34,11 +41,22 @@ const myTollTheme = createMuiTheme({
         color: red["600"]
       }
     },
-    MuiButton:{
-      containedPrimary:{
-        color: common.white
+    MuiTable:{
+      stickyHeader:{
+        backgroundColor: red["500"]
+      }
+    },
+    MuiTableRow: {
+      head: {
+        color: common.white,
+        backgroundColor: grey["900"]
       },
     },
+    MuiTableCell: {
+      head:{
+        color: common.white,
+      }
+    }
   },
   props: {
     MuiOutlinedInput: {
@@ -53,8 +71,8 @@ const myTollTheme = createMuiTheme({
     },
     MuiSelect:{
       style:{
-        // fontSize: 'large',
-        // textAlign: 'center'
+        fontSize: 'large',
+        textAlign: 'center'
       },
     },
   },

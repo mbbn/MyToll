@@ -1,21 +1,21 @@
 import React from 'react';
+import {useHistory} from 'react-router-dom';
 import {Button} from '@material-ui/core'
 import Grid from '@material-ui/core/Grid';
 import {Formik} from 'formik';
 import {translate} from 'react-jhipster';
 import Plate from "app/component/plate";
-import TextField from "app/component/TextField";
-import DatePicker from "app/component/DatePicker";
+import TextField from "app/component/textField";
+import DatePicker from "app/component/datePicker";
 import {connect} from 'react-redux';
-import {createEntity} from 'app/entities/toll-request/toll-request.reducer';
-import {convertDateTimeToServer} from "app/shared/util/date-utils";
 import {IRootState} from "app/shared/reducers";
-import {Freeway} from "app/modules/toll/freeway";
+import {convertDateTimeToServer} from "app/shared/util/date-utils";
+import {getBills} from 'app/entities/toll-request/toll-request.reducer';
 
-export interface IMarginalProps extends StateProps, DispatchProps {}
+export interface IMarginalProps extends StateProps, DispatchProps{}
 
 export const Marginal = (props: IMarginalProps) => {
-  const {tollRequestEntity} = props;
+  const history = useHistory();
 
   const isValid = (values: any) => {
     const errors = {};
@@ -43,10 +43,14 @@ export const Marginal = (props: IMarginalProps) => {
     values.toDate = convertDateTimeToServer(values.toDate);
 
     const entity = {
-      ...tollRequestEntity,
       ...values
     };
-    props.createEntity(entity);
+    getBills(entity).payload.then(response => {
+      history.push({
+        pathname: '/toll-request',
+        state: response.data
+      });
+    });
   };
 
   return (<>
@@ -59,8 +63,9 @@ export const Marginal = (props: IMarginalProps) => {
           <TextField name={'mobile'} onBlur={handleBlur} maxLength={11} required
                      error={errors['mobile'] !== undefined} helperText={errors['mobile']}
                      label={translate('myTollApp.customer.mobile')} onChange={event => {
-            if(isNaN(Number(event.target.value))){
-              event.target.value = values['mobile'];
+            const reg = /^\d+$/;
+            if(!reg.test(event.target.value) && event.target.value.length > 0){
+              event.target.value = values['mobile'] ? values['mobile'] :'';
             }
             handleChange(event);
           }}/>
@@ -86,14 +91,12 @@ export const Marginal = (props: IMarginalProps) => {
 };
 
 const mapStateToProps = (storeState: IRootState) => ({
-  tollRequestEntity: storeState.tollRequest.entity,
 });
 
 const mapDispatchToProps = {
-  createEntity,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;
 
-export default connect(mapStateToProps, mapDispatchToProps)(Freeway);
+export default connect(mapStateToProps, mapDispatchToProps)(Marginal);

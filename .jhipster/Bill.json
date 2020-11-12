@@ -76,13 +76,6 @@
   "relationships": [
     {
       "relationshipType": "many-to-one",
-      "otherEntityName": "baseInfo",
-      "otherEntityRelationshipName": "bill",
-      "relationshipName": "billType",
-      "otherEntityField": "id"
-    },
-    {
-      "relationshipType": "many-to-one",
       "otherEntityName": "plate",
       "otherEntityRelationshipName": "bills",
       "relationshipName": "plate",

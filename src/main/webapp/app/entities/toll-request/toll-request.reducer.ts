@@ -8,13 +8,14 @@ import {IBill} from "app/shared/model/bill.model";
 import {cleanEntity} from "app/shared/util/entity-utils";
 
 export const ACTION_TYPES = {
-  GET_PLATEBILLS: 'tollRequest/GET_PLATEBILLS',
+  GET_BILLS: 'tollRequest/GET_BILLS',
 };
 
 const initialState = {
   loading: false,
   errorMessage: null,
   entity: defaultValue,
+  bills:[] as ReadonlyArray<IBill>,
   updating: false,
   updateSuccess: false,
 };
@@ -25,9 +26,9 @@ export type TollRequestState = Readonly<typeof initialState>;
 
 export default (state: TollRequestState = initialState, action): TollRequestState => {
   switch (action.type) {
-    case REQUEST(ACTION_TYPES.GET_PLATEBILLS):
-    case FAILURE(ACTION_TYPES.GET_PLATEBILLS):
-    case SUCCESS(ACTION_TYPES.GET_PLATEBILLS):
+    case REQUEST(ACTION_TYPES.GET_BILLS):
+    case FAILURE(ACTION_TYPES.GET_BILLS):
+    case SUCCESS(ACTION_TYPES.GET_BILLS):
     default:
       return state;
   }
@@ -36,7 +37,7 @@ export default (state: TollRequestState = initialState, action): TollRequestStat
 const apiUrl = 'api/toll-requests';
 
 // Actions
-export const createEntity: (data: ITollRequest) => IPayload<IBill> = entity => ({
-  type: ACTION_TYPES.GET_PLATEBILLS,
-  payload: axios.post<ITollRequest, IBill>(apiUrl,  cleanEntity(entity)).then(),
+export const getBills: (data: ITollRequest) => IPayload<IBill> = entity => ({
+  type: ACTION_TYPES.GET_BILLS,
+  payload: axios.post(apiUrl, cleanEntity(entity)),
 });

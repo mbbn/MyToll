@@ -4,8 +4,8 @@ import { translate} from 'react-jhipster';
 import Grid from '@material-ui/core/Grid';
 import {Theme} from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
-import TextField from "app/component/TextField";
-import Select from "app/component/Select";
+import TextField from "app/component/textField";
+import Select from "app/component/select";
 import myTollTheme from "app/ContextManager";
 
 export interface IPlateProps {

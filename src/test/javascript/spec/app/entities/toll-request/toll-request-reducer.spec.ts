@@ -7,7 +7,6 @@ import sinon from 'sinon';
 
 import reducer, {
   ACTION_TYPES,
-  createEntity,
 } from 'app/entities/toll-request/toll-request.reducer';
 import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
 import { ITollRequest, defaultValue } from 'app/shared/model/toll-request.model';

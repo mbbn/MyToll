@@ -210,19 +210,6 @@ public class Bill implements Serializable {
         this.billDate = billDate;
     }
 
-    public BaseInfo getBillType() {
-        return billType;
-    }
-
-    public Bill billType(BaseInfo baseInfo) {
-        this.billType = baseInfo;
-        return this;
-    }
-
-    public void setBillType(BaseInfo baseInfo) {
-        this.billType = baseInfo;
-    }
-
     public Plate getPlate() {
         return plate;
     }

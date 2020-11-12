@@ -1,7 +1,7 @@
 package ir.mbbn.mytoll.web.rest;
 
+import ir.mbbn.mytoll.domain.Bill;
 import ir.mbbn.mytoll.domain.TollRequest;
-import ir.mbbn.mytoll.service.dto.PlateBillDTO;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.net.URISyntaxException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,8 +35,20 @@ public class TollRequestResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of plate bills in body.
      */
     @PostMapping("/toll-requests")
-    public List<PlateBillDTO> getPlateBills(@Valid @RequestBody TollRequest tollRequest) throws URISyntaxException {
+    public List<Bill> getPlateBills(@Valid @RequestBody TollRequest tollRequest) throws URISyntaxException {
         log.debug("REST request to get Plate Bills");
-        return new ArrayList<>();
+        ArrayList<Bill> bills = new ArrayList<>();
+        for (long i = 0; i < 10; i++) {
+            Bill e = new Bill();
+            e.setId(i);
+            e.setAmount(10);
+            e.billDate(LocalDate.now());
+            e.setBillTypeTitle("پارک حاشیه");
+            e.setStreet("خیابان جم");
+            e.fromDate(LocalDate.now());
+            e.toDate(LocalDate.now());
+            bills.add(e);
+        }
+        return bills;
     }
 }

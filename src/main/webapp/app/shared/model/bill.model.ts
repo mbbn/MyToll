@@ -13,7 +13,6 @@ export interface IBill {
   amount?: number;
   externalNumber?: string;
   billDate?: string;
-  billTypeId?: number;
   plateId?: number;
 }
 

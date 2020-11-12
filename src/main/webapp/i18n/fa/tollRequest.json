@@ -2,10 +2,10 @@
   "myTollApp": {
     "tollRequest": {
       "home": {
-        "title": "Toll Requests",
+        "title": "لیست عوارض پارک حاشیه ای",
         "createLabel": "Create a new Toll Request",
         "createOrEditLabel": "Create or edit a Toll Request",
-        "notFound": "No Toll Requests found"
+        "notFound": "قبضی برای شما یافت نشد"
       },
       "created": "A new Toll Request is created with identifier {{ param }}",
       "updated": "A Toll Request is updated with identifier {{ param }}",
