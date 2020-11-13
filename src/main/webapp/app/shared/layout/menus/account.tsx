@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import {IconButton, Tooltip} from '@material-ui/core';
-import Menu, { MenuProps } from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { translate } from 'react-jhipster';
+import {useHistory} from 'react-router';
+import {withStyles} from '@material-ui/core/styles';
+import {Tooltip, Menu, MenuProps, MenuItem, ListItemIcon, ListItemText} from '@material-ui/core';
+import {common} from '@material-ui/core/colors';
+import {AccountCircle, Input, PersonAdd, Lock, ExitToApp} from '@material-ui/icons';
+import {translate} from 'react-jhipster';
 
 const StyledMenu = withStyles({
   paper: {
@@ -26,61 +26,53 @@ const StyledMenu = withStyles({
   />
 ));
 
-const StyledMenuItem = withStyles((theme) => ({
-  root: {
-    '&:focus': {
-      backgroundColor: theme.palette.primary.main,
-      '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
-        color: theme.palette.common.white,
-      },
-    },
-  },
-}))(MenuItem);
-
-const accountMenuItemsAuthenticated = (
-  <>
-     <StyledMenuItem>
-       <FontAwesomeIcon icon={'wrench'}/>
-       {translate('global.menu.account.settings')}
-    </StyledMenuItem>
-    <StyledMenuItem>
-      <FontAwesomeIcon icon={'lock'}/>
-      {translate('global.menu.account.password')}
-    </StyledMenuItem>
-    <StyledMenuItem>
-      <FontAwesomeIcon icon={'sign-out-alt'}/>
-      {translate('global.menu.account.logout')}
-    </StyledMenuItem>
-  </>
-);
-
-const accountMenuItems = (
-  <>
-    <StyledMenuItem id="login-item">
-      <FontAwesomeIcon icon={'sign-in-alt'}/>
-      {translate('global.menu.account.login')}
-    </StyledMenuItem>
-    <StyledMenuItem>
-      <FontAwesomeIcon icon={'sign-in-alt'}/>
-      {translate('global.menu.account.register')}
-    </StyledMenuItem>
-  </>
-);
-
 export const AccountMenu = ({ isAuthenticated = false }) => {
   const [adminMenu, setAdminMenu] = useState(null);
+  const history = useHistory();
   return <>
     <Tooltip title={translate('global.menu.account.main')}>
-      <IconButton aria-controls="account-menu" aria-haspopup="true" onClick={(event)=>{setAdminMenu(event.currentTarget)}}>
-        <FontAwesomeIcon icon={'user'}/>
-      </IconButton>
+      <ListItemIcon aria-controls="account-menu" aria-haspopup="true" onClick={(event)=>{setAdminMenu(event.currentTarget)}}>
+        <AccountCircle style={{color: common.white}}/>
+      </ListItemIcon>
     </Tooltip>
     <StyledMenu id="account-menu"
           anchorEl={adminMenu}
           keepMounted
           onClose={() => setAdminMenu(false)}
           open={Boolean(adminMenu)}>
-      {isAuthenticated ? accountMenuItemsAuthenticated : accountMenuItems}
+      {isAuthenticated ? <>
+        <MenuItem onClick={()=>{history.push('./account/settings');setAdminMenu(false);}}>
+          <ListItemIcon>
+            <AccountCircle/>
+          </ListItemIcon>
+          <ListItemText>{translate('global.menu.account.settings')}</ListItemText>
+        </MenuItem>
+        <MenuItem onClick={()=>{history.push('./account/password');setAdminMenu(false);}}>
+          <ListItemIcon>
+            <Lock/>
+          </ListItemIcon>
+          <ListItemText>{translate('global.menu.account.password')}</ListItemText>
+        </MenuItem>
+        <MenuItem onClick={()=>{history.push('./logout');setAdminMenu(false);}}>
+          <ListItemIcon>
+            <ExitToApp/>
+          </ListItemIcon>
+          <ListItemText>{translate('global.menu.account.logout')}</ListItemText>
+        </MenuItem>
+      </> : <>
+        <MenuItem onClick={()=>{history.push('./login');setAdminMenu(false);}}>
+          <ListItemIcon>
+            <Input/>
+          </ListItemIcon>
+          <ListItemText>{translate('global.menu.account.login')}</ListItemText>
+        </MenuItem>
+        <MenuItem onClick={()=>{history.push('./account/register');setAdminMenu(false);}}>
+          <ListItemIcon>
+            <PersonAdd/>
+          </ListItemIcon>
+          <ListItemText>{translate('global.menu.account.register')}</ListItemText>
+        </MenuItem>
+          </>}
     </StyledMenu>
   </>;
 };

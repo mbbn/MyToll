@@ -3,6 +3,7 @@ package ir.mbbn.mytoll.web.rest;
 import ir.mbbn.mytoll.domain.Bill;
 import ir.mbbn.mytoll.domain.TollRequest;
 
+import ir.mbbn.mytoll.service.TollRequestService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,6 +30,12 @@ public class TollRequestResource {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
+    private final TollRequestService tollRequestService;
+
+    public TollRequestResource(TollRequestService tollRequestService) {
+        this.tollRequestService = tollRequestService;
+    }
+
     /**
      * {@code GET  /toll-requests} : get the plate bills.
      *
@@ -37,18 +44,6 @@ public class TollRequestResource {
     @PostMapping("/toll-requests")
     public List<Bill> getPlateBills(@Valid @RequestBody TollRequest tollRequest) throws URISyntaxException {
         log.debug("REST request to get Plate Bills");
-        ArrayList<Bill> bills = new ArrayList<>();
-        for (long i = 0; i < 10; i++) {
-            Bill e = new Bill();
-            e.setId(i);
-            e.setAmount(10);
-            e.billDate(LocalDate.now());
-            e.setBillTypeTitle("پارک حاشیه");
-            e.setStreet("خیابان جم");
-            e.fromDate(LocalDate.now());
-            e.toDate(LocalDate.now());
-            bills.add(e);
-        }
-        return bills;
+        return tollRequestService.getPlateBills(tollRequest);
     }
 }

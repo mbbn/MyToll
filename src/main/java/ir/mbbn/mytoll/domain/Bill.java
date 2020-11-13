@@ -9,6 +9,7 @@ import javax.validation.constraints.*;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 
 import ir.mbbn.mytoll.domain.enumeration.TaxCategory;
 
@@ -45,11 +46,11 @@ public class Bill implements Serializable {
 
     @NotNull
     @Column(name = "from_date", nullable = false)
-    private LocalDate fromDate;
+    private ZonedDateTime fromDate;
 
     @NotNull
     @Column(name = "to_date", nullable = false)
-    private LocalDate toDate;
+    private ZonedDateTime toDate;
 
     @NotNull
     @Column(name = "bill_id", nullable = false)
@@ -65,7 +66,7 @@ public class Bill implements Serializable {
 
     @NotNull
     @Column(name = "bill_date", nullable = false)
-    private LocalDate billDate;
+    private ZonedDateTime billDate;
 
     @ManyToOne
     @JsonIgnoreProperties(value = "bills", allowSetters = true)
@@ -132,29 +133,29 @@ public class Bill implements Serializable {
         this.street = street;
     }
 
-    public LocalDate getFromDate() {
+    public ZonedDateTime getFromDate() {
         return fromDate;
     }
 
-    public Bill fromDate(LocalDate fromDate) {
+    public Bill fromDate(ZonedDateTime fromDate) {
         this.fromDate = fromDate;
         return this;
     }
 
-    public void setFromDate(LocalDate fromDate) {
+    public void setFromDate(ZonedDateTime fromDate) {
         this.fromDate = fromDate;
     }
 
-    public LocalDate getToDate() {
+    public ZonedDateTime getToDate() {
         return toDate;
     }
 
-    public Bill toDate(LocalDate toDate) {
+    public Bill toDate(ZonedDateTime toDate) {
         this.toDate = toDate;
         return this;
     }
 
-    public void setToDate(LocalDate toDate) {
+    public void setToDate(ZonedDateTime toDate) {
         this.toDate = toDate;
     }
 
@@ -197,16 +198,16 @@ public class Bill implements Serializable {
         this.externalNumber = externalNumber;
     }
 
-    public LocalDate getBillDate() {
+    public ZonedDateTime getBillDate() {
         return billDate;
     }
 
-    public Bill billDate(LocalDate billDate) {
+    public Bill billDate(ZonedDateTime billDate) {
         this.billDate = billDate;
         return this;
     }
 
-    public void setBillDate(LocalDate billDate) {
+    public void setBillDate(ZonedDateTime billDate) {
         this.billDate = billDate;
     }
 

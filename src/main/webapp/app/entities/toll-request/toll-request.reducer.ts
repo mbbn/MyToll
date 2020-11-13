@@ -39,5 +39,5 @@ const apiUrl = 'api/toll-requests';
 // Actions
 export const getBills: (data: ITollRequest) => IPayload<IBill> = entity => ({
   type: ACTION_TYPES.GET_BILLS,
-  payload: axios.post(apiUrl, cleanEntity(entity)),
+  payload: axios.post(apiUrl, cleanEntity(entity))
 });

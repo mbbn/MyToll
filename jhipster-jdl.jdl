@@ -50,12 +50,12 @@ entity Bill {
 	billType String required
 	billTypeTitle String required
 	street String required
-    fromDate LocalDate required
-    toDate LocalDate required
+    fromDate ZonedDateTime required
+    toDate ZonedDateTime required
     billId String required
     amount Integer required
     externalNumber String required
-    billDate LocalDate required
+    billDate ZonedDateTime required
 }
 
 enum TaxCategory {

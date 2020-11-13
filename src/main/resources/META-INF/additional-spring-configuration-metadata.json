@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "sepandar.host",
+      "type": "java.lang.String",
+      "description": "Description for sepandar.host."
+  }
+] }

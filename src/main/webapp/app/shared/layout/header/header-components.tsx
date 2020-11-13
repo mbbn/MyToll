@@ -1,6 +1,6 @@
 import React from 'react';
 import {Translate, translate} from 'react-jhipster';
-import {IconButton, Tooltip, Fab} from '@material-ui/core';
+import {IconButton, Tooltip} from '@material-ui/core';
 import {HomeSharp} from '@material-ui/icons';
 
 import appConfig from 'app/config/constants';
@@ -24,7 +24,7 @@ export const Brand = props => (
 
 export const Home = props => (
     <Tooltip title={translate('global.menu.home')}>
-      <IconButton>
+      <IconButton href={'./'}>
         <HomeSharp/>
       </IconButton>
     </Tooltip>);

@@ -16,12 +16,14 @@ import Footer from 'app/shared/layout/footer/footer';
 import {hasAnyAuthority} from 'app/shared/auth/private-route';
 import ErrorBoundary from 'app/shared/error/error-boundary';
 import {AUTHORITIES} from 'app/config/constants';
-import AppRoutes from 'app/routes';
 import {StylesProvider, jssPreset, ThemeProvider} from "@material-ui/core/styles";
 import {CssBaseline} from '@material-ui/core';
+import myTollTheme from "app/ContextManager";
+import AppRoutes from 'app/routes';
 import {create} from "jss";
 import rtl from "jss-rtl";
-import myTollTheme from "app/ContextManager";
+
+
 
 // Configure JSS
 const jss = create({ plugins: [...jssPreset().plugins, rtl()] });

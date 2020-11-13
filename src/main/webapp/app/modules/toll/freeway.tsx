@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import {useHistory} from 'react-router-dom';
 import {Button} from '@material-ui/core'
 import Grid from '@material-ui/core/Grid';
 import {Formik} from 'formik';
@@ -10,11 +9,15 @@ import DatePicker from "app/component/datePicker";
 import {connect} from 'react-redux';
 import {convertDateTimeToServer} from "app/shared/util/date-utils";
 import {IRootState} from "app/shared/reducers";
+import {IBill} from "app/shared/model/bill.model";
+import {getBills} from "app/entities/toll-request/toll-request.reducer";
 
-export interface IFreewayProps extends StateProps, DispatchProps{}
+export interface IFreewayProps extends StateProps, DispatchProps {
+  afterLoadBills?(bills: IBill[]): void;
+}
 
 export const Freeway = (props: IFreewayProps) => {
-  const history = useHistory();
+  const {afterLoadBills} = props;
 
   const isValid = (values: any) => {
     const errors = {};
@@ -44,7 +47,12 @@ export const Freeway = (props: IFreewayProps) => {
     const entity = {
       ...values
     };
-    history.push('/toll-request');
+    getBills(entity).payload.then(response => {
+      if (afterLoadBills) {
+        const bills = response.data as IBill[];
+        afterLoadBills(bills);
+      }
+    });
   };
 
   return (<>

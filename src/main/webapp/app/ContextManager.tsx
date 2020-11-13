@@ -11,14 +11,22 @@ const myTollTheme = createMuiTheme({
         },
       }
     },
+    MuiTypography: {
+      root:{
+        fontFamily: 'IRANSansWeb'
+      }
+    },
     MuiToolbar: {
       root:{
         color: common.white,
+        fontFamily: 'IRANSansWeb'
       }
     },
     MuiIconButton: {
       root:{
-        color: 'inherit'
+        color: 'inherit',
+        fontFamily: 'IRANSansWeb',
+        fontSize: "small"
       },
       label:{
       }
@@ -26,12 +34,19 @@ const myTollTheme = createMuiTheme({
     MuiFormControl:{
       root:{
         marginBottom: 10,
-        marginRight: 5
+        marginRight: 5,
+        fontFamily: 'IRANSansWeb'
+      }
+    },
+    MuiInputBase:{
+      root:{
+        fontFamily: 'IRANSansWeb'
       }
     },
     MuiInput:{
       root:{
-        fontSize: 'large',
+        fontFamily: 'IRANSansWeb',
+        // fontSize: 'large',
         textAlign: 'center',
       },
     },
@@ -65,13 +80,13 @@ const myTollTheme = createMuiTheme({
     MuiInputBase:{
       inputProps:{
         style:{
-          fontSize: 'large',
+          // fontSize: 'large',
         }
       }
     },
     MuiSelect:{
       style:{
-        fontSize: 'large',
+        // fontSize: 'large',
         textAlign: 'center'
       },
     },

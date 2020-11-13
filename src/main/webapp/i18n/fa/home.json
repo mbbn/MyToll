@@ -2,6 +2,7 @@
   "home": {
     "title": "خوش آمدید!",
     "subtitle": "این صفحه اصلی شماست",
+    "payNotify": "شما {{billCount}} قبض با مجموع مبلغ {{totalAmount}} ریال انتخاب کرده اید.",
     "logged": {
       "message": "شما وارد شدید با کاربر \"{{username}}\"."
     },

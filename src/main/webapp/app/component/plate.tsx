@@ -7,6 +7,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import TextField from "app/component/textField";
 import Select from "app/component/select";
 import myTollTheme from "app/ContextManager";
+import {persianNumber} from "app/shared/util/persian-utils";
 
 export interface IPlateProps {
   name: string;
@@ -93,12 +94,12 @@ const Plate = (props: IPlateProps) => {
       <Grid item xs={1} style={{
         borderTopLeftRadius: 7,
         borderBottomLeftRadius: 7,
-        background: "url('../../../../content/images/iran.png') 3px 5px / 80% no-repeat rgb(4, 111, 218)",
+        background: "url('./content/images/iran.png') 3px 5px / 80% no-repeat rgb(4, 111, 218)",
         minHeight : 70
       }}/>
       <Grid item xs={2}>
-        <TextField name={'part1'} value={part1} error={error} onChange={event => {OnChange(event, "part1")}} onFocus={OnFocused} onBlur={OnBlur} style={{margin: 0}}
-                   type={'number'} variant={"standard"} InputProps={{inputProps:{style:{textAlign: 'center'}},disableUnderline: true}} maxLength={2}/>
+        <TextField name={'part1'} value={part1} error={error} autoComplete={'off'} onChange={event => {OnChange(event, "part1")}} onFocus={OnFocused} onBlur={OnBlur} style={{margin: 0}}
+                   variant={"standard"} InputProps={{inputProps:{style:{textAlign: 'center'}},disableUnderline: true}} maxLength={2}/>
       </Grid>
       <Grid item xs={3}>
         <Select name={'part2'} value={part2} error={error} style={{margin: 0}} onChange={event => {
@@ -142,7 +143,7 @@ const Plate = (props: IPlateProps) => {
           </Select>
       </Grid>
       <Grid item xs={3}>
-        <TextField name={'part3'} value={part3} error={error} style={{margin: 0}} onChange={event => {
+        <TextField name={'part3'} value={part3} autoComplete={'off'} error={error} style={{margin: 0}} onChange={event => {
           OnChange(event, "part3")
         }} onFocus={OnFocused} onBlur={OnBlur} type={'number'} variant={"standard"}
                    InputProps={{inputProps: {style: {textAlign: 'center'}}, disableUnderline: true}} maxLength={3}/>
@@ -151,7 +152,7 @@ const Plate = (props: IPlateProps) => {
         <div style={{fontSize: 25, textAlign: 'center'}}>
           {translate('myTollApp.plate.iran')}
         </div>
-        <TextField name={'part4'} value={part4} error={error} style={{margin: 0}} onChange={event => {
+        <TextField name={'part4'} value={part4} autoComplete={'off'} error={error} style={{margin: 0}} onChange={event => {
           OnChange(event, "part4")
         }} onFocus={OnFocused} onBlur={OnBlur} type={'number'} variant={"standard"}
                    InputProps={{inputProps: {style: {textAlign: 'center'}}, disableUnderline: true}} maxLength={2}/>

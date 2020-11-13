@@ -1,6 +1,5 @@
 import React from 'react';
-import {useHistory} from 'react-router-dom';
-import {Button} from '@material-ui/core'
+import {Button, Backdrop, CircularProgress} from '@material-ui/core'
 import Grid from '@material-ui/core/Grid';
 import {Formik} from 'formik';
 import {translate} from 'react-jhipster';
@@ -11,11 +10,27 @@ import {connect} from 'react-redux';
 import {IRootState} from "app/shared/reducers";
 import {convertDateTimeToServer} from "app/shared/util/date-utils";
 import {getBills} from 'app/entities/toll-request/toll-request.reducer';
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import {IBill} from "app/shared/model/bill.model";
+import { toast } from 'react-toastify';
 
-export interface IMarginalProps extends StateProps, DispatchProps{}
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    backdrop: {
+      zIndex: theme.zIndex.drawer + 1,
+      color: '#fff',
+    },
+  }),
+);
+
+export interface IMarginalProps extends StateProps, DispatchProps {
+  afterLoadBills?(bills: IBill[]): void;
+}
 
 export const Marginal = (props: IMarginalProps) => {
-  const history = useHistory();
+  const {afterLoadBills} = props;
+  const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
 
   const isValid = (values: any) => {
     const errors = {};
@@ -45,15 +60,23 @@ export const Marginal = (props: IMarginalProps) => {
     const entity = {
       ...values
     };
+    setOpen(true);
     getBills(entity).payload.then(response => {
-      history.push({
-        pathname: '/toll-request',
-        state: response.data
-      });
+      if (afterLoadBills) {
+        const bills = response.data as IBill[];
+        afterLoadBills(bills);
+      }
+    }).catch(reason => {
+      toast.error(translate('global.messages.error.internalError'));
+    }).finally(()=>{
+      setOpen(false);
     });
   };
 
   return (<>
+    <Backdrop open={open} className={classes.backdrop}>
+      <CircularProgress color="inherit" />
+    </Backdrop>
     <Formik initialValues={{}} validate={values => isValid(values)} onSubmit={save}>{({handleSubmit, errors, values, handleChange, handleBlur, setFieldValue}) => (
       <form onSubmit={handleSubmit}>
         <Grid container>

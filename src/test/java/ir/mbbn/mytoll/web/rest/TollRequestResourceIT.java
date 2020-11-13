@@ -2,7 +2,6 @@ package ir.mbbn.mytoll.web.rest;
 
 import ir.mbbn.mytoll.MyTollApp;
 import ir.mbbn.mytoll.domain.TollRequest;
-import ir.mbbn.mytoll.repository.TollRequestRepository;
 import ir.mbbn.mytoll.service.TollRequestService;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -224,7 +223,7 @@ public class TollRequestResourceIT {
             .andExpect(jsonPath("$.[*].fromDate").value(hasItem(DEFAULT_FROM_DATE.toString())))
             .andExpect(jsonPath("$.[*].toDate").value(hasItem(DEFAULT_TO_DATE.toString())));
     }
-    
+
     @Test
     @Transactional
     public void getTollRequest() throws Exception {

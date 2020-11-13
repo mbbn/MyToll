@@ -1,7 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const MergeJsonWebpackPlugin = require('merge-jsons-webpack-plugin');
 const utils = require('./utils.js');
@@ -118,12 +117,6 @@ module.exports = options => ({
       // jhipster-needle-add-assets-to-webpack - JHipster will add/remove third-party resources in this array
       { from: './src/main/webapp/robots.txt', to: 'robots.txt' }
     ]),
-    new HtmlWebpackPlugin({
-      template: './src/main/webapp/index.html',
-      chunksSortMode: 'auto',
-      inject: 'body',
-      base: '/',
-    }),
     new MergeJsonWebpackPlugin({
       output: {
         groupBy: [
