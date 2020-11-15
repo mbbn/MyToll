@@ -3,6 +3,7 @@ package ir.mbbn.mytoll.web.rest;
 import ir.mbbn.mytoll.MyTollApp;
 import ir.mbbn.mytoll.domain.Bill;
 import ir.mbbn.mytoll.repository.BillRepository;
+import ir.mbbn.mytoll.service.BillService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,6 +38,9 @@ public class BillResourceIT {
 
     private static final TaxCategory DEFAULT_CATEGORY = TaxCategory.SIDEPARK;
     private static final TaxCategory UPDATED_CATEGORY = TaxCategory.HIGHWAY;
+
+    private static final String DEFAULT_PLATE = "AAAAAAAAA";
+    private static final String UPDATED_PLATE = "BBBBBBBBB";
 
     private static final String DEFAULT_BILL_TYPE = "AAAAAAAAAA";
     private static final String UPDATED_BILL_TYPE = "BBBBBBBBBB";
@@ -88,6 +92,7 @@ public class BillResourceIT {
     public static Bill createEntity(EntityManager em) {
         Bill bill = new Bill()
             .category(DEFAULT_CATEGORY)
+            .plate(DEFAULT_PLATE)
             .billType(DEFAULT_BILL_TYPE)
             .billTypeTitle(DEFAULT_BILL_TYPE_TITLE)
             .street(DEFAULT_STREET)
@@ -108,6 +113,7 @@ public class BillResourceIT {
     public static Bill createUpdatedEntity(EntityManager em) {
         Bill bill = new Bill()
             .category(UPDATED_CATEGORY)
+            .plate(UPDATED_PLATE)
             .billType(UPDATED_BILL_TYPE)
             .billTypeTitle(UPDATED_BILL_TYPE_TITLE)
             .street(UPDATED_STREET)
@@ -140,6 +146,7 @@ public class BillResourceIT {
         assertThat(billList).hasSize(databaseSizeBeforeCreate + 1);
         Bill testBill = billList.get(billList.size() - 1);
         assertThat(testBill.getCategory()).isEqualTo(DEFAULT_CATEGORY);
+        assertThat(testBill.getPlate()).isEqualTo(DEFAULT_PLATE);
         assertThat(testBill.getBillType()).isEqualTo(DEFAULT_BILL_TYPE);
         assertThat(testBill.getBillTypeTitle()).isEqualTo(DEFAULT_BILL_TYPE_TITLE);
         assertThat(testBill.getStreet()).isEqualTo(DEFAULT_STREET);
@@ -177,6 +184,25 @@ public class BillResourceIT {
         int databaseSizeBeforeTest = billRepository.findAll().size();
         // set the field null
         bill.setCategory(null);
+
+        // Create the Bill, which fails.
+
+
+        restBillMockMvc.perform(post("/api/bills")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(bill)))
+            .andExpect(status().isBadRequest());
+
+        List<Bill> billList = billRepository.findAll();
+        assertThat(billList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkPlateIsRequired() throws Exception {
+        int databaseSizeBeforeTest = billRepository.findAll().size();
+        // set the field null
+        bill.setPlate(null);
 
         // Create the Bill, which fails.
 
@@ -373,6 +399,7 @@ public class BillResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(bill.getId().intValue())))
             .andExpect(jsonPath("$.[*].category").value(hasItem(DEFAULT_CATEGORY.toString())))
+            .andExpect(jsonPath("$.[*].plate").value(hasItem(DEFAULT_PLATE)))
             .andExpect(jsonPath("$.[*].billType").value(hasItem(DEFAULT_BILL_TYPE)))
             .andExpect(jsonPath("$.[*].billTypeTitle").value(hasItem(DEFAULT_BILL_TYPE_TITLE)))
             .andExpect(jsonPath("$.[*].street").value(hasItem(DEFAULT_STREET)))
@@ -383,7 +410,7 @@ public class BillResourceIT {
             .andExpect(jsonPath("$.[*].externalNumber").value(hasItem(DEFAULT_EXTERNAL_NUMBER)))
             .andExpect(jsonPath("$.[*].billDate").value(hasItem(sameInstant(DEFAULT_BILL_DATE))));
     }
-
+    
     @Test
     @Transactional
     public void getBill() throws Exception {
@@ -396,6 +423,7 @@ public class BillResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(bill.getId().intValue()))
             .andExpect(jsonPath("$.category").value(DEFAULT_CATEGORY.toString()))
+            .andExpect(jsonPath("$.plate").value(DEFAULT_PLATE))
             .andExpect(jsonPath("$.billType").value(DEFAULT_BILL_TYPE))
             .andExpect(jsonPath("$.billTypeTitle").value(DEFAULT_BILL_TYPE_TITLE))
             .andExpect(jsonPath("$.street").value(DEFAULT_STREET))
@@ -428,6 +456,7 @@ public class BillResourceIT {
         em.detach(updatedBill);
         updatedBill
             .category(UPDATED_CATEGORY)
+            .plate(UPDATED_PLATE)
             .billType(UPDATED_BILL_TYPE)
             .billTypeTitle(UPDATED_BILL_TYPE_TITLE)
             .street(UPDATED_STREET)
@@ -448,6 +477,7 @@ public class BillResourceIT {
         assertThat(billList).hasSize(databaseSizeBeforeUpdate);
         Bill testBill = billList.get(billList.size() - 1);
         assertThat(testBill.getCategory()).isEqualTo(UPDATED_CATEGORY);
+        assertThat(testBill.getPlate()).isEqualTo(UPDATED_PLATE);
         assertThat(testBill.getBillType()).isEqualTo(UPDATED_BILL_TYPE);
         assertThat(testBill.getBillTypeTitle()).isEqualTo(UPDATED_BILL_TYPE_TITLE);
         assertThat(testBill.getStreet()).isEqualTo(UPDATED_STREET);

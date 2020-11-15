@@ -1,5 +1,5 @@
 import { Moment } from 'moment';
-import { IPlate } from 'app/shared/model/plate.model';
+import { IBill } from 'app/shared/model/bill.model';
 
 export interface ICustomer {
   id?: number;
@@ -8,7 +8,7 @@ export interface ICustomer {
   creationBy?: string;
   lastUpdateTime?: string;
   lastUpdatedBy?: string;
-  plates?: IPlate[];
+  bills?: IBill[];
 }
 
 export const defaultValue: Readonly<ICustomer> = {};

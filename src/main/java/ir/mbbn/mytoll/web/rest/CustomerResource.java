@@ -90,12 +90,18 @@ public class CustomerResource {
      * {@code GET  /customers} : get all the customers.
      *
      * @param pageable the pagination information.
+     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of customers in body.
      */
     @GetMapping("/customers")
-    public ResponseEntity<List<Customer>> getAllCustomers(Pageable pageable) {
+    public ResponseEntity<List<Customer>> getAllCustomers(Pageable pageable, @RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         log.debug("REST request to get a page of Customers");
-        Page<Customer> page = customerRepository.findAll(pageable);
+        Page<Customer> page;
+        if (eagerload) {
+            page = customerRepository.findAllWithEagerRelationships(pageable);
+        } else {
+            page = customerRepository.findAll(pageable);
+        }
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
@@ -109,7 +115,7 @@ public class CustomerResource {
     @GetMapping("/customers/{id}")
     public ResponseEntity<Customer> getCustomer(@PathVariable Long id) {
         log.debug("REST request to get Customer : {}", id);
-        Optional<Customer> customer = customerRepository.findById(id);
+        Optional<Customer> customer = customerRepository.findOneWithEagerRelationships(id);
         return ResponseUtil.wrapOrNotFound(customer);
     }
 

@@ -6,9 +6,14 @@ import ir.mbbn.mytoll.repository.CustomerRepository;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -18,11 +23,13 @@ import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.time.ZoneOffset;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
 
 import static ir.mbbn.mytoll.web.rest.TestUtil.sameInstant;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -30,6 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Integration tests for the {@link CustomerResource} REST controller.
  */
 @SpringBootTest(classes = MyTollApp.class)
+@ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
 @WithMockUser
 public class CustomerResourceIT {
@@ -51,6 +59,9 @@ public class CustomerResourceIT {
 
     @Autowired
     private CustomerRepository customerRepository;
+
+    @Mock
+    private CustomerRepository customerRepositoryMock;
 
     @Autowired
     private EntityManager em;
@@ -250,6 +261,26 @@ public class CustomerResourceIT {
             .andExpect(jsonPath("$.[*].lastUpdatedBy").value(hasItem(DEFAULT_LAST_UPDATED_BY)));
     }
     
+    @SuppressWarnings({"unchecked"})
+    public void getAllCustomersWithEagerRelationshipsIsEnabled() throws Exception {
+        when(customerRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restCustomerMockMvc.perform(get("/api/customers?eagerload=true"))
+            .andExpect(status().isOk());
+
+        verify(customerRepositoryMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    @SuppressWarnings({"unchecked"})
+    public void getAllCustomersWithEagerRelationshipsIsNotEnabled() throws Exception {
+        when(customerRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restCustomerMockMvc.perform(get("/api/customers?eagerload=true"))
+            .andExpect(status().isOk());
+
+        verify(customerRepositoryMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
     @Test
     @Transactional
     public void getCustomer() throws Exception {

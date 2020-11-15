@@ -45,9 +45,12 @@ public class Customer implements Serializable {
     @Column(name = "last_updated_by", nullable = false)
     private String lastUpdatedBy;
 
-    @OneToMany(mappedBy = "customer")
+    @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    private Set<Plate> plates = new HashSet<>();
+    @JoinTable(name = "customer_bills",
+               joinColumns = @JoinColumn(name = "customer_id", referencedColumnName = "id"),
+               inverseJoinColumns = @JoinColumn(name = "bills_id", referencedColumnName = "id"))
+    private Set<Bill> bills = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -123,29 +126,29 @@ public class Customer implements Serializable {
         this.lastUpdatedBy = lastUpdatedBy;
     }
 
-    public Set<Plate> getPlates() {
-        return plates;
+    public Set<Bill> getBills() {
+        return bills;
     }
 
-    public Customer plates(Set<Plate> plates) {
-        this.plates = plates;
+    public Customer bills(Set<Bill> bills) {
+        this.bills = bills;
         return this;
     }
 
-    public Customer addPlates(Plate plate) {
-        this.plates.add(plate);
-        plate.setCustomer(this);
+    public Customer addBills(Bill bill) {
+        this.bills.add(bill);
+        bill.getCustomers().add(this);
         return this;
     }
 
-    public Customer removePlates(Plate plate) {
-        this.plates.remove(plate);
-        plate.setCustomer(null);
+    public Customer removeBills(Bill bill) {
+        this.bills.remove(bill);
+        bill.getCustomers().remove(this);
         return this;
     }
 
-    public void setPlates(Set<Plate> plates) {
-        this.plates = plates;
+    public void setBills(Set<Bill> bills) {
+        this.bills = bills;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 

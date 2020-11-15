@@ -10,6 +10,17 @@
       ]
     },
     {
+      "fieldName": "plate",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "minlength",
+        "maxlength",
+        "required"
+      ],
+      "fieldValidateRulesMinlength": "9",
+      "fieldValidateRulesMaxlength": "9"
+    },
+    {
       "fieldName": "billType",
       "fieldType": "String",
       "fieldValidateRules": [
@@ -75,17 +86,18 @@
   ],
   "relationships": [
     {
-      "relationshipType": "many-to-one",
-      "otherEntityName": "plate",
-      "otherEntityRelationshipName": "bills",
-      "relationshipName": "plate",
-      "otherEntityField": "id"
-    },
-    {
       "relationshipType": "many-to-many",
       "otherEntityName": "payRequest",
       "otherEntityRelationshipName": "bills",
       "relationshipName": "payRequestList",
+      "otherEntityField": "id",
+      "ownerSide": false
+    },
+    {
+      "relationshipType": "many-to-many",
+      "otherEntityName": "customer",
+      "otherEntityRelationshipName": "bills",
+      "relationshipName": "customer",
       "otherEntityField": "id",
       "ownerSide": false
     }

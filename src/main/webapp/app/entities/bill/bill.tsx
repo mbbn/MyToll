@@ -40,6 +40,9 @@ export const Bill = (props: IBillProps) => {
                   <Translate contentKey="myTollApp.bill.category">Category</Translate>
                 </th>
                 <th>
+                  <Translate contentKey="myTollApp.bill.plate">Plate</Translate>
+                </th>
+                <th>
                   <Translate contentKey="myTollApp.bill.billType">Bill Type</Translate>
                 </th>
                 <th>
@@ -66,9 +69,6 @@ export const Bill = (props: IBillProps) => {
                 <th>
                   <Translate contentKey="myTollApp.bill.billDate">Bill Date</Translate>
                 </th>
-                <th>
-                  <Translate contentKey="myTollApp.bill.plate">Plate</Translate>
-                </th>
                 <th />
               </tr>
             </thead>
@@ -83,6 +83,7 @@ export const Bill = (props: IBillProps) => {
                   <td>
                     <Translate contentKey={`myTollApp.TaxCategory.${bill.category}`} />
                   </td>
+                  <td>{bill.plate}</td>
                   <td>{bill.billType}</td>
                   <td>{bill.billTypeTitle}</td>
                   <td>{bill.street}</td>
@@ -92,7 +93,6 @@ export const Bill = (props: IBillProps) => {
                   <td>{bill.amount}</td>
                   <td>{bill.externalNumber}</td>
                   <td>{bill.billDate ? <TextFormat type="date" value={bill.billDate} format={APP_DATE_FORMAT} /> : null}</td>
-                  <td>{bill.plateId ? <Link to={`plate/${bill.plateId}`}>{bill.plateId}</Link> : ''}</td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`${match.url}/${bill.id}`} color="info" size="sm">

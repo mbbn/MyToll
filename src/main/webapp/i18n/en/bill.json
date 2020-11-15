@@ -17,6 +17,7 @@
         "title": "Bill"
       },
       "category": "Category",
+      "plate": "Plate",
       "billType": "Bill Type",
       "billTypeTitle": "Bill Type Title",
       "street": "Street",
@@ -26,8 +27,8 @@
       "amount": "Amount",
       "externalNumber": "External Number",
       "billDate": "Bill Date",
-      "plate": "Plate",
-      "payRequestList": "Pay Request List"
+      "payRequestList": "Pay Request List",
+      "customer": "Customer"
     }
   }
 }

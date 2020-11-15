@@ -50,13 +50,13 @@ public class CacheConfiguration {
             createCache(cm, ir.mbbn.mytoll.domain.BaseInfo.class.getName());
             createCache(cm, ir.mbbn.mytoll.domain.Customer.class.getName());
             createCache(cm, ir.mbbn.mytoll.domain.Customer.class.getName() + ".plates");
-            createCache(cm, ir.mbbn.mytoll.domain.Plate.class.getName());
-            createCache(cm, ir.mbbn.mytoll.domain.Plate.class.getName() + ".bills");
             createCache(cm, ir.mbbn.mytoll.domain.TollRequest.class.getName());
             createCache(cm, ir.mbbn.mytoll.domain.Bill.class.getName());
             createCache(cm, ir.mbbn.mytoll.domain.Bill.class.getName() + ".payRequestLists");
             createCache(cm, ir.mbbn.mytoll.domain.PayRequest.class.getName());
             createCache(cm, ir.mbbn.mytoll.domain.PayRequest.class.getName() + ".bills");
+            createCache(cm, ir.mbbn.mytoll.domain.Customer.class.getName() + ".bills");
+            createCache(cm, ir.mbbn.mytoll.domain.Bill.class.getName() + ".customers");
             // jhipster-needle-ehcache-add-entry
         };
     }

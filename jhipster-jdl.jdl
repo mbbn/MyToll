@@ -21,21 +21,6 @@ entity Customer {
     lastUpdatedBy String required
 }
 
-entity Plate {
-	plain String minlength(8) maxlength(8) required
-    code Integer required
-    type PlateType required
-    creationTime ZonedDateTime required
-    creationBy String required
-    lastUpdateTime ZonedDateTime required
-    lastUpdatedBy String required
-}
-
-enum PlateType {
-	NORMAL,
-    FORMAL
-}
-
 enum PlateAlphabet {
     A10,A11,A12,A13,A14,A15,A16,A17,A18,A19,
     A20,A21,A22,A23,A24,A25,A26,A27,A28,A29,
@@ -44,9 +29,9 @@ enum PlateAlphabet {
 }
 
 @dto
-@service(serviceClass)
 entity Bill {
 	category TaxCategory required
+	plate String minlength(9) maxlength(9) required
 	billType String required
 	billTypeTitle String required
 	street String required
@@ -87,13 +72,9 @@ relationship ManyToOne {
     BaseInfo{group} to BaseInfo
 }
 
-relationship OneToMany {
-    Customer{plates} to Plate{customer}
-    Plate{bills} to Bill{plate}
-}
-
 relationship ManyToMany {
     PayRequest{bills} to Bill{payRequestList}
+    Customer{bills} to Bill{customer}
 }
 
 dto TollRequest with mapstruct

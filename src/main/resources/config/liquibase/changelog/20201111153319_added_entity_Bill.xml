@@ -19,6 +19,9 @@
             <column name="category" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
+            <column name="plate" type="varchar(9)">
+                <constraints nullable="false" />
+            </column>
             <column name="bill_type" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
@@ -45,9 +48,6 @@
             </column>
             <column name="bill_date" type="datetime">
                 <constraints nullable="false" />
-            </column>
-            <column name="plate_id" type="bigint">
-                <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
@@ -76,6 +76,7 @@
                   tableName="bill">
             <column name="id" type="numeric"/>
             <column name="category" type="string"/>
+            <column name="plate" type="string"/>
             <column name="bill_type" type="string"/>
             <column name="bill_type_title" type="string"/>
             <column name="street" type="string"/>

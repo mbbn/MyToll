@@ -1,7 +1,6 @@
 package ir.mbbn.mytoll.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -33,6 +32,11 @@ public class Bill implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "category", nullable = false)
     private TaxCategory category;
+
+    @NotNull
+    @Size(min = 9, max = 9)
+    @Column(name = "plate", length = 9, nullable = false)
+    private String plate;
 
     @NotNull
     @Column(name = "bill_type", nullable = false)
@@ -70,14 +74,15 @@ public class Bill implements Serializable {
     @Column(name = "bill_date", nullable = false)
     private ZonedDateTime billDate;
 
-    @ManyToOne
-    @JsonIgnoreProperties(value = "bills", allowSetters = true)
-    private Plate plate;
-
     @ManyToMany(mappedBy = "bills")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnore
     private Set<PayRequest> payRequestLists = new HashSet<>();
+
+    @ManyToMany(mappedBy = "bills")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnore
+    private Set<Customer> customers = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -99,6 +104,19 @@ public class Bill implements Serializable {
 
     public void setCategory(TaxCategory category) {
         this.category = category;
+    }
+
+    public String getPlate() {
+        return plate;
+    }
+
+    public Bill plate(String plate) {
+        this.plate = plate;
+        return this;
+    }
+
+    public void setPlate(String plate) {
+        this.plate = plate;
     }
 
     public String getBillType() {
@@ -218,19 +236,6 @@ public class Bill implements Serializable {
         this.billDate = billDate;
     }
 
-    public Plate getPlate() {
-        return plate;
-    }
-
-    public Bill plate(Plate plate) {
-        this.plate = plate;
-        return this;
-    }
-
-    public void setPlate(Plate plate) {
-        this.plate = plate;
-    }
-
     public Set<PayRequest> getPayRequestLists() {
         return payRequestLists;
     }
@@ -254,6 +259,31 @@ public class Bill implements Serializable {
 
     public void setPayRequestLists(Set<PayRequest> payRequests) {
         this.payRequestLists = payRequests;
+    }
+
+    public Set<Customer> getCustomers() {
+        return customers;
+    }
+
+    public Bill customers(Set<Customer> customers) {
+        this.customers = customers;
+        return this;
+    }
+
+    public Bill addCustomer(Customer customer) {
+        this.customers.add(customer);
+        customer.getBills().add(this);
+        return this;
+    }
+
+    public Bill removeCustomer(Customer customer) {
+        this.customers.remove(customer);
+        customer.getBills().remove(this);
+        return this;
+    }
+
+    public void setCustomers(Set<Customer> customers) {
+        this.customers = customers;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
@@ -279,6 +309,7 @@ public class Bill implements Serializable {
         return "Bill{" +
             "id=" + getId() +
             ", category='" + getCategory() + "'" +
+            ", plate='" + getPlate() + "'" +
             ", billType='" + getBillType() + "'" +
             ", billTypeTitle='" + getBillTypeTitle() + "'" +
             ", street='" + getStreet() + "'" +

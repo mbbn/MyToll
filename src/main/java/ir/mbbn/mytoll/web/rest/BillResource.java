@@ -1,6 +1,7 @@
 package ir.mbbn.mytoll.web.rest;
 
 import ir.mbbn.mytoll.domain.Bill;
+import ir.mbbn.mytoll.service.BillService;
 import ir.mbbn.mytoll.web.rest.errors.BadRequestAlertException;
 
 import io.github.jhipster.web.util.HeaderUtil;

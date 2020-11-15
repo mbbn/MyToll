@@ -32,6 +32,12 @@ export const BillDetail = (props: IBillDetailProps) => {
           </dt>
           <dd>{billEntity.category}</dd>
           <dt>
+            <span id="plate">
+              <Translate contentKey="myTollApp.bill.plate">Plate</Translate>
+            </span>
+          </dt>
+          <dd>{billEntity.plate}</dd>
+          <dt>
             <span id="billType">
               <Translate contentKey="myTollApp.bill.billType">Bill Type</Translate>
             </span>
@@ -85,10 +91,6 @@ export const BillDetail = (props: IBillDetailProps) => {
             </span>
           </dt>
           <dd>{billEntity.billDate ? <TextFormat value={billEntity.billDate} type="date" format={APP_DATE_FORMAT} /> : null}</dd>
-          <dt>
-            <Translate contentKey="myTollApp.bill.plate">Plate</Translate>
-          </dt>
-          <dd>{billEntity.plateId ? billEntity.plateId : ''}</dd>
         </dl>
         <Button tag={Link} to="/bill" replace color="info">
           <FontAwesomeIcon icon="arrow-left" />{' '}

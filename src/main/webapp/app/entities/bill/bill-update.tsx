@@ -7,10 +7,10 @@ import { Translate, translate, ICrudGetAction, ICrudGetAllAction, ICrudPutAction
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 
-import { IPlate } from 'app/shared/model/plate.model';
-import { getEntities as getPlates } from 'app/entities/plate/plate.reducer';
 import { IPayRequest } from 'app/shared/model/pay-request.model';
 import { getEntities as getPayRequests } from 'app/entities/pay-request/pay-request.reducer';
+import { ICustomer } from 'app/shared/model/customer.model';
+import { getEntities as getCustomers } from 'app/entities/customer/customer.reducer';
 import { getEntity, updateEntity, createEntity, reset } from './bill.reducer';
 import { IBill } from 'app/shared/model/bill.model';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
@@ -19,11 +19,11 @@ import { mapIdList } from 'app/shared/util/entity-utils';
 export interface IBillUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
 export const BillUpdate = (props: IBillUpdateProps) => {
-  const [plateId, setPlateId] = useState('0');
   const [payRequestListId, setPayRequestListId] = useState('0');
+  const [customerId, setCustomerId] = useState('0');
   const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
 
-  const { billEntity, plates, payRequests, loading, updating } = props;
+  const { billEntity, payRequests, customers, loading, updating } = props;
 
   const handleClose = () => {
     props.history.push('/bill');
@@ -36,8 +36,8 @@ export const BillUpdate = (props: IBillUpdateProps) => {
       props.getEntity(props.match.params.id);
     }
 
-    props.getPlates();
     props.getPayRequests();
+    props.getCustomers();
   }, []);
 
   useEffect(() => {
@@ -104,6 +104,21 @@ export const BillUpdate = (props: IBillUpdateProps) => {
                   <option value="PARKING">{translate('myTollApp.TaxCategory.PARKING')}</option>
                   <option value="CITYTAX">{translate('myTollApp.TaxCategory.CITYTAX')}</option>
                 </AvInput>
+              </AvGroup>
+              <AvGroup>
+                <Label id="plateLabel" for="bill-plate">
+                  <Translate contentKey="myTollApp.bill.plate">Plate</Translate>
+                </Label>
+                <AvField
+                  id="bill-plate"
+                  type="text"
+                  name="plate"
+                  validate={{
+                    required: { value: true, errorMessage: translate('entity.validation.required') },
+                    minLength: { value: 9, errorMessage: translate('entity.validation.minlength', { min: 9 }) },
+                    maxLength: { value: 9, errorMessage: translate('entity.validation.maxlength', { max: 9 }) },
+                  }}
+                />
               </AvGroup>
               <AvGroup>
                 <Label id="billTypeLabel" for="bill-billType">
@@ -233,21 +248,6 @@ export const BillUpdate = (props: IBillUpdateProps) => {
                   }}
                 />
               </AvGroup>
-              <AvGroup>
-                <Label for="bill-plate">
-                  <Translate contentKey="myTollApp.bill.plate">Plate</Translate>
-                </Label>
-                <AvInput id="bill-plate" type="select" className="form-control" name="plateId">
-                  <option value="" key="0" />
-                  {plates
-                    ? plates.map(otherEntity => (
-                        <option value={otherEntity.id} key={otherEntity.id}>
-                          {otherEntity.id}
-                        </option>
-                      ))
-                    : null}
-                </AvInput>
-              </AvGroup>
               <Button tag={Link} id="cancel-save" to="/bill" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;
@@ -270,8 +270,8 @@ export const BillUpdate = (props: IBillUpdateProps) => {
 };
 
 const mapStateToProps = (storeState: IRootState) => ({
-  plates: storeState.plate.entities,
   payRequests: storeState.payRequest.entities,
+  customers: storeState.customer.entities,
   billEntity: storeState.bill.entity,
   loading: storeState.bill.loading,
   updating: storeState.bill.updating,
@@ -279,8 +279,8 @@ const mapStateToProps = (storeState: IRootState) => ({
 });
 
 const mapDispatchToProps = {
-  getPlates,
   getPayRequests,
+  getCustomers,
   getEntity,
   updateEntity,
   createEntity,
