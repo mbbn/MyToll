@@ -27,7 +27,7 @@ public class Customer implements Serializable {
 
     @NotNull
     @Column(name = "mobile", nullable = false)
-    private Integer mobile;
+    private String mobile;
 
     @NotNull
     @Column(name = "creation_time", nullable = false)
@@ -58,16 +58,16 @@ public class Customer implements Serializable {
         this.id = id;
     }
 
-    public Integer getMobile() {
+    public String getMobile() {
         return mobile;
     }
 
-    public Customer mobile(Integer mobile) {
+    public Customer mobile(String mobile) {
         this.mobile = mobile;
         return this;
     }
 
-    public void setMobile(Integer mobile) {
+    public void setMobile(String mobile) {
         this.mobile = mobile;
     }
 

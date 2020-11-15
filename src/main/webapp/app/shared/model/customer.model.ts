@@ -3,7 +3,7 @@ import { IPlate } from 'app/shared/model/plate.model';
 
 export interface ICustomer {
   id?: number;
-  mobile?: number;
+  mobile?: string;
   creationTime?: string;
   creationBy?: string;
   lastUpdateTime?: string;

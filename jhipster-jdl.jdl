@@ -14,7 +14,7 @@ enum BaseInfoCategory {
 }
 
 entity Customer {
-	mobile Integer required
+	mobile String required
     creationTime ZonedDateTime required
     creationBy String required
     lastUpdateTime ZonedDateTime required
