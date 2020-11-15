@@ -6,7 +6,6 @@ import ir.mbbn.mytoll.domain.Customer;
 import ir.mbbn.mytoll.domain.PayRequest;
 import ir.mbbn.mytoll.domain.TollRequest;
 import ir.mbbn.mytoll.domain.enumeration.TaxCategory;
-import ir.mbbn.mytoll.repository.BillRepository;
 import ir.mbbn.mytoll.repository.CustomerRepository;
 import ir.mbbn.mytoll.service.dto.*;
 import org.slf4j.Logger;
@@ -39,15 +38,13 @@ public class TollRequestService extends RestTemplate {
 
     private final ApplicationProperties.Sepandar sepandar;
     private final CustomerRepository customerRepository;
-    private final BillRepository billRepository;
 
     private String token;
     private Date expireTime;
 
-    public TollRequestService(ApplicationProperties applicationProperties, CustomerRepository customerRepository, BillRepository billRepository) {
+    public TollRequestService(ApplicationProperties applicationProperties, CustomerRepository customerRepository) {
         sepandar = applicationProperties.getSepandar();
         this.customerRepository = customerRepository;
-        this.billRepository = billRepository;
     }
 
     private UriBuilder getUrlBuilder(){
@@ -138,18 +135,6 @@ public class TollRequestService extends RestTemplate {
                     bill.setAmount(billDto.getAmount());
                     bill.setExternalNumber(billDto.getExternalNumber());
                     bill.setBillDate(billDto.getBillDate());
-
-                    String mobile = tollRequest.getMobile();
-                    Customer customer = customerRepository.findOneCustomerByMobile(mobile).orElse(null);
-                    if(customer == null){
-                        customer = new Customer();
-                        customer.creationBy(mobile);
-                        customer.creationTime(ZonedDateTime.now());
-                        customer.lastUpdatedBy(mobile);
-                        customer.lastUpdateTime(ZonedDateTime.now());
-                        customer.setMobile(mobile);
-                        customer = customerRepository.save(customer);
-                    }
                     return bill;
                 }).collect(Collectors.toList());
             }else {
@@ -157,8 +142,6 @@ public class TollRequestService extends RestTemplate {
             }
         } catch (RestClientException e) {
             throw new RuntimeException("failed to login");
-        }finally {
-
         }
     }
 
@@ -172,10 +155,10 @@ public class TollRequestService extends RestTemplate {
             customer.lastUpdatedBy(mobileNumber);
             customer.lastUpdateTime(ZonedDateTime.now());
             customer.setMobile(mobileNumber);
-            customer = customerRepository.save(customer);
+            customerRepository.save(customer);
         }
         Set<Bill> bills = payRequest.getBills();
-        if(bills.size() > 0){
+        if (bills.size() > 0) {
         }
     }
 }

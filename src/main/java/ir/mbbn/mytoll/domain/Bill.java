@@ -18,7 +18,7 @@ import ir.mbbn.mytoll.domain.enumeration.TaxCategory;
  * A Bill.
  */
 @Entity
-@Table(name = "bill")
+@Table(name = "bill", indexes = {@Index(name = "BILL_UK", columnList = "bill_id", unique = true)})
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Bill implements Serializable {
 
