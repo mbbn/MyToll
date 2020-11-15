@@ -1,11 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Button, Backdrop, CircularProgress} from '@material-ui/core'
 import Grid from '@material-ui/core/Grid';
 import {Formik} from 'formik';
 import {translate} from 'react-jhipster';
 import Plate from "app/component/plate";
 import TextField from "app/component/textField";
-import DatePicker from "app/component/datePicker";
 import {connect} from 'react-redux';
 import {IRootState} from "app/shared/reducers";
 import {convertDateTimeToServer} from "app/shared/util/date-utils";
@@ -13,6 +12,10 @@ import {getBills} from 'app/entities/toll-request/toll-request.reducer';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import {IBill} from "app/shared/model/bill.model";
 import { toast } from 'react-toastify';
+import TollRequest from "app/entities/toll-request/toll-request";
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import {useTheme} from '@material-ui/core/styles';
+import {Dialog, DialogTitle, DialogContent, DialogActions} from '@material-ui/core';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -31,6 +34,8 @@ export const Marginal = (props: IMarginalProps) => {
   const {afterLoadBills} = props;
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [bills, setBills] = useState([]);
+  const [showTollRequest, setShowTollRequest] = useState(false);
 
   const isValid = (values: any) => {
     const errors = {};
@@ -44,12 +49,6 @@ export const Marginal = (props: IMarginalProps) => {
     } else if (!/^09[0-9]{9}$/g.test(values['mobile'])) {
       errors['mobile'] = translate('myTollApp.plateBill.error.invalidMobile');
     }
-    if (!values['fromDate']) {
-      errors['fromDate'] = translate('myTollApp.plateBill.error.fromDateIsNull');
-    }
-    if (!values['toDate']) {
-      errors['toDate'] = translate('myTollApp.plateBill.error.toDateIsNull');
-    }
     return errors;
   };
 
@@ -62,9 +61,10 @@ export const Marginal = (props: IMarginalProps) => {
     };
     setOpen(true);
     getBills(entity).payload.then(response => {
-      if (afterLoadBills) {
-        const bills = response.data as IBill[];
-        afterLoadBills(bills);
+      setBills(response.data as IBill[]);
+      setShowTollRequest(true);
+      if(afterLoadBills){
+        afterLoadBills(response.data as IBill[]);
       }
     }).catch(reason => {
       toast.error(translate('global.messages.error.internalError'));
@@ -73,10 +73,14 @@ export const Marginal = (props: IMarginalProps) => {
     });
   };
 
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up('sm'));
+
+  const handleClose = ()=>{
+    setShowTollRequest(false);
+  };
+
   return (<>
-    <Backdrop open={open} className={classes.backdrop}>
-      <CircularProgress color="inherit" />
-    </Backdrop>
     <Formik initialValues={{}} validate={values => isValid(values)} onSubmit={save}>{({handleSubmit, errors, values, handleChange, handleBlur, setFieldValue}) => (
       <form onSubmit={handleSubmit}>
         <Grid container>
@@ -93,16 +97,6 @@ export const Marginal = (props: IMarginalProps) => {
             handleChange(event);
           }}/>
         </Grid>
-        <Grid container>
-          <Grid item xs={6}>
-            <DatePicker name={'fromDate'} value={null} error={errors['fromDate'] !== undefined} helperText={errors['fromDate']}
-                        onBlur={handleBlur} onChange={date => {setFieldValue('fromDate', date)}} label={translate('myTollApp.plateBill.fromDate')} required/>
-          </Grid>
-          <Grid item xs={6}>
-            <DatePicker name={'toDate'} value={null} error={errors['toDate'] !== undefined} helperText={errors['toDate']}
-                        onBlur={handleBlur} onChange={date => {setFieldValue('toDate', date)}} label={translate('myTollApp.plateBill.toDate')} required/>
-          </Grid>
-        </Grid>
         <Grid container justify={"center"}>
           <Button type={'submit'} color={"primary"} variant={"contained"} fullWidth={true} style={{minHeight: 50, fontSize: 20}}>
             {translate('entity.action.inquiry')}
@@ -110,6 +104,23 @@ export const Marginal = (props: IMarginalProps) => {
         </Grid>
       </form>
     )}</Formik>
+    <Backdrop open={open} className={classes.backdrop}>
+      <CircularProgress color="inherit" />
+    </Backdrop>
+    <Dialog open={showTollRequest} maxWidth={matches?'xl':'xs'} onClose={handleClose}>
+      <DialogTitle>{translate('myTollApp.tollRequest.home.title')}</DialogTitle>
+      <DialogContent>
+        <TollRequest bills={bills}/>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClose} color="default" variant={"contained"}>
+          {translate('entity.action.back')}
+        </Button>
+        <Button onClick={handleClose} color="primary" autoFocus variant={"contained"}>
+          {translate('entity.action.pay')}
+        </Button>
+      </DialogActions>
+    </Dialog>
   </>);
 };
 

@@ -7,6 +7,7 @@ public class BillTypeDto implements Serializable {
     private String billTypeabbrivation;
     private String billTypecategory;
     private String billTypeTitle;
+    private String categoryName;
 
     public String getBillTypeabbrivation() {
         return billTypeabbrivation;
@@ -30,5 +31,13 @@ public class BillTypeDto implements Serializable {
 
     public void setBillTypeTitle(String billTypeTitle) {
         this.billTypeTitle = billTypeTitle;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 }

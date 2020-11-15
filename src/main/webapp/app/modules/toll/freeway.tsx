@@ -31,12 +31,12 @@ export const Freeway = (props: IFreewayProps) => {
     } else if (!/^09[0-9]{9}$/g.test(values['mobile'])) {
       errors['mobile'] = translate('myTollApp.plateBill.error.invalidMobile');
     }
-    if (!values['fromDate']) {
+    /* if (!values['fromDate']) {
       errors['fromDate'] = translate('myTollApp.plateBill.error.fromDateIsNull');
     }
     if (!values['toDate']) {
       errors['toDate'] = translate('myTollApp.plateBill.error.toDateIsNull');
-    }
+    }*/
     return errors;
   };
 
@@ -72,7 +72,7 @@ export const Freeway = (props: IFreewayProps) => {
             handleChange(event);
           }}/>
         </Grid>
-        <Grid container>
+        {/* <Grid container>
           <Grid item xs={6}>
             <DatePicker name={'fromDate'} value={null} error={errors['fromDate'] !== undefined} helperText={errors['fromDate']}
                         onBlur={handleBlur} onChange={date => {setFieldValue('fromDate', date)}} label={translate('myTollApp.plateBill.fromDate')} required/>
@@ -81,7 +81,7 @@ export const Freeway = (props: IFreewayProps) => {
             <DatePicker name={'toDate'} value={null} error={errors['toDate'] !== undefined} helperText={errors['toDate']}
                         onBlur={handleBlur} onChange={date => {setFieldValue('toDate', date)}} label={translate('myTollApp.plateBill.toDate')} required/>
           </Grid>
-        </Grid>
+        </Grid>*/}
         <Grid container justify={"center"}>
           <Button type={'submit'} color={"primary"} variant={"contained"} fullWidth={true} style={{minHeight: 50, fontSize: 20}}>
             {translate('entity.action.inquiry')}

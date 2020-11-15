@@ -17,10 +17,8 @@ public class TollRequest implements Serializable {
     @NotNull
     private String mobile;
 
-    @NotNull
     private ZonedDateTime fromDate;
 
-    @NotNull
     private ZonedDateTime toDate;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

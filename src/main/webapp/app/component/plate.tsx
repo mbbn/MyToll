@@ -7,7 +7,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import TextField from "app/component/textField";
 import Select from "app/component/select";
 import myTollTheme from "app/ContextManager";
-import {persianNumber} from "app/shared/util/persian-utils";
 
 export interface IPlateProps {
   name: string;

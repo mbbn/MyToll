@@ -1,5 +1,4 @@
 const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpackMerge = require('webpack-merge');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const WorkboxPlugin = require('workbox-webpack-plugin');
@@ -97,12 +96,6 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
         'fa'
         // jhipster-needle-i18n-language-moment-webpack - JHipster will add/remove languages in this array
       ]
-    }),
-    new HtmlWebpackPlugin({
-      template: './src/main/webapp/index.html',
-      chunksSortMode: 'auto',
-      inject: 'body',
-      base: '/mytoll/'
     }),
     new webpack.LoaderOptionsPlugin({
       minimize: true,

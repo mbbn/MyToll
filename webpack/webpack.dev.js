@@ -1,5 +1,4 @@
 const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const writeFilePlugin = require('write-file-webpack-plugin');
 const webpackMerge = require('webpack-merge');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
@@ -68,12 +67,6 @@ module.exports = (options) => webpackMerge(commonConfig({ env: ENV }), {
       : new SimpleProgressWebpackPlugin({
           format: options.stats === 'minimal' ? 'compact' : 'expanded'
         }),
-    new HtmlWebpackPlugin({
-      template: './src/main/webapp/index.html',
-      chunksSortMode: 'auto',
-      inject: 'body',
-      base: '/'
-    }),
     new FriendlyErrorsWebpackPlugin(),
     new BrowserSyncPlugin({
       https: options.tls,

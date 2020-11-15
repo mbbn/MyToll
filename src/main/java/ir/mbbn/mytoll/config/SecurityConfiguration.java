@@ -49,7 +49,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/h2-console/**")
             .antMatchers("/swagger-ui/index.html")
             .antMatchers("/test/**")
-        .antMatchers("/api/toll-requests");
+            .antMatchers("/api/get-plate-bills")
+            .antMatchers("/api/pay");
     }
 
     @Override
@@ -83,7 +84,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/api/account/reset-password/init").permitAll()
             .antMatchers("/api/account/reset-password/finish").permitAll()
             .antMatchers("/api/**").authenticated()
-            .antMatchers("/api/toll-requests").anonymous()
             .antMatchers("/management/health").permitAll()
             .antMatchers("/management/info").permitAll()
             .antMatchers("/management/prometheus").permitAll()

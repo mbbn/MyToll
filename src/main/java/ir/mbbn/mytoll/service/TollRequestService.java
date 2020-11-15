@@ -3,6 +3,7 @@ package ir.mbbn.mytoll.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ir.mbbn.mytoll.config.ApplicationProperties;
 import ir.mbbn.mytoll.domain.Bill;
+import ir.mbbn.mytoll.domain.Customer;
 import ir.mbbn.mytoll.domain.Plate;
 import ir.mbbn.mytoll.domain.TollRequest;
 import ir.mbbn.mytoll.domain.enumeration.TaxCategory;
@@ -106,11 +107,12 @@ public class TollRequestService extends RestTemplate {
             billTypeabbrivation.add("KSHPRK");
             plateBillsRequestDto.setBillTypeabbrivation(billTypeabbrivation);
             plateBillsRequestDto.setPlate(tollRequest.getPlate());
-            plateBillsRequestDto.setFromDate(tollRequest.getFromDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'hh:mm:ss.SSSZ")));
-            plateBillsRequestDto.setToDate(tollRequest.getToDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'hh:mm:ss.SSSZ")));
-            plateBillsRequestDto.setPageNum(0);
-            plateBillsRequestDto.setCount(10);
-//            new ObjectMapper().writeValueAsString(tollRequest);
+            if(tollRequest.getFromDate() != null){
+                plateBillsRequestDto.setFromDate(tollRequest.getFromDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'hh:mm:ss.SSSZ")));
+            }
+            if(tollRequest.getToDate() != null){
+                plateBillsRequestDto.setToDate(tollRequest.getToDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'hh:mm:ss.SSSZ")));
+            }
             HttpEntity<PlateBillsRequestDto> requestEntity = new HttpEntity<>(plateBillsRequestDto, headers);
             ResponseEntity<SepandarResponseDto<PlateBillsResponseDto>> response = exchange(uri, HttpMethod.POST, requestEntity, new ParameterizedTypeReference<SepandarResponseDto<PlateBillsResponseDto>>() {});
             SepandarResponseDto<PlateBillsResponseDto> sepandarResponseDto = response.getBody();
@@ -123,6 +125,7 @@ public class TollRequestService extends RestTemplate {
                     if(billType!= null){
                         bill.setBillType(billType.getBillTypeabbrivation());
                         bill.setBillTypeTitle(billType.getBillTypeTitle());
+                        bill.setCategory(TaxCategory.valueOf(billType.getCategoryName()));
                     }
                     ExtraInfoDto extraInfo = billDto.getExtraInfo();
                     if(extraInfo!=null){
@@ -135,6 +138,9 @@ public class TollRequestService extends RestTemplate {
                     bill.setExternalNumber(billDto.getExternalNumber());
                     bill.setBillDate(billDto.getBillDate());
                     Plate plate = new Plate();
+                    Customer customer = new Customer();
+                    customer.setMobile(tollRequest.getMobile());
+                    plate.setCustomer(customer);
                     plate.setCode(tollRequest.getPlate());
                     bill.setPlate(plate);
                     return bill;

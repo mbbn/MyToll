@@ -23,7 +23,7 @@
         var urls = [];
         axios.get("/swagger-resources").then(function (response) {
             response.data.forEach(function (resource) {
-                urls.push({"name": resource.name, "url": '/mytoll'+resource.location});
+                urls.push({"name": resource.name, "url": resource.location});
             });
 
             urls.sort(function (a, b) {

@@ -6,21 +6,13 @@ import {Alert} from '@material-ui/lab';
 import {Freeway} from "app/modules/toll/freeway";
 import Marginal from "app/modules/toll/marginal";
 import {Translate, translate} from 'react-jhipster';
-import {AppBar, Tabs, Tab, Card, CardHeader, CardContent, Grid, Button, Link} from '@material-ui/core';
-import {Dialog, DialogTitle, DialogContent, DialogActions} from '@material-ui/core';
-import TollRequest from "app/entities/toll-request/toll-request";
+import {AppBar, Tabs, Tab, Card, CardHeader, CardContent, Grid, Link} from '@material-ui/core';
 
 export type IHomeProp = StateProps;
 
 export const Home = (props: IHomeProp) => {
   const { account} = props;
   const [activeTab, setActiveTab] = useState(0);
-  const [showTollRequest, setShowTollRequest] = useState(false);
-  const [bills, setBills] = useState([]);
-
-  const handleClose = ()=>{
-    setShowTollRequest(false);
-  };
 
   return (
     <Grid container spacing={2}>
@@ -39,10 +31,7 @@ export const Home = (props: IHomeProp) => {
               id={`toll-0`}
               aria-labelledby={`simple-tab-0`}
             >
-              <Marginal afterLoadBills={loadedBills => {
-                setBills(loadedBills);
-                setShowTollRequest(true);
-              }}/>
+              <Marginal/>
             </div>
             <div
               role="tabpanel"
@@ -50,27 +39,10 @@ export const Home = (props: IHomeProp) => {
               id={`toll-1`}
               aria-labelledby={`simple-tab-1`}
             >
-              <Freeway afterLoadBills={loadedBills => {
-                setBills(loadedBills);
-                setShowTollRequest(true);
-              }}/>
+              <Freeway/>
             </div>
           </CardContent>
         </Card>
-        <Dialog open={showTollRequest} fullWidth={true} onClose={handleClose}>
-          <DialogTitle>{translate('myTollApp.tollRequest.home.title')}</DialogTitle>
-          <DialogContent>
-            <TollRequest bills={bills}/>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose} color="default" variant={"contained"}>
-              {translate('entity.action.back')}
-            </Button>
-            <Button onClick={handleClose} color="primary" autoFocus variant={"contained"}>
-              {translate('entity.action.pay')}
-            </Button>
-          </DialogActions>
-        </Dialog>
       </Grid>
       <Grid sm={8} item>
         <Card>

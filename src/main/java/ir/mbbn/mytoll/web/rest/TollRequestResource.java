@@ -41,9 +41,14 @@ public class TollRequestResource {
      *
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of plate bills in body.
      */
-    @PostMapping("/toll-requests")
+    @PostMapping("/get-plate-bills")
     public List<Bill> getPlateBills(@Valid @RequestBody TollRequest tollRequest) throws URISyntaxException {
         log.debug("REST request to get Plate Bills");
         return tollRequestService.getPlateBills(tollRequest);
+    }
+
+    @PostMapping("/pay")
+    public void pay(@RequestBody List<Bill> bills) throws URISyntaxException {
+        log.debug("REST request to Pay Bills");
     }
 }

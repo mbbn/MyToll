@@ -9,6 +9,7 @@ import {cleanEntity} from "app/shared/util/entity-utils";
 
 export const ACTION_TYPES = {
   GET_BILLS: 'tollRequest/GET_BILLS',
+  PAY: 'tollRequest/PAY',
 };
 
 const initialState = {
@@ -34,10 +35,15 @@ export default (state: TollRequestState = initialState, action): TollRequestStat
   }
 };
 
-const apiUrl = 'api/toll-requests';
+const apiUrl = 'api';
 
 // Actions
 export const getBills: (data: ITollRequest) => IPayload<IBill> = entity => ({
   type: ACTION_TYPES.GET_BILLS,
-  payload: axios.post(apiUrl, cleanEntity(entity))
+  payload: axios.post(apiUrl+'/get-plate-bills', cleanEntity(entity))
+});
+
+export const pay: (bills: IBill[]) => void = bills => ({
+  type: ACTION_TYPES.PAY,
+  payload: axios.post(apiUrl + '/pay', bills)
 });
