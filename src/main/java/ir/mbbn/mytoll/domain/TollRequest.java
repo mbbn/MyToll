@@ -73,7 +73,6 @@ public class TollRequest implements Serializable {
     public void setToDate(ZonedDateTime toDate) {
         this.toDate = toDate;
     }
-
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     // prettier-ignore

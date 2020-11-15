@@ -3,6 +3,7 @@ package ir.mbbn.mytoll.service;
 import ir.mbbn.mytoll.config.ApplicationProperties;
 import ir.mbbn.mytoll.domain.Bill;
 import ir.mbbn.mytoll.domain.Customer;
+import ir.mbbn.mytoll.domain.PayRequest;
 import ir.mbbn.mytoll.domain.TollRequest;
 import ir.mbbn.mytoll.domain.enumeration.TaxCategory;
 import ir.mbbn.mytoll.repository.BillRepository;
@@ -24,9 +25,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -40,16 +39,14 @@ public class TollRequestService extends RestTemplate {
 
     private final ApplicationProperties.Sepandar sepandar;
     private final CustomerRepository customerRepository;
-    private final PlateRepository plateRepository;
     private final BillRepository billRepository;
 
     private String token;
     private Date expireTime;
 
-    public TollRequestService(ApplicationProperties applicationProperties, CustomerRepository customerRepository, PlateRepository plateRepository, BillRepository billRepository) {
+    public TollRequestService(ApplicationProperties applicationProperties, CustomerRepository customerRepository, BillRepository billRepository) {
         sepandar = applicationProperties.getSepandar();
         this.customerRepository = customerRepository;
-        this.plateRepository = plateRepository;
         this.billRepository = billRepository;
     }
 
@@ -141,10 +138,9 @@ public class TollRequestService extends RestTemplate {
                     bill.setAmount(billDto.getAmount());
                     bill.setExternalNumber(billDto.getExternalNumber());
                     bill.setBillDate(billDto.getBillDate());
-                    Plate plate = new Plate();
 
                     String mobile = tollRequest.getMobile();
-                    Customer customer = customerRepository.findCustomerByMobile(mobile);
+                    Customer customer = customerRepository.findOneCustomerByMobile(mobile).orElse(null);
                     if(customer == null){
                         customer = new Customer();
                         customer.creationBy(mobile);
@@ -154,9 +150,6 @@ public class TollRequestService extends RestTemplate {
                         customer.setMobile(mobile);
                         customer = customerRepository.save(customer);
                     }
-                    plate.setCustomer(customer);
-                    plate.setCode(tollRequest.getPlate());
-                    bill.setPlate(plate);
                     return bill;
                 }).collect(Collectors.toList());
             }else {
@@ -169,13 +162,20 @@ public class TollRequestService extends RestTemplate {
         }
     }
 
-    public void pay(Long customerId, List<Bill> bills) {
-        Customer customer = customerRepository.getOne(customerId);
+    public void pay(PayRequest payRequest) {
+        String mobileNumber = payRequest.getMobileNumber();
+        Customer customer = customerRepository.findOneCustomerByMobile(mobileNumber).orElse(null);
+        if(customer == null){
+            customer = new Customer();
+            customer.creationBy(mobileNumber);
+            customer.creationTime(ZonedDateTime.now());
+            customer.lastUpdatedBy(mobileNumber);
+            customer.lastUpdateTime(ZonedDateTime.now());
+            customer.setMobile(mobileNumber);
+            customer = customerRepository.save(customer);
+        }
+        Set<Bill> bills = payRequest.getBills();
         if(bills.size() > 0){
-            Bill bill = bills.get(0);
-            Plate plate = bill.getPlate();
-            Customer billCustomer = plate.getCustomer();
-
         }
     }
 }

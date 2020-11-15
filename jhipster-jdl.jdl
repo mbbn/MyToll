@@ -28,7 +28,6 @@ enum PlateAlphabet {
     A40,A41
 }
 
-@dto
 entity Bill {
 	category TaxCategory required
 	plate String minlength(9) maxlength(9) required
@@ -55,8 +54,8 @@ enum TaxCategory {
 entity TollRequest{
     plate Integer required
     mobile String required
-    fromDate LocalDate required
-    toDate LocalDate required
+    fromDate ZonedDateTime
+    toDate ZonedDateTime
 }
 
 entity PayRequest{

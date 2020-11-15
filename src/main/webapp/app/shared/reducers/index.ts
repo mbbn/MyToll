@@ -21,9 +21,6 @@ import customer, {
   CustomerState
 } from 'app/entities/customer/customer.reducer';
 // prettier-ignore
-import plate, {
-  PlateState
-} from 'app/entities/plate/plate.reducer';
 // prettier-ignore
 import tollRequest, {
   TollRequestState
@@ -51,7 +48,6 @@ export interface IRootState {
   readonly settings: SettingsState;
   readonly baseInfo: BaseInfoState;
   readonly customer: CustomerState;
-  readonly plate: PlateState;
   readonly tollRequest: TollRequestState;
   readonly bill: BillState;
   readonly payRequest: PayRequestState;
@@ -72,7 +68,6 @@ const rootReducer = combineReducers<IRootState>({
   settings,
   baseInfo,
   customer,
-  plate,
   tollRequest,
   bill,
   payRequest,

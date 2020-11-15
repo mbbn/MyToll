@@ -19,15 +19,17 @@ import {pay} from 'app/entities/toll-request/toll-request.reducer';
 import {Translate} from 'react-jhipster';
 import {Alert} from '@material-ui/lab';
 import { toast } from 'react-toastify';
+import {defaultValue} from "app/shared/model/pay-request.model";
 
 export interface ITollDataTableProps extends StateProps, DispatchProps {
   bills: IBill[];
+  mobile: string;
 
   handleClose?(): void;
 }
 
 export const TollRequest = (props: ITollDataTableProps) => {
-  const {bills} = props;
+  const {mobile, bills} = props;
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up('sm'));
 
@@ -45,7 +47,10 @@ export const TollRequest = (props: ITollDataTableProps) => {
   };
 
   const handlePay = () => {
-    pay(selectedBills).payload.then(response => {
+    const payRequest = defaultValue;
+    payRequest.bills = bills;
+    payRequest.mobileNumber = mobile;
+    pay(payRequest).payload.then(response => {
       /* eslint no-console: off */
       console.log(response);
     }).catch(() => {

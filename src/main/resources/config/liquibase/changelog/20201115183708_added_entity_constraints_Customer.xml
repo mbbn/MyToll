@@ -4,19 +4,19 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
     <!--
-        Added the constraints for entity PayRequest.
+        Added the constraints for entity Customer.
     -->
-    <changeSet id="20201115163541-2" author="jhipster">
+    <changeSet id="20201115183708-2" author="jhipster">
         
-        <addForeignKeyConstraint baseColumnNames="pay_request_id"
-                                 baseTableName="pay_request_bills"
-                                 constraintName="fk_pay_request_bills_pay_request_id"
+        <addForeignKeyConstraint baseColumnNames="customer_id"
+                                 baseTableName="customer_bills"
+                                 constraintName="fk_customer_bills_customer_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="pay_request"/>
+                                 referencedTableName="customer"/>
 
         <addForeignKeyConstraint baseColumnNames="bills_id"
-                                 baseTableName="pay_request_bills"
-                                 constraintName="fk_pay_request_bills_bills_id"
+                                 baseTableName="customer_bills"
+                                 constraintName="fk_customer_bills_bills_id"
                                  referencedColumnNames="id"
                                  referencedTableName="bill"/>
         

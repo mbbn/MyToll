@@ -6,6 +6,7 @@ import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util'
 import { ITollRequest, defaultValue } from 'app/shared/model/toll-request.model';
 import {IBill} from "app/shared/model/bill.model";
 import {cleanEntity} from "app/shared/util/entity-utils";
+import {IPayRequest} from "app/shared/model/pay-request.model";
 
 export const ACTION_TYPES = {
   GET_BILLS: 'tollRequest/GET_BILLS',
@@ -43,7 +44,7 @@ export const getBills: (data: ITollRequest) => IPayload<IBill> = entity => ({
   payload: axios.post(apiUrl+'/get-plate-bills', cleanEntity(entity))
 });
 
-export const pay: (bills: IBill[]) => IPayload<void> = bills => ({
+export const pay: (payRequest: IPayRequest) => IPayload<void> = (payRequest) => ({
   type: ACTION_TYPES.PAY,
-  payload: axios.post(apiUrl + '/pay', bills)
+  payload: axios.post(apiUrl + '/pay', payRequest)
 });

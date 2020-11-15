@@ -30,6 +30,7 @@ export interface IMarginalProps extends StateProps, DispatchProps {
 export const Marginal = (props: IMarginalProps) => {
   const {afterLoadBills} = props;
   const classes = useStyles();
+  const [mobile, setMobile] = React.useState(null);
   const [open, setOpen] = React.useState(false);
   const [bills, setBills] = useState([]);
   const [showTollRequest, setShowTollRequest] = useState(false);
@@ -59,6 +60,7 @@ export const Marginal = (props: IMarginalProps) => {
     setOpen(true);
     getBills(entity).payload.then(response => {
       setBills(response.data as IBill[]);
+      setMobile(values['mobile']);
       setShowTollRequest(true);
       if(afterLoadBills){
         afterLoadBills(response.data as IBill[]);
@@ -97,7 +99,7 @@ export const Marginal = (props: IMarginalProps) => {
     <Backdrop open={open} className={classes.backdrop}>
       <CircularProgress color="inherit" />
     </Backdrop>
-    {showTollRequest ? <TollRequest bills={bills} handleClose={() => {setShowTollRequest(false)}}/> : null}
+    {showTollRequest ? <TollRequest bills={bills} mobile={mobile} handleClose={() => {setShowTollRequest(false)}}/> : null}
   </>);
 };
 

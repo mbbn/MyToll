@@ -1,6 +1,7 @@
 package ir.mbbn.mytoll.web.rest;
 
 import ir.mbbn.mytoll.domain.Bill;
+import ir.mbbn.mytoll.domain.PayRequest;
 import ir.mbbn.mytoll.domain.TollRequest;
 
 import ir.mbbn.mytoll.service.TollRequestService;
@@ -46,8 +47,8 @@ public class TollRequestResource {
     }
 
     @PostMapping("/pay")
-    public void pay(@RequestBody List<Bill> bills) throws URISyntaxException {
+    public void pay(@RequestBody PayRequest payRequest) throws URISyntaxException {
         log.debug("REST request to Pay Bills");
-        tollRequestService.pay(bills);
+        tollRequestService.pay(payRequest);
     }
 }

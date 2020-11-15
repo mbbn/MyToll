@@ -17,21 +17,15 @@
     },
     {
       "fieldName": "fromDate",
-      "fieldType": "LocalDate",
-      "fieldValidateRules": [
-        "required"
-      ]
+      "fieldType": "ZonedDateTime"
     },
     {
       "fieldName": "toDate",
-      "fieldType": "LocalDate",
-      "fieldValidateRules": [
-        "required"
-      ]
+      "fieldType": "ZonedDateTime"
     }
   ],
   "relationships": [],
-  "changelogDate": "20201111153419",
+  "changelogDate": "20201115183908",
   "entityTableName": "toll_request",
   "dto": true,
   "pagination": "no",

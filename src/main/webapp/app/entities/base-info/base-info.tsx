@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import {Button, Col, Row, Table, Card, CardHeader, CardBody, CardFooter} from 'reactstrap';
+import { Button, Col, Row, Table } from 'reactstrap';
 import { Translate, ICrudGetAllAction, TextFormat, getSortState, IPaginationBaseState, JhiPagination, JhiItemCount } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -66,7 +66,7 @@ export const BaseInfo = (props: IBaseInfoProps) => {
 
   const { baseInfoList, match, loading, totalItems } = props;
   return (
-    <Card>
+    <div>
       <h2 id="base-info-heading">
         <Translate contentKey="myTollApp.baseInfo.home.title">Base Infos</Translate>
         <Link to={`${match.url}/new`} className="btn btn-primary float-right jh-create-entity" id="jh-create-entity">
@@ -194,7 +194,7 @@ export const BaseInfo = (props: IBaseInfoProps) => {
       ) : (
         ''
       )}
-    </Card>
+    </div>
   );
 };
 

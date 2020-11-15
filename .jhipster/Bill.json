@@ -102,11 +102,11 @@
       "ownerSide": false
     }
   ],
-  "changelogDate": "20201111153319",
+  "changelogDate": "20201115183808",
   "entityTableName": "bill",
-  "dto": true,
+  "dto": "no",
   "pagination": "no",
-  "service": "serviceClass",
+  "service": "no",
   "jpaMetamodelFiltering": false,
   "fluentMethods": true,
   "readOnly": false,

@@ -1,7 +1,7 @@
 package ir.mbbn.mytoll.web.rest;
 
 import ir.mbbn.mytoll.domain.Bill;
-import ir.mbbn.mytoll.service.BillService;
+import ir.mbbn.mytoll.repository.BillRepository;
 import ir.mbbn.mytoll.web.rest.errors.BadRequestAlertException;
 
 import io.github.jhipster.web.util.HeaderUtil;
@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -23,6 +24,7 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping("/api")
+@Transactional
 public class BillResource {
 
     private final Logger log = LoggerFactory.getLogger(BillResource.class);
@@ -32,10 +34,10 @@ public class BillResource {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
-    private final BillService billService;
+    private final BillRepository billRepository;
 
-    public BillResource(BillService billService) {
-        this.billService = billService;
+    public BillResource(BillRepository billRepository) {
+        this.billRepository = billRepository;
     }
 
     /**
@@ -51,7 +53,7 @@ public class BillResource {
         if (bill.getId() != null) {
             throw new BadRequestAlertException("A new bill cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        Bill result = billService.save(bill);
+        Bill result = billRepository.save(bill);
         return ResponseEntity.created(new URI("/api/bills/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -72,7 +74,7 @@ public class BillResource {
         if (bill.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        Bill result = billService.save(bill);
+        Bill result = billRepository.save(bill);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, bill.getId().toString()))
             .body(result);
@@ -86,7 +88,7 @@ public class BillResource {
     @GetMapping("/bills")
     public List<Bill> getAllBills() {
         log.debug("REST request to get all Bills");
-        return billService.findAll();
+        return billRepository.findAll();
     }
 
     /**
@@ -98,7 +100,7 @@ public class BillResource {
     @GetMapping("/bills/{id}")
     public ResponseEntity<Bill> getBill(@PathVariable Long id) {
         log.debug("REST request to get Bill : {}", id);
-        Optional<Bill> bill = billService.findOne(id);
+        Optional<Bill> bill = billRepository.findById(id);
         return ResponseUtil.wrapOrNotFound(bill);
     }
 
@@ -111,7 +113,7 @@ public class BillResource {
     @DeleteMapping("/bills/{id}")
     public ResponseEntity<Void> deleteBill(@PathVariable Long id) {
         log.debug("REST request to delete Bill : {}", id);
-        billService.delete(id);
+        billRepository.deleteById(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }
 }

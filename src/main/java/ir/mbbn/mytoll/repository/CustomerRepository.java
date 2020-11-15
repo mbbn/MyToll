@@ -27,5 +27,5 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
     @Query("select customer from Customer customer left join fetch customer.bills where customer.id =:id")
     Optional<Customer> findOneWithEagerRelationships(@Param("id") Long id);
 
-    Optional<Customer> findCustomerByMobile(String mobile);
+    Optional<Customer> findOneCustomerByMobile(String mobile);
 }
