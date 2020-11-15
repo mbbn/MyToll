@@ -43,7 +43,7 @@ export const getBills: (data: ITollRequest) => IPayload<IBill> = entity => ({
   payload: axios.post(apiUrl+'/get-plate-bills', cleanEntity(entity))
 });
 
-export const pay: (bills: IBill[]) => void = bills => ({
+export const pay: (bills: IBill[]) => IPayload<void> = bills => ({
   type: ACTION_TYPES.PAY,
   payload: axios.post(apiUrl + '/pay', bills)
 });

@@ -26,7 +26,8 @@
       "amount": "Amount",
       "externalNumber": "External Number",
       "billDate": "Bill Date",
-      "plate": "Plate"
+      "plate": "Plate",
+      "payRequestList": "Pay Request List"
     }
   }
 }

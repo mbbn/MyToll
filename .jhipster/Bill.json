@@ -32,14 +32,14 @@
     },
     {
       "fieldName": "fromDate",
-      "fieldType": "LocalDate",
+      "fieldType": "ZonedDateTime",
       "fieldValidateRules": [
         "required"
       ]
     },
     {
       "fieldName": "toDate",
-      "fieldType": "LocalDate",
+      "fieldType": "ZonedDateTime",
       "fieldValidateRules": [
         "required"
       ]
@@ -67,7 +67,7 @@
     },
     {
       "fieldName": "billDate",
-      "fieldType": "LocalDate",
+      "fieldType": "ZonedDateTime",
       "fieldValidateRules": [
         "required"
       ]
@@ -80,6 +80,14 @@
       "otherEntityRelationshipName": "bills",
       "relationshipName": "plate",
       "otherEntityField": "id"
+    },
+    {
+      "relationshipType": "many-to-many",
+      "otherEntityName": "payRequest",
+      "otherEntityRelationshipName": "bills",
+      "relationshipName": "payRequestList",
+      "otherEntityField": "id",
+      "ownerSide": false
     }
   ],
   "changelogDate": "20201111153319",

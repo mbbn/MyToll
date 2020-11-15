@@ -28,10 +28,10 @@
             <column name="street" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-            <column name="from_date" type="date">
+            <column name="from_date" type="datetime">
                 <constraints nullable="false" />
             </column>
-            <column name="to_date" type="date">
+            <column name="to_date" type="datetime">
                 <constraints nullable="false" />
             </column>
             <column name="bill_id" type="varchar(255)">
@@ -43,17 +43,17 @@
             <column name="external_number" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-            <column name="bill_date" type="date">
+            <column name="bill_date" type="datetime">
                 <constraints nullable="false" />
-            </column>
-            <column name="bill_type_id" type="bigint">
-                <constraints nullable="true" />
             </column>
             <column name="plate_id" type="bigint">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
+        <dropDefaultValue tableName="bill" columnName="from_date" columnDataType="datetime"/>
+        <dropDefaultValue tableName="bill" columnName="to_date" columnDataType="datetime"/>
+        <dropDefaultValue tableName="bill" columnName="bill_date" columnDataType="datetime"/>
     </changeSet>
 
     <changeSet id="20201111153319-1-relations" author="jhipster">
@@ -79,12 +79,12 @@
             <column name="bill_type" type="string"/>
             <column name="bill_type_title" type="string"/>
             <column name="street" type="string"/>
-            <column name="from_date" type="date"/>
-            <column name="to_date" type="date"/>
+            <column name="from_date" type="datetime"/>
+            <column name="to_date" type="datetime"/>
             <column name="bill_id" type="string"/>
             <column name="amount" type="numeric"/>
             <column name="external_number" type="string"/>
-            <column name="bill_date" type="date"/>
+            <column name="bill_date" type="datetime"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

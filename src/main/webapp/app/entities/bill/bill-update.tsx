@@ -9,6 +9,8 @@ import { IRootState } from 'app/shared/reducers';
 
 import { IPlate } from 'app/shared/model/plate.model';
 import { getEntities as getPlates } from 'app/entities/plate/plate.reducer';
+import { IPayRequest } from 'app/shared/model/pay-request.model';
+import { getEntities as getPayRequests } from 'app/entities/pay-request/pay-request.reducer';
 import { getEntity, updateEntity, createEntity, reset } from './bill.reducer';
 import { IBill } from 'app/shared/model/bill.model';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
@@ -18,9 +20,10 @@ export interface IBillUpdateProps extends StateProps, DispatchProps, RouteCompon
 
 export const BillUpdate = (props: IBillUpdateProps) => {
   const [plateId, setPlateId] = useState('0');
+  const [payRequestListId, setPayRequestListId] = useState('0');
   const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
 
-  const { billEntity, plates, loading, updating } = props;
+  const { billEntity, plates, payRequests, loading, updating } = props;
 
   const handleClose = () => {
     props.history.push('/bill');
@@ -34,6 +37,7 @@ export const BillUpdate = (props: IBillUpdateProps) => {
     }
 
     props.getPlates();
+    props.getPayRequests();
   }, []);
 
   useEffect(() => {
@@ -43,6 +47,10 @@ export const BillUpdate = (props: IBillUpdateProps) => {
   }, [props.updateSuccess]);
 
   const saveEntity = (event, errors, values) => {
+    values.fromDate = convertDateTimeToServer(values.fromDate);
+    values.toDate = convertDateTimeToServer(values.toDate);
+    values.billDate = convertDateTimeToServer(values.billDate);
+
     if (errors.length === 0) {
       const entity = {
         ...billEntity,
@@ -140,11 +148,13 @@ export const BillUpdate = (props: IBillUpdateProps) => {
                 <Label id="fromDateLabel" for="bill-fromDate">
                   <Translate contentKey="myTollApp.bill.fromDate">From Date</Translate>
                 </Label>
-                <AvField
+                <AvInput
                   id="bill-fromDate"
-                  type="date"
+                  type="datetime-local"
                   className="form-control"
                   name="fromDate"
+                  placeholder={'YYYY-MM-DD HH:mm'}
+                  value={isNew ? displayDefaultDateTime() : convertDateTimeFromServer(props.billEntity.fromDate)}
                   validate={{
                     required: { value: true, errorMessage: translate('entity.validation.required') },
                   }}
@@ -154,11 +164,13 @@ export const BillUpdate = (props: IBillUpdateProps) => {
                 <Label id="toDateLabel" for="bill-toDate">
                   <Translate contentKey="myTollApp.bill.toDate">To Date</Translate>
                 </Label>
-                <AvField
+                <AvInput
                   id="bill-toDate"
-                  type="date"
+                  type="datetime-local"
                   className="form-control"
                   name="toDate"
+                  placeholder={'YYYY-MM-DD HH:mm'}
+                  value={isNew ? displayDefaultDateTime() : convertDateTimeFromServer(props.billEntity.toDate)}
                   validate={{
                     required: { value: true, errorMessage: translate('entity.validation.required') },
                   }}
@@ -209,11 +221,13 @@ export const BillUpdate = (props: IBillUpdateProps) => {
                 <Label id="billDateLabel" for="bill-billDate">
                   <Translate contentKey="myTollApp.bill.billDate">Bill Date</Translate>
                 </Label>
-                <AvField
+                <AvInput
                   id="bill-billDate"
-                  type="date"
+                  type="datetime-local"
                   className="form-control"
                   name="billDate"
+                  placeholder={'YYYY-MM-DD HH:mm'}
+                  value={isNew ? displayDefaultDateTime() : convertDateTimeFromServer(props.billEntity.billDate)}
                   validate={{
                     required: { value: true, errorMessage: translate('entity.validation.required') },
                   }}
@@ -257,6 +271,7 @@ export const BillUpdate = (props: IBillUpdateProps) => {
 
 const mapStateToProps = (storeState: IRootState) => ({
   plates: storeState.plate.entities,
+  payRequests: storeState.payRequest.entities,
   billEntity: storeState.bill.entity,
   loading: storeState.bill.loading,
   updating: storeState.bill.updating,
@@ -265,6 +280,7 @@ const mapStateToProps = (storeState: IRootState) => ({
 
 const mapDispatchToProps = {
   getPlates,
+  getPayRequests,
   getEntity,
   updateEntity,
   createEntity,

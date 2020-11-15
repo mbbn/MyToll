@@ -86,12 +86,12 @@ export const Bill = (props: IBillProps) => {
                   <td>{bill.billType}</td>
                   <td>{bill.billTypeTitle}</td>
                   <td>{bill.street}</td>
-                  <td>{bill.fromDate ? <TextFormat type="date" value={bill.fromDate} format={APP_LOCAL_DATE_FORMAT} /> : null}</td>
-                  <td>{bill.toDate ? <TextFormat type="date" value={bill.toDate} format={APP_LOCAL_DATE_FORMAT} /> : null}</td>
+                  <td>{bill.fromDate ? <TextFormat type="date" value={bill.fromDate} format={APP_DATE_FORMAT} /> : null}</td>
+                  <td>{bill.toDate ? <TextFormat type="date" value={bill.toDate} format={APP_DATE_FORMAT} /> : null}</td>
                   <td>{bill.billId}</td>
                   <td>{bill.amount}</td>
                   <td>{bill.externalNumber}</td>
-                  <td>{bill.billDate ? <TextFormat type="date" value={bill.billDate} format={APP_LOCAL_DATE_FORMAT} /> : null}</td>
+                  <td>{bill.billDate ? <TextFormat type="date" value={bill.billDate} format={APP_DATE_FORMAT} /> : null}</td>
                   <td>{bill.plateId ? <Link to={`plate/${bill.plateId}`}>{bill.plateId}</Link> : ''}</td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">

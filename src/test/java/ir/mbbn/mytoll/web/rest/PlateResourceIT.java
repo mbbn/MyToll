@@ -1,8 +1,6 @@
 package ir.mbbn.mytoll.web.rest;
 
 import ir.mbbn.mytoll.MyTollApp;
-import ir.mbbn.mytoll.domain.Plate;
-import ir.mbbn.mytoll.repository.PlateRepository;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,7 +24,6 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import ir.mbbn.mytoll.domain.enumeration.PlateType;
 /**
  * Integration tests for the {@link PlateResource} REST controller.
  */
@@ -302,7 +299,7 @@ public class PlateResourceIT {
             .andExpect(jsonPath("$.[*].lastUpdateTime").value(hasItem(sameInstant(DEFAULT_LAST_UPDATE_TIME))))
             .andExpect(jsonPath("$.[*].lastUpdatedBy").value(hasItem(DEFAULT_LAST_UPDATED_BY)));
     }
-    
+
     @Test
     @Transactional
     public void getPlate() throws Exception {

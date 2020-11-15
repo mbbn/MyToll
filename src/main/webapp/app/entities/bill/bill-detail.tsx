@@ -54,13 +54,13 @@ export const BillDetail = (props: IBillDetailProps) => {
               <Translate contentKey="myTollApp.bill.fromDate">From Date</Translate>
             </span>
           </dt>
-          <dd>{billEntity.fromDate ? <TextFormat value={billEntity.fromDate} type="date" format={APP_LOCAL_DATE_FORMAT} /> : null}</dd>
+          <dd>{billEntity.fromDate ? <TextFormat value={billEntity.fromDate} type="date" format={APP_DATE_FORMAT} /> : null}</dd>
           <dt>
             <span id="toDate">
               <Translate contentKey="myTollApp.bill.toDate">To Date</Translate>
             </span>
           </dt>
-          <dd>{billEntity.toDate ? <TextFormat value={billEntity.toDate} type="date" format={APP_LOCAL_DATE_FORMAT} /> : null}</dd>
+          <dd>{billEntity.toDate ? <TextFormat value={billEntity.toDate} type="date" format={APP_DATE_FORMAT} /> : null}</dd>
           <dt>
             <span id="billId">
               <Translate contentKey="myTollApp.bill.billId">Bill Id</Translate>
@@ -84,7 +84,7 @@ export const BillDetail = (props: IBillDetailProps) => {
               <Translate contentKey="myTollApp.bill.billDate">Bill Date</Translate>
             </span>
           </dt>
-          <dd>{billEntity.billDate ? <TextFormat value={billEntity.billDate} type="date" format={APP_LOCAL_DATE_FORMAT} /> : null}</dd>
+          <dd>{billEntity.billDate ? <TextFormat value={billEntity.billDate} type="date" format={APP_DATE_FORMAT} /> : null}</dd>
           <dt>
             <Translate contentKey="myTollApp.bill.plate">Plate</Translate>
           </dt>

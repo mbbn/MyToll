@@ -1,12 +1,12 @@
 package ir.mbbn.mytoll.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import ir.mbbn.mytoll.config.ApplicationProperties;
 import ir.mbbn.mytoll.domain.Bill;
 import ir.mbbn.mytoll.domain.Customer;
-import ir.mbbn.mytoll.domain.Plate;
 import ir.mbbn.mytoll.domain.TollRequest;
 import ir.mbbn.mytoll.domain.enumeration.TaxCategory;
+import ir.mbbn.mytoll.repository.BillRepository;
+import ir.mbbn.mytoll.repository.CustomerRepository;
 import ir.mbbn.mytoll.service.dto.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,10 +21,8 @@ import org.springframework.web.util.DefaultUriBuilderFactory;
 import org.springframework.web.util.UriBuilder;
 
 import javax.validation.Valid;
-import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URL;
-import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
@@ -41,12 +39,18 @@ public class TollRequestService extends RestTemplate {
     private final Logger log = LoggerFactory.getLogger(TollRequestService.class);
 
     private final ApplicationProperties.Sepandar sepandar;
+    private final CustomerRepository customerRepository;
+    private final PlateRepository plateRepository;
+    private final BillRepository billRepository;
 
     private String token;
     private Date expireTime;
 
-    public TollRequestService(ApplicationProperties applicationProperties) {
+    public TollRequestService(ApplicationProperties applicationProperties, CustomerRepository customerRepository, PlateRepository plateRepository, BillRepository billRepository) {
         sepandar = applicationProperties.getSepandar();
+        this.customerRepository = customerRepository;
+        this.plateRepository = plateRepository;
+        this.billRepository = billRepository;
     }
 
     private UriBuilder getUrlBuilder(){
@@ -138,8 +142,18 @@ public class TollRequestService extends RestTemplate {
                     bill.setExternalNumber(billDto.getExternalNumber());
                     bill.setBillDate(billDto.getBillDate());
                     Plate plate = new Plate();
-                    Customer customer = new Customer();
-                    customer.setMobile(tollRequest.getMobile());
+
+                    String mobile = tollRequest.getMobile();
+                    Customer customer = customerRepository.findCustomerByMobile(mobile);
+                    if(customer == null){
+                        customer = new Customer();
+                        customer.creationBy(mobile);
+                        customer.creationTime(ZonedDateTime.now());
+                        customer.lastUpdatedBy(mobile);
+                        customer.lastUpdateTime(ZonedDateTime.now());
+                        customer.setMobile(mobile);
+                        customer = customerRepository.save(customer);
+                    }
                     plate.setCustomer(customer);
                     plate.setCode(tollRequest.getPlate());
                     bill.setPlate(plate);
@@ -151,6 +165,16 @@ public class TollRequestService extends RestTemplate {
         } catch (RestClientException e) {
             throw new RuntimeException("failed to login");
         }finally {
+
+        }
+    }
+
+    public void pay(Long customerId, List<Bill> bills) {
+        Customer customer = customerRepository.getOne(customerId);
+        if(bills.size() > 0){
+            Bill bill = bills.get(0);
+            Plate plate = bill.getPlate();
+            Customer billCustomer = plate.getCustomer();
 
         }
     }

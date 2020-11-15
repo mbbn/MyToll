@@ -1,5 +1,6 @@
 package ir.mbbn.mytoll.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -8,8 +9,9 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 import ir.mbbn.mytoll.domain.enumeration.TaxCategory;
 
@@ -71,6 +73,11 @@ public class Bill implements Serializable {
     @ManyToOne
     @JsonIgnoreProperties(value = "bills", allowSetters = true)
     private Plate plate;
+
+    @ManyToMany(mappedBy = "bills")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnore
+    private Set<PayRequest> payRequestLists = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -222,6 +229,31 @@ public class Bill implements Serializable {
 
     public void setPlate(Plate plate) {
         this.plate = plate;
+    }
+
+    public Set<PayRequest> getPayRequestLists() {
+        return payRequestLists;
+    }
+
+    public Bill payRequestLists(Set<PayRequest> payRequests) {
+        this.payRequestLists = payRequests;
+        return this;
+    }
+
+    public Bill addPayRequestList(PayRequest payRequest) {
+        this.payRequestLists.add(payRequest);
+        payRequest.getBills().add(this);
+        return this;
+    }
+
+    public Bill removePayRequestList(PayRequest payRequest) {
+        this.payRequestLists.remove(payRequest);
+        payRequest.getBills().remove(this);
+        return this;
+    }
+
+    public void setPayRequestLists(Set<PayRequest> payRequests) {
+        this.payRequestLists = payRequests;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 

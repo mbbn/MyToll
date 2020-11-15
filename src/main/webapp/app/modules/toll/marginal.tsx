@@ -13,9 +13,6 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import {IBill} from "app/shared/model/bill.model";
 import { toast } from 'react-toastify';
 import TollRequest from "app/entities/toll-request/toll-request";
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import {useTheme} from '@material-ui/core/styles';
-import {Dialog, DialogTitle, DialogContent, DialogActions} from '@material-ui/core';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -73,13 +70,6 @@ export const Marginal = (props: IMarginalProps) => {
     });
   };
 
-  const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.up('sm'));
-
-  const handleClose = ()=>{
-    setShowTollRequest(false);
-  };
-
   return (<>
     <Formik initialValues={{}} validate={values => isValid(values)} onSubmit={save}>{({handleSubmit, errors, values, handleChange, handleBlur, setFieldValue}) => (
       <form onSubmit={handleSubmit}>
@@ -107,20 +97,7 @@ export const Marginal = (props: IMarginalProps) => {
     <Backdrop open={open} className={classes.backdrop}>
       <CircularProgress color="inherit" />
     </Backdrop>
-    <Dialog open={showTollRequest} maxWidth={matches?'xl':'xs'} onClose={handleClose}>
-      <DialogTitle>{translate('myTollApp.tollRequest.home.title')}</DialogTitle>
-      <DialogContent>
-        <TollRequest bills={bills}/>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose} color="default" variant={"contained"}>
-          {translate('entity.action.back')}
-        </Button>
-        <Button onClick={handleClose} color="primary" autoFocus variant={"contained"}>
-          {translate('entity.action.pay')}
-        </Button>
-      </DialogActions>
-    </Dialog>
+    {showTollRequest ? <TollRequest bills={bills} handleClose={() => {setShowTollRequest(false)}}/> : null}
   </>);
 };
 

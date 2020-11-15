@@ -170,7 +170,7 @@ public class Customer implements Serializable {
     public String toString() {
         return "Customer{" +
             "id=" + getId() +
-            ", mobile=" + getMobile() +
+            ", mobile='" + getMobile() + "'" +
             ", creationTime='" + getCreationTime() + "'" +
             ", creationBy='" + getCreationBy() + "'" +
             ", lastUpdateTime='" + getLastUpdateTime() + "'" +

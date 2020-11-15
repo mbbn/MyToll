@@ -5,19 +5,19 @@ import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 import { Translate, ICrudGetAction, ICrudDeleteAction } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { IPlate } from 'app/shared/model/plate.model';
+import { IPayRequest } from 'app/shared/model/pay-request.model';
 import { IRootState } from 'app/shared/reducers';
-import { getEntity, deleteEntity } from './plate.reducer';
+import { getEntity, deleteEntity } from './pay-request.reducer';
 
-export interface IPlateDeleteDialogProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
+export interface IPayRequestDeleteDialogProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
-export const PlateDeleteDialog = (props: IPlateDeleteDialogProps) => {
+export const PayRequestDeleteDialog = (props: IPayRequestDeleteDialogProps) => {
   useEffect(() => {
     props.getEntity(props.match.params.id);
   }, []);
 
   const handleClose = () => {
-    props.history.push('/plate');
+    props.history.push('/pay-request');
   };
 
   useEffect(() => {
@@ -27,18 +27,18 @@ export const PlateDeleteDialog = (props: IPlateDeleteDialogProps) => {
   }, [props.updateSuccess]);
 
   const confirmDelete = () => {
-    props.deleteEntity(props.plateEntity.id);
+    props.deleteEntity(props.payRequestEntity.id);
   };
 
-  const { plateEntity } = props;
+  const { payRequestEntity } = props;
   return (
     <Modal isOpen toggle={handleClose}>
       <ModalHeader toggle={handleClose}>
         <Translate contentKey="entity.delete.title">Confirm delete operation</Translate>
       </ModalHeader>
-      <ModalBody id="myTollApp.plate.delete.question">
-        <Translate contentKey="myTollApp.plate.delete.question" interpolate={{ id: plateEntity.id }}>
-          Are you sure you want to delete this Plate?
+      <ModalBody id="myTollApp.payRequest.delete.question">
+        <Translate contentKey="myTollApp.payRequest.delete.question" interpolate={{ id: payRequestEntity.id }}>
+          Are you sure you want to delete this PayRequest?
         </Translate>
       </ModalBody>
       <ModalFooter>
@@ -47,7 +47,7 @@ export const PlateDeleteDialog = (props: IPlateDeleteDialogProps) => {
           &nbsp;
           <Translate contentKey="entity.action.cancel">Cancel</Translate>
         </Button>
-        <Button id="jhi-confirm-delete-plate" color="danger" onClick={confirmDelete}>
+        <Button id="jhi-confirm-delete-payRequest" color="danger" onClick={confirmDelete}>
           <FontAwesomeIcon icon="trash" />
           &nbsp;
           <Translate contentKey="entity.action.delete">Delete</Translate>
@@ -57,9 +57,9 @@ export const PlateDeleteDialog = (props: IPlateDeleteDialogProps) => {
   );
 };
 
-const mapStateToProps = ({ plate }: IRootState) => ({
-  plateEntity: plate.entity,
-  updateSuccess: plate.updateSuccess,
+const mapStateToProps = ({ payRequest }: IRootState) => ({
+  payRequestEntity: payRequest.entity,
+  updateSuccess: payRequest.updateSuccess,
 });
 
 const mapDispatchToProps = { getEntity, deleteEntity };
@@ -67,4 +67,4 @@ const mapDispatchToProps = { getEntity, deleteEntity };
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;
 
-export default connect(mapStateToProps, mapDispatchToProps)(PlateDeleteDialog);
+export default connect(mapStateToProps, mapDispatchToProps)(PayRequestDeleteDialog);

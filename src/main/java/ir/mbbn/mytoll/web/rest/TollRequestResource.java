@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.net.URISyntaxException;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -50,5 +48,6 @@ public class TollRequestResource {
     @PostMapping("/pay")
     public void pay(@RequestBody List<Bill> bills) throws URISyntaxException {
         log.debug("REST request to Pay Bills");
+        tollRequestService.pay(bills);
     }
 }

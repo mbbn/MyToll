@@ -1,4 +1,5 @@
 import { Moment } from 'moment';
+import { IPayRequest } from 'app/shared/model/pay-request.model';
 import { TaxCategory } from 'app/shared/model/enumerations/tax-category.model';
 
 export interface IBill {
@@ -14,6 +15,7 @@ export interface IBill {
   externalNumber?: string;
   billDate?: string;
   plateId?: number;
+  payRequestLists?: IPayRequest[];
 }
 
 export const defaultValue: Readonly<IBill> = {};

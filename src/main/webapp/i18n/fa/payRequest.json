@@ -1,0 +1,28 @@
+{
+  "myTollApp": {
+    "payRequest": {
+      "home": {
+        "title": "Pay Requests",
+        "createLabel": "Create a new Pay Request",
+        "createOrEditLabel": "Create or edit a Pay Request",
+        "notFound": "No Pay Requests found"
+      },
+      "created": "A new Pay Request is created with identifier {{ param }}",
+      "updated": "A Pay Request is updated with identifier {{ param }}",
+      "deleted": "A Pay Request is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Pay Request {{ id }}?"
+      },
+      "detail": {
+        "title": "Pay Request"
+      },
+      "accountNo": "Account No",
+      "title": "Title",
+      "mobileNumber": "Mobile Number",
+      "sendSms": "Send Sms",
+      "amount": "Amount",
+      "callBackService": "Call Back Service",
+      "bills": "Bills"
+    }
+  }
+}

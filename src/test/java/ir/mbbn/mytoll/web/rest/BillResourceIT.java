@@ -3,7 +3,6 @@ package ir.mbbn.mytoll.web.rest;
 import ir.mbbn.mytoll.MyTollApp;
 import ir.mbbn.mytoll.domain.Bill;
 import ir.mbbn.mytoll.repository.BillRepository;
-import ir.mbbn.mytoll.service.BillService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,10 +14,13 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
-import java.time.LocalDate;
+import java.time.Instant;
+import java.time.ZonedDateTime;
+import java.time.ZoneOffset;
 import java.time.ZoneId;
 import java.util.List;
 
+import static ir.mbbn.mytoll.web.rest.TestUtil.sameInstant;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -45,11 +47,11 @@ public class BillResourceIT {
     private static final String DEFAULT_STREET = "AAAAAAAAAA";
     private static final String UPDATED_STREET = "BBBBBBBBBB";
 
-    private static final LocalDate DEFAULT_FROM_DATE = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_FROM_DATE = LocalDate.now(ZoneId.systemDefault());
+    private static final ZonedDateTime DEFAULT_FROM_DATE = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
+    private static final ZonedDateTime UPDATED_FROM_DATE = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
 
-    private static final LocalDate DEFAULT_TO_DATE = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_TO_DATE = LocalDate.now(ZoneId.systemDefault());
+    private static final ZonedDateTime DEFAULT_TO_DATE = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
+    private static final ZonedDateTime UPDATED_TO_DATE = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
 
     private static final String DEFAULT_BILL_ID = "AAAAAAAAAA";
     private static final String UPDATED_BILL_ID = "BBBBBBBBBB";
@@ -60,8 +62,8 @@ public class BillResourceIT {
     private static final String DEFAULT_EXTERNAL_NUMBER = "AAAAAAAAAA";
     private static final String UPDATED_EXTERNAL_NUMBER = "BBBBBBBBBB";
 
-    private static final LocalDate DEFAULT_BILL_DATE = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_BILL_DATE = LocalDate.now(ZoneId.systemDefault());
+    private static final ZonedDateTime DEFAULT_BILL_DATE = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
+    private static final ZonedDateTime UPDATED_BILL_DATE = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
 
     @Autowired
     private BillRepository billRepository;
@@ -374,14 +376,14 @@ public class BillResourceIT {
             .andExpect(jsonPath("$.[*].billType").value(hasItem(DEFAULT_BILL_TYPE)))
             .andExpect(jsonPath("$.[*].billTypeTitle").value(hasItem(DEFAULT_BILL_TYPE_TITLE)))
             .andExpect(jsonPath("$.[*].street").value(hasItem(DEFAULT_STREET)))
-            .andExpect(jsonPath("$.[*].fromDate").value(hasItem(DEFAULT_FROM_DATE.toString())))
-            .andExpect(jsonPath("$.[*].toDate").value(hasItem(DEFAULT_TO_DATE.toString())))
+            .andExpect(jsonPath("$.[*].fromDate").value(hasItem(sameInstant(DEFAULT_FROM_DATE))))
+            .andExpect(jsonPath("$.[*].toDate").value(hasItem(sameInstant(DEFAULT_TO_DATE))))
             .andExpect(jsonPath("$.[*].billId").value(hasItem(DEFAULT_BILL_ID)))
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT)))
             .andExpect(jsonPath("$.[*].externalNumber").value(hasItem(DEFAULT_EXTERNAL_NUMBER)))
-            .andExpect(jsonPath("$.[*].billDate").value(hasItem(DEFAULT_BILL_DATE.toString())));
+            .andExpect(jsonPath("$.[*].billDate").value(hasItem(sameInstant(DEFAULT_BILL_DATE))));
     }
-    
+
     @Test
     @Transactional
     public void getBill() throws Exception {
@@ -397,12 +399,12 @@ public class BillResourceIT {
             .andExpect(jsonPath("$.billType").value(DEFAULT_BILL_TYPE))
             .andExpect(jsonPath("$.billTypeTitle").value(DEFAULT_BILL_TYPE_TITLE))
             .andExpect(jsonPath("$.street").value(DEFAULT_STREET))
-            .andExpect(jsonPath("$.fromDate").value(DEFAULT_FROM_DATE.toString()))
-            .andExpect(jsonPath("$.toDate").value(DEFAULT_TO_DATE.toString()))
+            .andExpect(jsonPath("$.fromDate").value(sameInstant(DEFAULT_FROM_DATE)))
+            .andExpect(jsonPath("$.toDate").value(sameInstant(DEFAULT_TO_DATE)))
             .andExpect(jsonPath("$.billId").value(DEFAULT_BILL_ID))
             .andExpect(jsonPath("$.amount").value(DEFAULT_AMOUNT))
             .andExpect(jsonPath("$.externalNumber").value(DEFAULT_EXTERNAL_NUMBER))
-            .andExpect(jsonPath("$.billDate").value(DEFAULT_BILL_DATE.toString()));
+            .andExpect(jsonPath("$.billDate").value(sameInstant(DEFAULT_BILL_DATE)));
     }
     @Test
     @Transactional
