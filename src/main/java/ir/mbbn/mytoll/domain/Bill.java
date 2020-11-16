@@ -79,11 +79,6 @@ public class Bill implements Serializable {
     @JsonIgnore
     private Set<PayRequest> payRequestLists = new HashSet<>();
 
-    @ManyToMany(mappedBy = "bills")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnore
-    private Set<Customer> customers = new HashSet<>();
-
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
         return id;
@@ -259,31 +254,6 @@ public class Bill implements Serializable {
 
     public void setPayRequestLists(Set<PayRequest> payRequests) {
         this.payRequestLists = payRequests;
-    }
-
-    public Set<Customer> getCustomers() {
-        return customers;
-    }
-
-    public Bill customers(Set<Customer> customers) {
-        this.customers = customers;
-        return this;
-    }
-
-    public Bill addCustomer(Customer customer) {
-        this.customers.add(customer);
-        customer.getBills().add(this);
-        return this;
-    }
-
-    public Bill removeCustomer(Customer customer) {
-        this.customers.remove(customer);
-        customer.getBills().remove(this);
-        return this;
-    }
-
-    public void setCustomers(Set<Customer> customers) {
-        this.customers = customers;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 

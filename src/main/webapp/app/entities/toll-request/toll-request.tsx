@@ -18,8 +18,9 @@ import {Dialog, DialogTitle, DialogContent, DialogActions, Button} from '@materi
 import {pay} from 'app/entities/toll-request/toll-request.reducer';
 import {Translate} from 'react-jhipster';
 import {Alert} from '@material-ui/lab';
-import { toast } from 'react-toastify';
-import {defaultValue} from "app/shared/model/pay-request.model";
+import {toast} from 'react-toastify';
+import {defaultValue as defaultPayRequest} from "app/shared/model/pay-request.model";
+import {defaultValue as defaultCustomer} from "app/shared/model/customer.model";
 
 export interface ITollDataTableProps extends StateProps, DispatchProps {
   bills: IBill[];
@@ -47,9 +48,10 @@ export const TollRequest = (props: ITollDataTableProps) => {
   };
 
   const handlePay = () => {
-    const payRequest = defaultValue;
+    const payRequest = {...defaultPayRequest};
     payRequest.bills = bills;
-    payRequest.mobileNumber = mobile;
+    payRequest.customer = {...defaultCustomer};
+    payRequest.customer.mobile = mobile;
     pay(payRequest).payload.then(response => {
       /* eslint no-console: off */
       console.log(response);

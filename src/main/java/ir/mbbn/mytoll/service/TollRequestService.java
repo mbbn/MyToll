@@ -6,6 +6,7 @@ import ir.mbbn.mytoll.domain.Customer;
 import ir.mbbn.mytoll.domain.PayRequest;
 import ir.mbbn.mytoll.domain.TollRequest;
 import ir.mbbn.mytoll.domain.enumeration.TaxCategory;
+import ir.mbbn.mytoll.repository.BillRepository;
 import ir.mbbn.mytoll.repository.CustomerRepository;
 import ir.mbbn.mytoll.service.dto.*;
 import org.slf4j.Logger;
@@ -38,13 +39,15 @@ public class TollRequestService extends RestTemplate {
 
     private final ApplicationProperties.Sepandar sepandar;
     private final CustomerRepository customerRepository;
+    private final BillRepository billRepository;
 
     private String token;
     private Date expireTime;
 
-    public TollRequestService(ApplicationProperties applicationProperties, CustomerRepository customerRepository) {
+    public TollRequestService(ApplicationProperties applicationProperties, CustomerRepository customerRepository, BillRepository billRepository) {
         sepandar = applicationProperties.getSepandar();
         this.customerRepository = customerRepository;
+        this.billRepository = billRepository;
     }
 
     private UriBuilder getUrlBuilder(){
@@ -145,9 +148,36 @@ public class TollRequestService extends RestTemplate {
         }
     }
 
+    public List<Bill> mPayBill(String trackId, Set<Bill> bills) {
+        try {
+            String token = login();
+            String M_PAY_BILL_PATH = "api/bill/mPayBill";
+            URI uri = getUrlBuilder().path(M_PAY_BILL_PATH).build();
+            HttpHeaders headers = new HttpHeaders();
+            headers.add(HttpHeaders.AUTHORIZATION, token);
+            headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+
+            MPayBillRequestDto mPayBillRequestDto = new MPayBillRequestDto();
+            mPayBillRequestDto.setBills(bills.stream().map(Bill::getBillId).toArray(String[]::new));
+
+            HttpEntity<MPayBillRequestDto> requestEntity = new HttpEntity<>(mPayBillRequestDto, headers);
+            ResponseEntity<SepandarResponseDto<MPayBillResponseDto>> response = exchange(uri, HttpMethod.POST, requestEntity, new ParameterizedTypeReference<SepandarResponseDto<MPayBillResponseDto>>() {});
+            SepandarResponseDto<MPayBillResponseDto> sepandarResponseDto = response.getBody();
+            if(sepandarResponseDto!= null && sepandarResponseDto.isSuccess()){
+                MPayBillResponseDto result = sepandarResponseDto.getResult();
+                result.getData()
+            }else {
+                throw new RuntimeException("failed to login");
+            }
+        } catch (RestClientException e) {
+            throw new RuntimeException("failed to login");
+        }
+    }
+
     public void pay(PayRequest payRequest) {
-        String mobileNumber = payRequest.getMobileNumber();
-        Customer customer = customerRepository.findOneCustomerByMobile(mobileNumber).orElse(null);
+        Customer customer = payRequest.getCustomer();
+        String mobileNumber = customer.getMobile();
+        customer = customerRepository.findOneCustomerByMobile(mobileNumber).orElse(null);
         if(customer == null){
             customer = new Customer();
             customer.creationBy(mobileNumber);
@@ -157,8 +187,10 @@ public class TollRequestService extends RestTemplate {
             customer.setMobile(mobileNumber);
             customerRepository.save(customer);
         }
-        Set<Bill> bills = payRequest.getBills();
-        if (bills.size() > 0) {
-        }
+        payRequest.setCustomer(customer);
+
+        List<String> billIds = payRequest.getBills().stream().map(Bill::getBillId).collect(Collectors.toList());
+        List<Bill> tryBills = billRepository.findByBillIdIn(billIds);
+
     }
 }

@@ -1,8 +1,11 @@
 package ir.mbbn.mytoll.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ExtraInfoDto implements Serializable {
 
     private String street;

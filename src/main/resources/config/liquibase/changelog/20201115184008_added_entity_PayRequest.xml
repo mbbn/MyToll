@@ -22,9 +22,6 @@
             <column name="title" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-            <column name="mobile_number" type="varchar(255)">
-                <constraints nullable="false" />
-            </column>
             <column name="send_sms" type="boolean">
                 <constraints nullable="false" />
             </column>
@@ -33,6 +30,9 @@
             </column>
             <column name="call_back_service" type="varchar(255)">
                 <constraints nullable="false" />
+            </column>
+            <column name="customer_id" type="bigint">
+                <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
@@ -70,7 +70,6 @@
             <column name="id" type="numeric"/>
             <column name="account_no" type="string"/>
             <column name="title" type="string"/>
-            <column name="mobile_number" type="string"/>
             <column name="send_sms" type="boolean"/>
             <column name="amount" type="string"/>
             <column name="call_back_service" type="string"/>

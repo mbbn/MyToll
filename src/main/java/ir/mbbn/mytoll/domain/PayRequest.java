@@ -1,5 +1,6 @@
 package ir.mbbn.mytoll.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -33,10 +34,6 @@ public class PayRequest implements Serializable {
     private String title;
 
     @NotNull
-    @Column(name = "mobile_number", nullable = false)
-    private String mobileNumber;
-
-    @NotNull
     @Column(name = "send_sms", nullable = false)
     private Boolean sendSms;
 
@@ -47,6 +44,10 @@ public class PayRequest implements Serializable {
     @NotNull
     @Column(name = "call_back_service", nullable = false)
     private String callBackService;
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = "payRequests", allowSetters = true)
+    private Customer customer;
 
     @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -90,19 +91,6 @@ public class PayRequest implements Serializable {
         this.title = title;
     }
 
-    public String getMobileNumber() {
-        return mobileNumber;
-    }
-
-    public PayRequest mobileNumber(String mobileNumber) {
-        this.mobileNumber = mobileNumber;
-        return this;
-    }
-
-    public void setMobileNumber(String mobileNumber) {
-        this.mobileNumber = mobileNumber;
-    }
-
     public Boolean isSendSms() {
         return sendSms;
     }
@@ -140,6 +128,19 @@ public class PayRequest implements Serializable {
 
     public void setCallBackService(String callBackService) {
         this.callBackService = callBackService;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public PayRequest customer(Customer customer) {
+        this.customer = customer;
+        return this;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public Set<Bill> getBills() {
@@ -191,7 +192,6 @@ public class PayRequest implements Serializable {
             "id=" + getId() +
             ", accountNo='" + getAccountNo() + "'" +
             ", title='" + getTitle() + "'" +
-            ", mobileNumber='" + getMobileNumber() + "'" +
             ", sendSms='" + isSendSms() + "'" +
             ", amount='" + getAmount() + "'" +
             ", callBackService='" + getCallBackService() + "'" +

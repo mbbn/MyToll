@@ -18,10 +18,10 @@
       },
       "accountNo": "Account No",
       "title": "Title",
-      "mobileNumber": "Mobile Number",
       "sendSms": "Send Sms",
       "amount": "Amount",
       "callBackService": "Call Back Service",
+      "customer": "Customer",
       "bills": "Bills"
     }
   }

@@ -61,7 +61,6 @@ entity TollRequest{
 entity PayRequest{
     accountNo String required
     title String required
-    mobileNumber String required
     sendSms Boolean required
     amount String required
     callBackService String required
@@ -69,11 +68,11 @@ entity PayRequest{
 
 relationship ManyToOne {
     BaseInfo{group} to BaseInfo
+    PayRequest{customer} to Customer
 }
 
 relationship ManyToMany {
     PayRequest{bills} to Bill{payRequestList}
-    Customer{bills} to Bill{customer}
 }
 
 dto TollRequest with mapstruct

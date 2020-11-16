@@ -16,13 +16,6 @@
       ]
     },
     {
-      "fieldName": "mobileNumber",
-      "fieldType": "String",
-      "fieldValidateRules": [
-        "required"
-      ]
-    },
-    {
       "fieldName": "sendSms",
       "fieldType": "Boolean",
       "fieldValidateRules": [
@@ -45,6 +38,13 @@
     }
   ],
   "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "customer",
+      "otherEntityRelationshipName": "payRequest",
+      "relationshipName": "customer",
+      "otherEntityField": "id"
+    },
     {
       "relationshipType": "many-to-many",
       "otherEntityName": "bill",

@@ -7,8 +7,6 @@ import { Translate, translate, ICrudGetAction, ICrudGetAllAction, ICrudPutAction
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 
-import { IBill } from 'app/shared/model/bill.model';
-import { getEntities as getBills } from 'app/entities/bill/bill.reducer';
 import { getEntity, updateEntity, createEntity, reset } from './customer.reducer';
 import { ICustomer } from 'app/shared/model/customer.model';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
@@ -17,10 +15,9 @@ import { mapIdList } from 'app/shared/util/entity-utils';
 export interface ICustomerUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
 export const CustomerUpdate = (props: ICustomerUpdateProps) => {
-  const [idsbills, setIdsbills] = useState([]);
   const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
 
-  const { customerEntity, bills, loading, updating } = props;
+  const { customerEntity, loading, updating } = props;
 
   const handleClose = () => {
     props.history.push('/customer' + props.location.search);
@@ -32,8 +29,6 @@ export const CustomerUpdate = (props: ICustomerUpdateProps) => {
     } else {
       props.getEntity(props.match.params.id);
     }
-
-    props.getBills();
   }, []);
 
   useEffect(() => {
@@ -50,7 +45,6 @@ export const CustomerUpdate = (props: ICustomerUpdateProps) => {
       const entity = {
         ...customerEntity,
         ...values,
-        bills: mapIdList(values.bills),
       };
 
       if (isNew) {
@@ -155,28 +149,6 @@ export const CustomerUpdate = (props: ICustomerUpdateProps) => {
                   }}
                 />
               </AvGroup>
-              <AvGroup>
-                <Label for="customer-bills">
-                  <Translate contentKey="myTollApp.customer.bills">Bills</Translate>
-                </Label>
-                <AvInput
-                  id="customer-bills"
-                  type="select"
-                  multiple
-                  className="form-control"
-                  name="bills"
-                  value={customerEntity.bills && customerEntity.bills.map(e => e.id)}
-                >
-                  <option value="" key="0" />
-                  {bills
-                    ? bills.map(otherEntity => (
-                        <option value={otherEntity.id} key={otherEntity.id}>
-                          {otherEntity.id}
-                        </option>
-                      ))
-                    : null}
-                </AvInput>
-              </AvGroup>
               <Button tag={Link} id="cancel-save" to="/customer" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;
@@ -199,7 +171,6 @@ export const CustomerUpdate = (props: ICustomerUpdateProps) => {
 };
 
 const mapStateToProps = (storeState: IRootState) => ({
-  bills: storeState.bill.entities,
   customerEntity: storeState.customer.entity,
   loading: storeState.customer.loading,
   updating: storeState.customer.updating,
@@ -207,7 +178,6 @@ const mapStateToProps = (storeState: IRootState) => ({
 });
 
 const mapDispatchToProps = {
-  getBills,
   getEntity,
   updateEntity,
   createEntity,

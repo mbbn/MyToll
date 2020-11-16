@@ -7,6 +7,8 @@ import { Translate, translate, ICrudGetAction, ICrudGetAllAction, ICrudPutAction
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 
+import { ICustomer } from 'app/shared/model/customer.model';
+import { getEntities as getCustomers } from 'app/entities/customer/customer.reducer';
 import { IBill } from 'app/shared/model/bill.model';
 import { getEntities as getBills } from 'app/entities/bill/bill.reducer';
 import { getEntity, updateEntity, createEntity, reset } from './pay-request.reducer';
@@ -18,9 +20,10 @@ export interface IPayRequestUpdateProps extends StateProps, DispatchProps, Route
 
 export const PayRequestUpdate = (props: IPayRequestUpdateProps) => {
   const [idsbills, setIdsbills] = useState([]);
+  const [customerId, setCustomerId] = useState('0');
   const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
 
-  const { payRequestEntity, bills, loading, updating } = props;
+  const { payRequestEntity, customers, bills, loading, updating } = props;
 
   const handleClose = () => {
     props.history.push('/pay-request');
@@ -33,6 +36,7 @@ export const PayRequestUpdate = (props: IPayRequestUpdateProps) => {
       props.getEntity(props.match.params.id);
     }
 
+    props.getCustomers();
     props.getBills();
   }, []);
 
@@ -107,19 +111,6 @@ export const PayRequestUpdate = (props: IPayRequestUpdateProps) => {
                   }}
                 />
               </AvGroup>
-              <AvGroup>
-                <Label id="mobileNumberLabel" for="pay-request-mobileNumber">
-                  <Translate contentKey="myTollApp.payRequest.mobileNumber">Mobile Number</Translate>
-                </Label>
-                <AvField
-                  id="pay-request-mobileNumber"
-                  type="text"
-                  name="mobileNumber"
-                  validate={{
-                    required: { value: true, errorMessage: translate('entity.validation.required') },
-                  }}
-                />
-              </AvGroup>
               <AvGroup check>
                 <Label id="sendSmsLabel">
                   <AvInput id="pay-request-sendSms" type="checkbox" className="form-check-input" name="sendSms" />
@@ -151,6 +142,21 @@ export const PayRequestUpdate = (props: IPayRequestUpdateProps) => {
                     required: { value: true, errorMessage: translate('entity.validation.required') },
                   }}
                 />
+              </AvGroup>
+              <AvGroup>
+                <Label for="pay-request-customer">
+                  <Translate contentKey="myTollApp.payRequest.customer">Customer</Translate>
+                </Label>
+                <AvInput id="pay-request-customer" type="select" className="form-control" name="customer.id">
+                  <option value="" key="0" />
+                  {customers
+                    ? customers.map(otherEntity => (
+                        <option value={otherEntity.id} key={otherEntity.id}>
+                          {otherEntity.id}
+                        </option>
+                      ))
+                    : null}
+                </AvInput>
               </AvGroup>
               <AvGroup>
                 <Label for="pay-request-bills">
@@ -196,6 +202,7 @@ export const PayRequestUpdate = (props: IPayRequestUpdateProps) => {
 };
 
 const mapStateToProps = (storeState: IRootState) => ({
+  customers: storeState.customer.entities,
   bills: storeState.bill.entities,
   payRequestEntity: storeState.payRequest.entity,
   loading: storeState.payRequest.loading,
@@ -204,6 +211,7 @@ const mapStateToProps = (storeState: IRootState) => ({
 });
 
 const mapDispatchToProps = {
+  getCustomers,
   getBills,
   getEntity,
   updateEntity,

@@ -43,9 +43,6 @@ export const PayRequest = (props: IPayRequestProps) => {
                   <Translate contentKey="myTollApp.payRequest.title">Title</Translate>
                 </th>
                 <th>
-                  <Translate contentKey="myTollApp.payRequest.mobileNumber">Mobile Number</Translate>
-                </th>
-                <th>
                   <Translate contentKey="myTollApp.payRequest.sendSms">Send Sms</Translate>
                 </th>
                 <th>
@@ -53,6 +50,9 @@ export const PayRequest = (props: IPayRequestProps) => {
                 </th>
                 <th>
                   <Translate contentKey="myTollApp.payRequest.callBackService">Call Back Service</Translate>
+                </th>
+                <th>
+                  <Translate contentKey="myTollApp.payRequest.customer">Customer</Translate>
                 </th>
                 <th>
                   <Translate contentKey="myTollApp.payRequest.bills">Bills</Translate>
@@ -70,10 +70,10 @@ export const PayRequest = (props: IPayRequestProps) => {
                   </td>
                   <td>{payRequest.accountNo}</td>
                   <td>{payRequest.title}</td>
-                  <td>{payRequest.mobileNumber}</td>
                   <td>{payRequest.sendSms ? 'true' : 'false'}</td>
                   <td>{payRequest.amount}</td>
                   <td>{payRequest.callBackService}</td>
+                  <td>{payRequest.customer ? <Link to={`customer/${payRequest.customer.id}`}>{payRequest.customer.id}</Link> : ''}</td>
                   <td>
                     {payRequest.bills
                       ? payRequest.bills.map((val, j) => (

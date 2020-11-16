@@ -43,9 +43,6 @@ public class PayRequestResourceIT {
     private static final String DEFAULT_TITLE = "AAAAAAAAAA";
     private static final String UPDATED_TITLE = "BBBBBBBBBB";
 
-    private static final String DEFAULT_MOBILE_NUMBER = "AAAAAAAAAA";
-    private static final String UPDATED_MOBILE_NUMBER = "BBBBBBBBBB";
-
     private static final Boolean DEFAULT_SEND_SMS = false;
     private static final Boolean UPDATED_SEND_SMS = true;
 
@@ -79,7 +76,6 @@ public class PayRequestResourceIT {
         PayRequest payRequest = new PayRequest()
             .accountNo(DEFAULT_ACCOUNT_NO)
             .title(DEFAULT_TITLE)
-            .mobileNumber(DEFAULT_MOBILE_NUMBER)
             .sendSms(DEFAULT_SEND_SMS)
             .amount(DEFAULT_AMOUNT)
             .callBackService(DEFAULT_CALL_BACK_SERVICE);
@@ -95,7 +91,6 @@ public class PayRequestResourceIT {
         PayRequest payRequest = new PayRequest()
             .accountNo(UPDATED_ACCOUNT_NO)
             .title(UPDATED_TITLE)
-            .mobileNumber(UPDATED_MOBILE_NUMBER)
             .sendSms(UPDATED_SEND_SMS)
             .amount(UPDATED_AMOUNT)
             .callBackService(UPDATED_CALL_BACK_SERVICE);
@@ -123,7 +118,6 @@ public class PayRequestResourceIT {
         PayRequest testPayRequest = payRequestList.get(payRequestList.size() - 1);
         assertThat(testPayRequest.getAccountNo()).isEqualTo(DEFAULT_ACCOUNT_NO);
         assertThat(testPayRequest.getTitle()).isEqualTo(DEFAULT_TITLE);
-        assertThat(testPayRequest.getMobileNumber()).isEqualTo(DEFAULT_MOBILE_NUMBER);
         assertThat(testPayRequest.isSendSms()).isEqualTo(DEFAULT_SEND_SMS);
         assertThat(testPayRequest.getAmount()).isEqualTo(DEFAULT_AMOUNT);
         assertThat(testPayRequest.getCallBackService()).isEqualTo(DEFAULT_CALL_BACK_SERVICE);
@@ -174,25 +168,6 @@ public class PayRequestResourceIT {
         int databaseSizeBeforeTest = payRequestRepository.findAll().size();
         // set the field null
         payRequest.setTitle(null);
-
-        // Create the PayRequest, which fails.
-
-
-        restPayRequestMockMvc.perform(post("/api/pay-requests")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(payRequest)))
-            .andExpect(status().isBadRequest());
-
-        List<PayRequest> payRequestList = payRequestRepository.findAll();
-        assertThat(payRequestList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    public void checkMobileNumberIsRequired() throws Exception {
-        int databaseSizeBeforeTest = payRequestRepository.findAll().size();
-        // set the field null
-        payRequest.setMobileNumber(null);
 
         // Create the PayRequest, which fails.
 
@@ -276,7 +251,6 @@ public class PayRequestResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(payRequest.getId().intValue())))
             .andExpect(jsonPath("$.[*].accountNo").value(hasItem(DEFAULT_ACCOUNT_NO)))
             .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE)))
-            .andExpect(jsonPath("$.[*].mobileNumber").value(hasItem(DEFAULT_MOBILE_NUMBER)))
             .andExpect(jsonPath("$.[*].sendSms").value(hasItem(DEFAULT_SEND_SMS.booleanValue())))
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT)))
             .andExpect(jsonPath("$.[*].callBackService").value(hasItem(DEFAULT_CALL_BACK_SERVICE)));
@@ -315,7 +289,6 @@ public class PayRequestResourceIT {
             .andExpect(jsonPath("$.id").value(payRequest.getId().intValue()))
             .andExpect(jsonPath("$.accountNo").value(DEFAULT_ACCOUNT_NO))
             .andExpect(jsonPath("$.title").value(DEFAULT_TITLE))
-            .andExpect(jsonPath("$.mobileNumber").value(DEFAULT_MOBILE_NUMBER))
             .andExpect(jsonPath("$.sendSms").value(DEFAULT_SEND_SMS.booleanValue()))
             .andExpect(jsonPath("$.amount").value(DEFAULT_AMOUNT))
             .andExpect(jsonPath("$.callBackService").value(DEFAULT_CALL_BACK_SERVICE));
@@ -343,7 +316,6 @@ public class PayRequestResourceIT {
         updatedPayRequest
             .accountNo(UPDATED_ACCOUNT_NO)
             .title(UPDATED_TITLE)
-            .mobileNumber(UPDATED_MOBILE_NUMBER)
             .sendSms(UPDATED_SEND_SMS)
             .amount(UPDATED_AMOUNT)
             .callBackService(UPDATED_CALL_BACK_SERVICE);
@@ -359,7 +331,6 @@ public class PayRequestResourceIT {
         PayRequest testPayRequest = payRequestList.get(payRequestList.size() - 1);
         assertThat(testPayRequest.getAccountNo()).isEqualTo(UPDATED_ACCOUNT_NO);
         assertThat(testPayRequest.getTitle()).isEqualTo(UPDATED_TITLE);
-        assertThat(testPayRequest.getMobileNumber()).isEqualTo(UPDATED_MOBILE_NUMBER);
         assertThat(testPayRequest.isSendSms()).isEqualTo(UPDATED_SEND_SMS);
         assertThat(testPayRequest.getAmount()).isEqualTo(UPDATED_AMOUNT);
         assertThat(testPayRequest.getCallBackService()).isEqualTo(UPDATED_CALL_BACK_SERVICE);

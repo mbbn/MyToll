@@ -9,8 +9,6 @@ import { IRootState } from 'app/shared/reducers';
 
 import { IPayRequest } from 'app/shared/model/pay-request.model';
 import { getEntities as getPayRequests } from 'app/entities/pay-request/pay-request.reducer';
-import { ICustomer } from 'app/shared/model/customer.model';
-import { getEntities as getCustomers } from 'app/entities/customer/customer.reducer';
 import { getEntity, updateEntity, createEntity, reset } from './bill.reducer';
 import { IBill } from 'app/shared/model/bill.model';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
@@ -20,10 +18,9 @@ export interface IBillUpdateProps extends StateProps, DispatchProps, RouteCompon
 
 export const BillUpdate = (props: IBillUpdateProps) => {
   const [payRequestListId, setPayRequestListId] = useState('0');
-  const [customerId, setCustomerId] = useState('0');
   const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
 
-  const { billEntity, payRequests, customers, loading, updating } = props;
+  const { billEntity, payRequests, loading, updating } = props;
 
   const handleClose = () => {
     props.history.push('/bill');
@@ -37,7 +34,6 @@ export const BillUpdate = (props: IBillUpdateProps) => {
     }
 
     props.getPayRequests();
-    props.getCustomers();
   }, []);
 
   useEffect(() => {
@@ -271,7 +267,6 @@ export const BillUpdate = (props: IBillUpdateProps) => {
 
 const mapStateToProps = (storeState: IRootState) => ({
   payRequests: storeState.payRequest.entities,
-  customers: storeState.customer.entities,
   billEntity: storeState.bill.entity,
   loading: storeState.bill.loading,
   updating: storeState.bill.updating,
@@ -280,7 +275,6 @@ const mapStateToProps = (storeState: IRootState) => ({
 
 const mapDispatchToProps = {
   getPayRequests,
-  getCustomers,
   getEntity,
   updateEntity,
   createEntity,

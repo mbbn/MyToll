@@ -61,19 +61,6 @@ export const CustomerDetail = (props: ICustomerDetailProps) => {
             </span>
           </dt>
           <dd>{customerEntity.lastUpdatedBy}</dd>
-          <dt>
-            <Translate contentKey="myTollApp.customer.bills">Bills</Translate>
-          </dt>
-          <dd>
-            {customerEntity.bills
-              ? customerEntity.bills.map((val, i) => (
-                  <span key={val.id}>
-                    <a>{val.id}</a>
-                    {customerEntity.bills && i === customerEntity.bills.length - 1 ? '' : ', '}
-                  </span>
-                ))
-              : null}
-          </dd>
         </dl>
         <Button tag={Link} to="/customer" replace color="info">
           <FontAwesomeIcon icon="arrow-left" />{' '}

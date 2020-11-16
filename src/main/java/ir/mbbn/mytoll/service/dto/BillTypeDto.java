@@ -1,7 +1,10 @@
 package ir.mbbn.mytoll.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class BillTypeDto implements Serializable {
 
     private String billTypeabbrivation;

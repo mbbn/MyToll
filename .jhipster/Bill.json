@@ -92,14 +92,6 @@
       "relationshipName": "payRequestList",
       "otherEntityField": "id",
       "ownerSide": false
-    },
-    {
-      "relationshipType": "many-to-many",
-      "otherEntityName": "customer",
-      "otherEntityRelationshipName": "bills",
-      "relationshipName": "customer",
-      "otherEntityField": "id",
-      "ownerSide": false
     }
   ],
   "changelogDate": "20201115183808",

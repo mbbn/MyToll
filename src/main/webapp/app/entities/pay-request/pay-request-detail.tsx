@@ -38,12 +38,6 @@ export const PayRequestDetail = (props: IPayRequestDetailProps) => {
           </dt>
           <dd>{payRequestEntity.title}</dd>
           <dt>
-            <span id="mobileNumber">
-              <Translate contentKey="myTollApp.payRequest.mobileNumber">Mobile Number</Translate>
-            </span>
-          </dt>
-          <dd>{payRequestEntity.mobileNumber}</dd>
-          <dt>
             <span id="sendSms">
               <Translate contentKey="myTollApp.payRequest.sendSms">Send Sms</Translate>
             </span>
@@ -61,6 +55,10 @@ export const PayRequestDetail = (props: IPayRequestDetailProps) => {
             </span>
           </dt>
           <dd>{payRequestEntity.callBackService}</dd>
+          <dt>
+            <Translate contentKey="myTollApp.payRequest.customer">Customer</Translate>
+          </dt>
+          <dd>{payRequestEntity.customer ? payRequestEntity.customer.id : ''}</dd>
           <dt>
             <Translate contentKey="myTollApp.payRequest.bills">Bills</Translate>
           </dt>

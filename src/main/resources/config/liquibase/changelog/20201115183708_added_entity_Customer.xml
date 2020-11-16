@@ -39,17 +39,6 @@
 
     <changeSet id="20201115183708-1-relations" author="jhipster">
 
-        <createTable tableName="customer_bills">
-            <column name="bills_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-            <column name="customer_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-
-        <addPrimaryKey columnNames="customer_id, bills_id" tableName="customer_bills"/>
-        
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
 

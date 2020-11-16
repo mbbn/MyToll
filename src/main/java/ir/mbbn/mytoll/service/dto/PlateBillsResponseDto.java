@@ -1,8 +1,11 @@
 package ir.mbbn.mytoll.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PlateBillsResponseDto implements Serializable {
 
     private List<BillDto> data;

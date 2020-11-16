@@ -27,8 +27,7 @@
       "externalNumber": "شماره خارجی",
       "billDate": "ناریخ قبض",
       "plate": "پلاک",
-      "payRequestList": "Pay Request List",
-      "customer": "Customer"
+      "payRequestList": "Pay Request List"
     }
   }
 }

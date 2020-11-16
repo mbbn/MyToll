@@ -27,8 +27,7 @@
       "amount": "Amount",
       "externalNumber": "External Number",
       "billDate": "Bill Date",
-      "payRequestList": "Pay Request List",
-      "customer": "Customer"
+      "payRequestList": "Pay Request List"
     }
   }
 }

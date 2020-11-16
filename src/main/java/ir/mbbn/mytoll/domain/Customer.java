@@ -8,8 +8,6 @@ import javax.validation.constraints.*;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * A Customer.
@@ -44,13 +42,6 @@ public class Customer implements Serializable {
     @NotNull
     @Column(name = "last_updated_by", nullable = false)
     private String lastUpdatedBy;
-
-    @ManyToMany
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JoinTable(name = "customer_bills",
-               joinColumns = @JoinColumn(name = "customer_id", referencedColumnName = "id"),
-               inverseJoinColumns = @JoinColumn(name = "bills_id", referencedColumnName = "id"))
-    private Set<Bill> bills = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -124,31 +115,6 @@ public class Customer implements Serializable {
 
     public void setLastUpdatedBy(String lastUpdatedBy) {
         this.lastUpdatedBy = lastUpdatedBy;
-    }
-
-    public Set<Bill> getBills() {
-        return bills;
-    }
-
-    public Customer bills(Set<Bill> bills) {
-        this.bills = bills;
-        return this;
-    }
-
-    public Customer addBills(Bill bill) {
-        this.bills.add(bill);
-        bill.getCustomers().add(this);
-        return this;
-    }
-
-    public Customer removeBills(Bill bill) {
-        this.bills.remove(bill);
-        bill.getCustomers().remove(this);
-        return this;
-    }
-
-    public void setBills(Set<Bill> bills) {
-        this.bills = bills;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 

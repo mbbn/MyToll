@@ -1,8 +1,11 @@
 package ir.mbbn.mytoll.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class BillDto implements Serializable {
 
     private BillTypeDto billType;

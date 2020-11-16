@@ -37,16 +37,7 @@
       ]
     }
   ],
-  "relationships": [
-    {
-      "relationshipType": "many-to-many",
-      "otherEntityName": "bill",
-      "otherEntityRelationshipName": "customer",
-      "relationshipName": "bills",
-      "otherEntityField": "id",
-      "ownerSide": true
-    }
-  ],
+  "relationships": [],
   "changelogDate": "20201115183708",
   "entityTableName": "customer",
   "dto": "no",

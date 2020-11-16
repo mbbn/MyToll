@@ -16,12 +16,11 @@
       "detail": {
         "title": "Customer"
       },
-      "mobile": "موبایل",
+      "mobile": "Mobile",
       "creationTime": "Creation Time",
       "creationBy": "Creation By",
       "lastUpdateTime": "Last Update Time",
-      "lastUpdatedBy": "Last Updated By",
-      "bills": "Bills"
+      "lastUpdatedBy": "Last Updated By"
     }
   }
 }
