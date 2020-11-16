@@ -68,6 +68,15 @@ public class BillResourceIT {
     private static final ZonedDateTime DEFAULT_BILL_DATE = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
     private static final ZonedDateTime UPDATED_BILL_DATE = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
 
+    private static final Boolean DEFAULT_PAID = false;
+    private static final Boolean UPDATED_PAID = true;
+
+    private static final Integer DEFAULT_SEPANDAR_SHARE = 1;
+    private static final Integer UPDATED_SEPANDAR_SHARE = 2;
+
+    private static final Integer DEFAULT_ISSUER_SHARE = 1;
+    private static final Integer UPDATED_ISSUER_SHARE = 2;
+
     @Autowired
     private BillRepository billRepository;
 
@@ -97,7 +106,10 @@ public class BillResourceIT {
             .billId(DEFAULT_BILL_ID)
             .amount(DEFAULT_AMOUNT)
             .externalNumber(DEFAULT_EXTERNAL_NUMBER)
-            .billDate(DEFAULT_BILL_DATE);
+            .billDate(DEFAULT_BILL_DATE)
+            .paid(DEFAULT_PAID)
+            .sepandarShare(DEFAULT_SEPANDAR_SHARE)
+            .issuerShare(DEFAULT_ISSUER_SHARE);
         return bill;
     }
     /**
@@ -118,7 +130,10 @@ public class BillResourceIT {
             .billId(UPDATED_BILL_ID)
             .amount(UPDATED_AMOUNT)
             .externalNumber(UPDATED_EXTERNAL_NUMBER)
-            .billDate(UPDATED_BILL_DATE);
+            .billDate(UPDATED_BILL_DATE)
+            .paid(UPDATED_PAID)
+            .sepandarShare(UPDATED_SEPANDAR_SHARE)
+            .issuerShare(UPDATED_ISSUER_SHARE);
         return bill;
     }
 
@@ -152,6 +167,9 @@ public class BillResourceIT {
         assertThat(testBill.getAmount()).isEqualTo(DEFAULT_AMOUNT);
         assertThat(testBill.getExternalNumber()).isEqualTo(DEFAULT_EXTERNAL_NUMBER);
         assertThat(testBill.getBillDate()).isEqualTo(DEFAULT_BILL_DATE);
+        assertThat(testBill.isPaid()).isEqualTo(DEFAULT_PAID);
+        assertThat(testBill.getSepandarShare()).isEqualTo(DEFAULT_SEPANDAR_SHARE);
+        assertThat(testBill.getIssuerShare()).isEqualTo(DEFAULT_ISSUER_SHARE);
     }
 
     @Test
@@ -385,6 +403,25 @@ public class BillResourceIT {
 
     @Test
     @Transactional
+    public void checkPaidIsRequired() throws Exception {
+        int databaseSizeBeforeTest = billRepository.findAll().size();
+        // set the field null
+        bill.setPaid(null);
+
+        // Create the Bill, which fails.
+
+
+        restBillMockMvc.perform(post("/api/bills")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(bill)))
+            .andExpect(status().isBadRequest());
+
+        List<Bill> billList = billRepository.findAll();
+        assertThat(billList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllBills() throws Exception {
         // Initialize the database
         billRepository.saveAndFlush(bill);
@@ -404,7 +441,10 @@ public class BillResourceIT {
             .andExpect(jsonPath("$.[*].billId").value(hasItem(DEFAULT_BILL_ID)))
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT)))
             .andExpect(jsonPath("$.[*].externalNumber").value(hasItem(DEFAULT_EXTERNAL_NUMBER)))
-            .andExpect(jsonPath("$.[*].billDate").value(hasItem(sameInstant(DEFAULT_BILL_DATE))));
+            .andExpect(jsonPath("$.[*].billDate").value(hasItem(sameInstant(DEFAULT_BILL_DATE))))
+            .andExpect(jsonPath("$.[*].paid").value(hasItem(DEFAULT_PAID.booleanValue())))
+            .andExpect(jsonPath("$.[*].sepandarShare").value(hasItem(DEFAULT_SEPANDAR_SHARE)))
+            .andExpect(jsonPath("$.[*].issuerShare").value(hasItem(DEFAULT_ISSUER_SHARE)));
     }
     
     @Test
@@ -428,7 +468,10 @@ public class BillResourceIT {
             .andExpect(jsonPath("$.billId").value(DEFAULT_BILL_ID))
             .andExpect(jsonPath("$.amount").value(DEFAULT_AMOUNT))
             .andExpect(jsonPath("$.externalNumber").value(DEFAULT_EXTERNAL_NUMBER))
-            .andExpect(jsonPath("$.billDate").value(sameInstant(DEFAULT_BILL_DATE)));
+            .andExpect(jsonPath("$.billDate").value(sameInstant(DEFAULT_BILL_DATE)))
+            .andExpect(jsonPath("$.paid").value(DEFAULT_PAID.booleanValue()))
+            .andExpect(jsonPath("$.sepandarShare").value(DEFAULT_SEPANDAR_SHARE))
+            .andExpect(jsonPath("$.issuerShare").value(DEFAULT_ISSUER_SHARE));
     }
     @Test
     @Transactional
@@ -461,7 +504,10 @@ public class BillResourceIT {
             .billId(UPDATED_BILL_ID)
             .amount(UPDATED_AMOUNT)
             .externalNumber(UPDATED_EXTERNAL_NUMBER)
-            .billDate(UPDATED_BILL_DATE);
+            .billDate(UPDATED_BILL_DATE)
+            .paid(UPDATED_PAID)
+            .sepandarShare(UPDATED_SEPANDAR_SHARE)
+            .issuerShare(UPDATED_ISSUER_SHARE);
 
         restBillMockMvc.perform(put("/api/bills")
             .contentType(MediaType.APPLICATION_JSON)
@@ -483,6 +529,9 @@ public class BillResourceIT {
         assertThat(testBill.getAmount()).isEqualTo(UPDATED_AMOUNT);
         assertThat(testBill.getExternalNumber()).isEqualTo(UPDATED_EXTERNAL_NUMBER);
         assertThat(testBill.getBillDate()).isEqualTo(UPDATED_BILL_DATE);
+        assertThat(testBill.isPaid()).isEqualTo(UPDATED_PAID);
+        assertThat(testBill.getSepandarShare()).isEqualTo(UPDATED_SEPANDAR_SHARE);
+        assertThat(testBill.getIssuerShare()).isEqualTo(UPDATED_ISSUER_SHARE);
     }
 
     @Test

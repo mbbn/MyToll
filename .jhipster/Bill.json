@@ -82,6 +82,21 @@
       "fieldValidateRules": [
         "required"
       ]
+    },
+    {
+      "fieldName": "paid",
+      "fieldType": "Boolean",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "sepandarShare",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "issuerShare",
+      "fieldType": "Integer"
     }
   ],
   "relationships": [

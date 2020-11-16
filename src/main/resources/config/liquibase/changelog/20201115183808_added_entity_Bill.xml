@@ -49,6 +49,15 @@
             <column name="bill_date" type="datetime">
                 <constraints nullable="false" />
             </column>
+            <column name="paid" type="boolean">
+                <constraints nullable="false" />
+            </column>
+            <column name="sepandar_share" type="integer">
+                <constraints nullable="true" />
+            </column>
+            <column name="issuer_share" type="integer">
+                <constraints nullable="true" />
+            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
         <dropDefaultValue tableName="bill" columnName="from_date" columnDataType="datetime"/>
@@ -86,6 +95,9 @@
             <column name="amount" type="numeric"/>
             <column name="external_number" type="string"/>
             <column name="bill_date" type="datetime"/>
+            <column name="paid" type="boolean"/>
+            <column name="sepandar_share" type="numeric"/>
+            <column name="issuer_share" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

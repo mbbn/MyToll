@@ -8,6 +8,7 @@ import ir.mbbn.mytoll.domain.TollRequest;
 import ir.mbbn.mytoll.domain.enumeration.TaxCategory;
 import ir.mbbn.mytoll.repository.BillRepository;
 import ir.mbbn.mytoll.repository.CustomerRepository;
+import ir.mbbn.mytoll.repository.PayRequestRepository;
 import ir.mbbn.mytoll.service.dto.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +24,7 @@ import org.springframework.web.util.UriBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -37,17 +39,19 @@ public class TollRequestService extends RestTemplate {
 
     private final Logger log = LoggerFactory.getLogger(TollRequestService.class);
 
-    private final ApplicationProperties.Sepandar sepandar;
+    private final ApplicationProperties.SepandarTax sepandar;
     private final CustomerRepository customerRepository;
     private final BillRepository billRepository;
+    private final PayRequestRepository payRequestRepository;
 
     private String token;
     private Date expireTime;
 
-    public TollRequestService(ApplicationProperties applicationProperties, CustomerRepository customerRepository, BillRepository billRepository) {
-        sepandar = applicationProperties.getSepandar();
+    public TollRequestService(ApplicationProperties applicationProperties, CustomerRepository customerRepository, BillRepository billRepository, PayRequestRepository payRequestRepository) {
+        sepandar = applicationProperties.getTax();
         this.customerRepository = customerRepository;
         this.billRepository = billRepository;
+        this.payRequestRepository = payRequestRepository;
     }
 
     private UriBuilder getUrlBuilder(){
@@ -148,7 +152,7 @@ public class TollRequestService extends RestTemplate {
         }
     }
 
-    public List<Bill> mPayBill(String trackId, Set<Bill> bills) {
+    public Set<Bill> mPayBill(String trackId, Set<Bill> bills) {
         try {
             String token = login();
             String M_PAY_BILL_PATH = "api/bill/mPayBill";
@@ -166,12 +170,17 @@ public class TollRequestService extends RestTemplate {
             SepandarResponseDto<MPayBillResponseDto> sepandarResponseDto = response.getBody();
             if(sepandarResponseDto!= null && sepandarResponseDto.isSuccess()){
                 MPayBillResponseDto result = sepandarResponseDto.getResult();
+                Set<Bill> resultBills = new HashSet<>();
                 for(PayBillDto payBillDto:result.getData()){
-                    Bill b = bills.stream().filter(bill -> payBillDto.getExternalNumber().equals(bill.getExternalNumber())).findFirst().orElse(null);
+                    Bill b = bills.stream().filter(bill -> payBillDto.getExTrackingId().equals(trackId) &&  payBillDto.getExternalNumber().equals(bill.getExternalNumber())).findFirst().orElse(null);
                     if(b!=null){
-                        b.set
+                        b.setPaid("Paid".equalsIgnoreCase(payBillDto.getStatus()));
+                        b.setSepandarShare(payBillDto.getSepandarShare());
+                        b.setIssuerShare(payBillDto.getIssuerShare());
+                        resultBills.add(b);
                     }
                 }
+                return resultBills;
             }else {
                 throw new RuntimeException("failed to login");
             }
@@ -195,8 +204,15 @@ public class TollRequestService extends RestTemplate {
         }
         payRequest.setCustomer(customer);
 
-        List<String> billIds = payRequest.getBills().stream().map(Bill::getBillId).collect(Collectors.toList());
-        List<Bill> tryBills = billRepository.findByBillIdIn(billIds);
+        String today = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMddhhmmss"));
+        String trackId = today + mobileNumber;
+        payRequest.setTrackingId(trackId);
 
+        Set<Bill> bills = mPayBill(trackId, payRequest.getBills());
+        Set<String> externalNumbers = bills.stream().map(Bill::getExternalNumber).collect(Collectors.toSet());
+        Set<Bill> tryBills = billRepository.findAllByExternalNumberIn(externalNumbers);
+        payRequest.setBills(tryBills);
+
+        payRequest = payRequestRepository.save(payRequest);
     }
 }

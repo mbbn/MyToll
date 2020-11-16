@@ -91,6 +91,24 @@ export const BillDetail = (props: IBillDetailProps) => {
             </span>
           </dt>
           <dd>{billEntity.billDate ? <TextFormat value={billEntity.billDate} type="date" format={APP_DATE_FORMAT} /> : null}</dd>
+          <dt>
+            <span id="paid">
+              <Translate contentKey="myTollApp.bill.paid">Paid</Translate>
+            </span>
+          </dt>
+          <dd>{billEntity.paid ? 'true' : 'false'}</dd>
+          <dt>
+            <span id="sepandarShare">
+              <Translate contentKey="myTollApp.bill.sepandarShare">Sepandar Share</Translate>
+            </span>
+          </dt>
+          <dd>{billEntity.sepandarShare}</dd>
+          <dt>
+            <span id="issuerShare">
+              <Translate contentKey="myTollApp.bill.issuerShare">Issuer Share</Translate>
+            </span>
+          </dt>
+          <dd>{billEntity.issuerShare}</dd>
         </dl>
         <Button tag={Link} to="/bill" replace color="info">
           <FontAwesomeIcon icon="arrow-left" />{' '}

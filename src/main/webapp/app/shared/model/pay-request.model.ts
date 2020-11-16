@@ -3,6 +3,7 @@ import { IBill } from 'app/shared/model/bill.model';
 
 export interface IPayRequest {
   id?: number;
+  trackingId?: string;
   accountNo?: string;
   title?: string;
   sendSms?: boolean;

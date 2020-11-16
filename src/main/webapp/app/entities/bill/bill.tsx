@@ -69,6 +69,15 @@ export const Bill = (props: IBillProps) => {
                 <th>
                   <Translate contentKey="myTollApp.bill.billDate">Bill Date</Translate>
                 </th>
+                <th>
+                  <Translate contentKey="myTollApp.bill.paid">Paid</Translate>
+                </th>
+                <th>
+                  <Translate contentKey="myTollApp.bill.sepandarShare">Sepandar Share</Translate>
+                </th>
+                <th>
+                  <Translate contentKey="myTollApp.bill.issuerShare">Issuer Share</Translate>
+                </th>
                 <th />
               </tr>
             </thead>
@@ -93,6 +102,9 @@ export const Bill = (props: IBillProps) => {
                   <td>{bill.amount}</td>
                   <td>{bill.externalNumber}</td>
                   <td>{bill.billDate ? <TextFormat type="date" value={bill.billDate} format={APP_DATE_FORMAT} /> : null}</td>
+                  <td>{bill.paid ? 'true' : 'false'}</td>
+                  <td>{bill.sepandarShare}</td>
+                  <td>{bill.issuerShare}</td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`${match.url}/${bill.id}`} color="info" size="sm">

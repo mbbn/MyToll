@@ -74,6 +74,16 @@ public class Bill implements Serializable {
     @Column(name = "bill_date", nullable = false)
     private ZonedDateTime billDate;
 
+    @NotNull
+    @Column(name = "paid", nullable = false)
+    private Boolean paid;
+
+    @Column(name = "sepandar_share")
+    private Integer sepandarShare;
+
+    @Column(name = "issuer_share")
+    private Integer issuerShare;
+
     @ManyToMany(mappedBy = "bills")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnore
@@ -231,6 +241,45 @@ public class Bill implements Serializable {
         this.billDate = billDate;
     }
 
+    public Boolean isPaid() {
+        return paid;
+    }
+
+    public Bill paid(Boolean paid) {
+        this.paid = paid;
+        return this;
+    }
+
+    public void setPaid(Boolean paid) {
+        this.paid = paid;
+    }
+
+    public Integer getSepandarShare() {
+        return sepandarShare;
+    }
+
+    public Bill sepandarShare(Integer sepandarShare) {
+        this.sepandarShare = sepandarShare;
+        return this;
+    }
+
+    public void setSepandarShare(Integer sepandarShare) {
+        this.sepandarShare = sepandarShare;
+    }
+
+    public Integer getIssuerShare() {
+        return issuerShare;
+    }
+
+    public Bill issuerShare(Integer issuerShare) {
+        this.issuerShare = issuerShare;
+        return this;
+    }
+
+    public void setIssuerShare(Integer issuerShare) {
+        this.issuerShare = issuerShare;
+    }
+
     public Set<PayRequest> getPayRequestLists() {
         return payRequestLists;
     }
@@ -289,6 +338,9 @@ public class Bill implements Serializable {
             ", amount=" + getAmount() +
             ", externalNumber='" + getExternalNumber() + "'" +
             ", billDate='" + getBillDate() + "'" +
+            ", paid='" + isPaid() + "'" +
+            ", sepandarShare=" + getSepandarShare() +
+            ", issuerShare=" + getIssuerShare() +
             "}";
     }
 }

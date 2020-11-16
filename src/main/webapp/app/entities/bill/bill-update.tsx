@@ -244,6 +244,24 @@ export const BillUpdate = (props: IBillUpdateProps) => {
                   }}
                 />
               </AvGroup>
+              <AvGroup check>
+                <Label id="paidLabel">
+                  <AvInput id="bill-paid" type="checkbox" className="form-check-input" name="paid" />
+                  <Translate contentKey="myTollApp.bill.paid">Paid</Translate>
+                </Label>
+              </AvGroup>
+              <AvGroup>
+                <Label id="sepandarShareLabel" for="bill-sepandarShare">
+                  <Translate contentKey="myTollApp.bill.sepandarShare">Sepandar Share</Translate>
+                </Label>
+                <AvField id="bill-sepandarShare" type="string" className="form-control" name="sepandarShare" />
+              </AvGroup>
+              <AvGroup>
+                <Label id="issuerShareLabel" for="bill-issuerShare">
+                  <Translate contentKey="myTollApp.bill.issuerShare">Issuer Share</Translate>
+                </Label>
+                <AvField id="bill-issuerShare" type="string" className="form-control" name="issuerShare" />
+              </AvGroup>
               <Button tag={Link} id="cancel-save" to="/bill" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;

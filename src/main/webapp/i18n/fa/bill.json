@@ -27,6 +27,9 @@
       "externalNumber": "شماره خارجی",
       "billDate": "ناریخ قبض",
       "plate": "پلاک",
+      "paid": "Paid",
+      "sepandarShare": "Sepandar Share",
+      "issuerShare": "Issuer Share",
       "payRequestList": "Pay Request List"
     }
   }

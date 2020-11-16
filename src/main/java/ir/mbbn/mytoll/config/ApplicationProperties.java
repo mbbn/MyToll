@@ -11,13 +11,18 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "application", ignoreUnknownFields = false)
 public class ApplicationProperties {
 
-    private final Sepandar sepandar = new Sepandar();
+    private final SepandarTax tax = new SepandarTax();
+    private final SepandarPayment payment = new SepandarPayment();
 
-    public Sepandar getSepandar() {
-        return sepandar;
+    public SepandarTax getTax() {
+        return tax;
     }
 
-    public static class Sepandar {
+    public SepandarPayment getPayment() {
+        return payment;
+    }
+
+    public static class SepandarTax {
 
         private String schema;
         private String host;
@@ -81,6 +86,18 @@ public class ApplicationProperties {
 
         public void setOrgId(String orgId) {
             this.orgId = orgId;
+        }
+    }
+
+    public static class SepandarPayment extends SepandarTax{
+        private String accountNo;
+
+        public String getAccountNo() {
+            return accountNo;
+        }
+
+        public void setAccountNo(String accountNo) {
+            this.accountNo = accountNo;
         }
     }
 }

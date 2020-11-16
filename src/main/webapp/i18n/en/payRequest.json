@@ -16,6 +16,7 @@
       "detail": {
         "title": "Pay Request"
       },
+      "trackingId": "Tracking Id",
       "accountNo": "Account No",
       "title": "Title",
       "sendSms": "Send Sms",

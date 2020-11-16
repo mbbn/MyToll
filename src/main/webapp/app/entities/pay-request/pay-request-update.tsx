@@ -86,6 +86,19 @@ export const PayRequestUpdate = (props: IPayRequestUpdateProps) => {
                 </AvGroup>
               ) : null}
               <AvGroup>
+                <Label id="trackingIdLabel" for="pay-request-trackingId">
+                  <Translate contentKey="myTollApp.payRequest.trackingId">Tracking Id</Translate>
+                </Label>
+                <AvField
+                  id="pay-request-trackingId"
+                  type="text"
+                  name="trackingId"
+                  validate={{
+                    required: { value: true, errorMessage: translate('entity.validation.required') },
+                  }}
+                />
+              </AvGroup>
+              <AvGroup>
                 <Label id="accountNoLabel" for="pay-request-accountNo">
                   <Translate contentKey="myTollApp.payRequest.accountNo">Account No</Translate>
                 </Label>

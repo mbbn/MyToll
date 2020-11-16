@@ -37,6 +37,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WithMockUser
 public class PayRequestResourceIT {
 
+    private static final String DEFAULT_TRACKING_ID = "AAAAAAAAAA";
+    private static final String UPDATED_TRACKING_ID = "BBBBBBBBBB";
+
     private static final String DEFAULT_ACCOUNT_NO = "AAAAAAAAAA";
     private static final String UPDATED_ACCOUNT_NO = "BBBBBBBBBB";
 
@@ -74,6 +77,7 @@ public class PayRequestResourceIT {
      */
     public static PayRequest createEntity(EntityManager em) {
         PayRequest payRequest = new PayRequest()
+            .trackingId(DEFAULT_TRACKING_ID)
             .accountNo(DEFAULT_ACCOUNT_NO)
             .title(DEFAULT_TITLE)
             .sendSms(DEFAULT_SEND_SMS)
@@ -89,6 +93,7 @@ public class PayRequestResourceIT {
      */
     public static PayRequest createUpdatedEntity(EntityManager em) {
         PayRequest payRequest = new PayRequest()
+            .trackingId(UPDATED_TRACKING_ID)
             .accountNo(UPDATED_ACCOUNT_NO)
             .title(UPDATED_TITLE)
             .sendSms(UPDATED_SEND_SMS)
@@ -116,6 +121,7 @@ public class PayRequestResourceIT {
         List<PayRequest> payRequestList = payRequestRepository.findAll();
         assertThat(payRequestList).hasSize(databaseSizeBeforeCreate + 1);
         PayRequest testPayRequest = payRequestList.get(payRequestList.size() - 1);
+        assertThat(testPayRequest.getTrackingId()).isEqualTo(DEFAULT_TRACKING_ID);
         assertThat(testPayRequest.getAccountNo()).isEqualTo(DEFAULT_ACCOUNT_NO);
         assertThat(testPayRequest.getTitle()).isEqualTo(DEFAULT_TITLE);
         assertThat(testPayRequest.isSendSms()).isEqualTo(DEFAULT_SEND_SMS);
@@ -142,6 +148,25 @@ public class PayRequestResourceIT {
         assertThat(payRequestList).hasSize(databaseSizeBeforeCreate);
     }
 
+
+    @Test
+    @Transactional
+    public void checkTrackingIdIsRequired() throws Exception {
+        int databaseSizeBeforeTest = payRequestRepository.findAll().size();
+        // set the field null
+        payRequest.setTrackingId(null);
+
+        // Create the PayRequest, which fails.
+
+
+        restPayRequestMockMvc.perform(post("/api/pay-requests")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(payRequest)))
+            .andExpect(status().isBadRequest());
+
+        List<PayRequest> payRequestList = payRequestRepository.findAll();
+        assertThat(payRequestList).hasSize(databaseSizeBeforeTest);
+    }
 
     @Test
     @Transactional
@@ -249,6 +274,7 @@ public class PayRequestResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(payRequest.getId().intValue())))
+            .andExpect(jsonPath("$.[*].trackingId").value(hasItem(DEFAULT_TRACKING_ID)))
             .andExpect(jsonPath("$.[*].accountNo").value(hasItem(DEFAULT_ACCOUNT_NO)))
             .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE)))
             .andExpect(jsonPath("$.[*].sendSms").value(hasItem(DEFAULT_SEND_SMS.booleanValue())))
@@ -287,6 +313,7 @@ public class PayRequestResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(payRequest.getId().intValue()))
+            .andExpect(jsonPath("$.trackingId").value(DEFAULT_TRACKING_ID))
             .andExpect(jsonPath("$.accountNo").value(DEFAULT_ACCOUNT_NO))
             .andExpect(jsonPath("$.title").value(DEFAULT_TITLE))
             .andExpect(jsonPath("$.sendSms").value(DEFAULT_SEND_SMS.booleanValue()))
@@ -314,6 +341,7 @@ public class PayRequestResourceIT {
         // Disconnect from session so that the updates on updatedPayRequest are not directly saved in db
         em.detach(updatedPayRequest);
         updatedPayRequest
+            .trackingId(UPDATED_TRACKING_ID)
             .accountNo(UPDATED_ACCOUNT_NO)
             .title(UPDATED_TITLE)
             .sendSms(UPDATED_SEND_SMS)
@@ -329,6 +357,7 @@ public class PayRequestResourceIT {
         List<PayRequest> payRequestList = payRequestRepository.findAll();
         assertThat(payRequestList).hasSize(databaseSizeBeforeUpdate);
         PayRequest testPayRequest = payRequestList.get(payRequestList.size() - 1);
+        assertThat(testPayRequest.getTrackingId()).isEqualTo(UPDATED_TRACKING_ID);
         assertThat(testPayRequest.getAccountNo()).isEqualTo(UPDATED_ACCOUNT_NO);
         assertThat(testPayRequest.getTitle()).isEqualTo(UPDATED_TITLE);
         assertThat(testPayRequest.isSendSms()).isEqualTo(UPDATED_SEND_SMS);

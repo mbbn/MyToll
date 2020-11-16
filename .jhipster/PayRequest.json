@@ -2,6 +2,13 @@
   "name": "PayRequest",
   "fields": [
     {
+      "fieldName": "trackingId",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
       "fieldName": "accountNo",
       "fieldType": "String",
       "fieldValidateRules": [

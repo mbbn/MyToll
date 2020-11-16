@@ -5,7 +5,7 @@ import ir.mbbn.mytoll.domain.Bill;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * Spring Data  repository for the Bill entity.
@@ -14,5 +14,5 @@ import java.util.List;
 @Repository
 public interface BillRepository extends JpaRepository<Bill, Long> {
 
-    List<Bill> findByBillIdIn(List<String> billIds);
+    Set<Bill> findAllByExternalNumberIn(Set<String> externalNumbers);
 }

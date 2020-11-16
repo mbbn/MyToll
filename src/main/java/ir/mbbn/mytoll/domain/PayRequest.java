@@ -26,6 +26,10 @@ public class PayRequest implements Serializable {
     private Long id;
 
     @NotNull
+    @Column(name = "tracking_id", nullable = false)
+    private String trackingId;
+
+    @NotNull
     @Column(name = "account_no", nullable = false)
     private String accountNo;
 
@@ -63,6 +67,19 @@ public class PayRequest implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getTrackingId() {
+        return trackingId;
+    }
+
+    public PayRequest trackingId(String trackingId) {
+        this.trackingId = trackingId;
+        return this;
+    }
+
+    public void setTrackingId(String trackingId) {
+        this.trackingId = trackingId;
     }
 
     public String getAccountNo() {
@@ -190,6 +207,7 @@ public class PayRequest implements Serializable {
     public String toString() {
         return "PayRequest{" +
             "id=" + getId() +
+            ", trackingId='" + getTrackingId() + "'" +
             ", accountNo='" + getAccountNo() + "'" +
             ", title='" + getTitle() + "'" +
             ", sendSms='" + isSendSms() + "'" +

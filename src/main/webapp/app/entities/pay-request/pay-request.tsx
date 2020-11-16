@@ -37,6 +37,9 @@ export const PayRequest = (props: IPayRequestProps) => {
                   <Translate contentKey="global.field.id">ID</Translate>
                 </th>
                 <th>
+                  <Translate contentKey="myTollApp.payRequest.trackingId">Tracking Id</Translate>
+                </th>
+                <th>
                   <Translate contentKey="myTollApp.payRequest.accountNo">Account No</Translate>
                 </th>
                 <th>
@@ -68,6 +71,7 @@ export const PayRequest = (props: IPayRequestProps) => {
                       {payRequest.id}
                     </Button>
                   </td>
+                  <td>{payRequest.trackingId}</td>
                   <td>{payRequest.accountNo}</td>
                   <td>{payRequest.title}</td>
                   <td>{payRequest.sendSms ? 'true' : 'false'}</td>

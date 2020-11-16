@@ -15,7 +15,12 @@ export interface IBill {
   amount?: number;
   externalNumber?: string;
   billDate?: string;
+  paid?: boolean;
+  sepandarShare?: number;
+  issuerShare?: number;
   payRequestLists?: IPayRequest[];
 }
 
-export const defaultValue: Readonly<IBill> = {};
+export const defaultValue: Readonly<IBill> = {
+  paid: false,
+};

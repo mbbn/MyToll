@@ -1,11 +1,11 @@
-id;category;plate;bill_type;bill_type_title;street;from_date;to_date;bill_id;amount;external_number;bill_date
-1;PARKING;whiteboar;synthesize Brazil;teal;Carmine Burg;2020-11-15T06:21:23;2020-11-15T14:17:33;monetize;37782;Towels;2020-11-15T00:07:36
-2;CITYTAX;Unbranded;Cambridgeshire online Incredible;solid state;Robel Circles;2020-11-15T01:18:01;2020-11-14T21:48:03;TCP withdrawal deposit;95809;withdrawal;2020-11-15T01:57:56
-3;CITYTAX;Cheese sy;programming Producer;Guinea capacity Barbados Dollar;Kuhn Street;2020-11-15T01:51:12;2020-11-15T14:22:31;maroon;83354;e-business;2020-11-15T07:53:21
-4;PARKING;cross-med;global;open system;Ferry Place;2020-11-15T00:03:26;2020-11-14T20:21:05;THX Divide;86525;Designer Pizza;2020-11-15T09:44:17
-5;SIDEPARK;Chicken g;neural Virgin Islands, U.S. Savings Account;Pitcairn Islands virtual;Margot Via;2020-11-15T03:47:45;2020-11-15T14:04:29;SMTP;32430;Car;2020-11-14T19:21:14
-6;HIGHWAY;Malta Sma;zero administration online;Avon XSS Investment Account;Una Hill;2020-11-14T22:57:54;2020-11-15T12:31:02;Station Computers Ridges;22956;solid state invoice non-volatile;2020-11-15T05:49:04
-7;HIGHWAY;engineerX;deposit;Handcrafted Frozen Sausages Rustic Concrete Gloves ability;Hodkiewicz Ridges;2020-11-15T11:07:02;2020-11-15T08:26:17;reinvent Unbranded Plastic Computer;40260;Keyboard needs-based Cambridgeshire;2020-11-15T17:32:54
-8;CITYTAX;ChairXXXX;Bahraini Dinar;zero defect Tenge Island;Thompson Parkway;2020-11-15T12:18:31;2020-11-14T20:00:52;Fords;45863;Customer innovative invoice;2020-11-15T02:05:28
-9;HIGHWAY;copyingXX;implement;Web Implementation input;Bud Haven;2020-11-15T03:30:20;2020-11-15T01:47:35;Sausages infomediaries;76211;Granite Ergonomic;2020-11-15T01:12:51
-10;PARKING;payment G;Representative world-class Avon;Gourde US Dollar;Jerry Green;2020-11-15T07:21:58;2020-11-15T07:28:10;Bacon;1142;Savings Account;2020-11-15T15:43:56
+id;category;plate;bill_type;bill_type_title;street;from_date;to_date;bill_id;amount;external_number;bill_date;paid;sepandar_share;issuer_share
+1;PARKING;whiteboar;synthesize Brazil;teal;Carmine Burg;2020-11-15T06:21:23;2020-11-15T14:17:33;monetize;37782;Towels;2020-11-15T00:07:36;true;58686;30310
+2;SIDEPARK;Car Corpo;synthesizing Court;project Senior;Mireya Isle;2020-11-14T21:48:03;2020-11-14T18:49:01;Baby multimedia Sausages;21609;infomediaries synthesize;2020-11-14T21:32:32;true;55577;7591
+3;PARKING;Bacon inv;generate granular Chicken;indexing;Charlotte Meadows;2020-11-15T17:12:57;2020-11-15T13:59:24;backing up e-business;44775;New Leu;2020-11-15T01:37:49;false;35621;70303
+4;SIDEPARK;New Zeala;Robust;exploit withdrawal Pizza;Katelin Mountains;2020-11-15T14:49:41;2020-11-14T21:43:33;backing up Engineer;56259;benchmark;2020-11-15T06:28:21;false;66713;18526
+5;SIDEPARK;Pitcairn ;Dynamic Savings Account Refined;extranet Car Analyst;Rosamond Ville;2020-11-15T05:43:14;2020-11-15T10:18:18;Malta Small Cotton Tuna;46595;Assistant;2020-11-15T07:11:39;true;51485;1055
+6;CITYTAX;TengeXXXX;Computers Ridges Re-engineered;Dynamic Engineer firewall;Eichmann Prairie;2020-11-15T10:42:37;2020-11-15T14:34:56;functionalities digital;65225;Associate;2020-11-15T02:21:08;true;93977;7052
+7;HIGHWAY;Hong Kong;hardware Berkshire;Unbranded Plastic Computer;Carmela Knoll;2020-11-15T15:31:37;2020-11-15T11:39:57;Cambridgeshire Generic Soft Cheese Intelligent;80227;Chair;2020-11-15T13:41:10;true;8693;69149
+8;HIGHWAY;front-end;Security;Multi-channelled solid state;Collins Parkways;2020-11-15T03:29:23;2020-11-14T20:50:57;Refined Cotton Gloves Fresh enhance;37316;programming;2020-11-15T03:30:34;true;20714;76540
+9;SIDEPARK;infomedia;Handmade;conglomeration 1080p engage;Luz Pines;2020-11-15T06:24:20;2020-11-15T18:03:39;Checking Account parse;93300;payment Wooden;2020-11-15T02:18:55;false;29419;86296
+10;CITYTAX;RubberXXX;Concrete;optimal Chair Singapore Dollar;Kuhic Motorway;2020-11-14T19:37:49;2020-11-15T11:30:27;task-force;22626;definition;2020-11-15T00:53:12;true;56532;14298

@@ -26,6 +26,12 @@ export const PayRequestDetail = (props: IPayRequestDetailProps) => {
         </h2>
         <dl className="jh-entity-details">
           <dt>
+            <span id="trackingId">
+              <Translate contentKey="myTollApp.payRequest.trackingId">Tracking Id</Translate>
+            </span>
+          </dt>
+          <dd>{payRequestEntity.trackingId}</dd>
+          <dt>
             <span id="accountNo">
               <Translate contentKey="myTollApp.payRequest.accountNo">Account No</Translate>
             </span>

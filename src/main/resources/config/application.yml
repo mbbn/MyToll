@@ -164,14 +164,20 @@ jhipster:
 
 # application:
 application:
-  sepandar:
+  tax:
     schema: https
-#    schema: http
     host: taxapi.cpay.ir
-#    host: apitest.cpay.ir
     port: 443
-#    port: 8082
     username: mytoll
     password: 4di@SQtCy
     appId: 5e244a48d26abbffec0acd7d
     orgId: 5f54d7300828cc001887b433
+  payment:
+    schema: https
+    host: taxapi.cpay.ir
+    port: 443
+    username: mytoll
+    password: 4di@SQtCy
+    appId: 5e244a48d26abbffec0acd7d
+    orgId: 5f54d7300828cc001887b433
+    accountNo: 179
