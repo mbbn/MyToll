@@ -58,7 +58,7 @@ public class PayRequest implements Serializable {
     @JsonIgnoreProperties(value = "payRequests", allowSetters = true)
     private Customer customer;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JoinTable(name = "pay_request_bills",
                joinColumns = @JoinColumn(name = "pay_request_id", referencedColumnName = "id"),

@@ -50,7 +50,7 @@ export const mPayBill: (payRequest: IPayRequest) => IPayload<IPayRequest> = (pay
   payload: axios.post(apiUrl + '/mPayBill', payRequest)
 });
 
-export const pay: (payRequest: IPayRequest) => IPayload<void> = (payRequest) => ({
+export const pay: (payRequest: IPayRequest) => IPayload<string> = (payRequest) => ({
   type: ACTION_TYPES.PAY,
   payload: axios.post(apiUrl + '/pay', payRequest)
 });

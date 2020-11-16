@@ -105,8 +105,9 @@ public class PaymentService extends RestTemplate {
             String[] externalId = payRequest.getBills().stream().map(Bill::getExternalNumber).toArray(String[]::new);
             payRequestDto.setExternalId(externalId);
 
-            String expirationDate = ZonedDateTime.now().plusMinutes(10).format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'hh:mm:ss.SSSZ"));
-            payRequestDto.setExpirationDate(expirationDate);
+            ZonedDateTime expirationDate = ZonedDateTime.now().plusHours(1);
+            payRequestDto.setExpirationDate(expirationDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'hh:mm:ss.SSSZ")));
+            payRequest.setExpirationDate(expirationDate);
 
             Customer customer = payRequest.getCustomer();
             payRequestDto.setMobileNumber(customer.getMobile());
@@ -114,9 +115,10 @@ public class PaymentService extends RestTemplate {
             payRequest.setSendSms(true);
             payRequestDto.setSendEmail(false);
             payRequestDto.setAmount(payRequest.getAmount());
-            payRequestDto.setCallBackUrl("http://google.com");
-            payRequestDto.setFailureCallBackUrl("http://google.com");
+            payRequestDto.setCallBackUrl("http://mytoll.ir");
+            payRequestDto.setFailureCallBackUrl("http://mytoll.ir");
             payRequestDto.setCallBackService("transaction.charge");
+            payRequest.setCallBackService("transaction.charge");
             payRequestDto.setSource("IPG");
 
             HttpEntity<PayRequestDto> requestEntity = new HttpEntity<>(payRequestDto, headers);

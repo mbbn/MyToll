@@ -53,8 +53,9 @@ export const TollRequest = (props: ITollDataTableProps) => {
     payRequest.customer = {...defaultCustomer};
     payRequest.customer.mobile = mobile;
     pay(payRequest).payload.then(response => {
-      /* eslint no-console: off */
-      console.log(response);
+      if (typeof window !== 'undefined') {
+        window.location.href = response.data;
+      }
     }).catch(() => {
       toast.error(translate('global.messages.error.internalError'));
     }).finally(() => handleClose());

@@ -24,6 +24,7 @@ import org.springframework.web.util.UriBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -137,6 +138,7 @@ public class TollRequestService extends RestTemplate {
                         bill.setFromDate(extraInfo.getFrom());
                         bill.setToDate(extraInfo.getTo());
                     }
+                    bill.setPlate(String.valueOf(tollRequest.getPlate()));
                     bill.setBillId(billDto.get_id());
                     bill.setAmount(billDto.getAmount());
                     bill.setExternalNumber(billDto.getExternalNumber());
@@ -203,11 +205,16 @@ public class TollRequestService extends RestTemplate {
         }
         payRequest.setCustomer(customer);
 
+        String today = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddhhmmss"));
+        String trackId = today + customer.getMobile();
+        payRequest.setTrackingId(trackId);
+
         Integer totalAmount = 0;
         Set<String> externalNumbers = payRequest.getBills().stream().map(Bill::getExternalNumber).collect(Collectors.toSet());
         Set<Bill> tryBills = billRepository.findAllByExternalNumberIn(externalNumbers);
         for (Bill payBill : payRequest.getBills()) {
             if (tryBills.stream().noneMatch(bill -> payBill.getExternalNumber().equals(bill.getExternalNumber()))) {
+                payBill.setPaid(false);
                 tryBills.add(payBill);
             }
             totalAmount += payBill.getAmount();

@@ -11,7 +11,7 @@
     <!--
         Added the entity TollRequest.
     -->
-    <changeSet id="20201115183908-1" author="jhipster">
+    <changeSet id="20201116195135-1" author="jhipster">
         <createTable tableName="toll_request">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
@@ -34,7 +34,7 @@
         <dropDefaultValue tableName="toll_request" columnName="to_date" columnDataType="datetime"/>
     </changeSet>
 
-    <changeSet id="20201115183908-1-relations" author="jhipster">
+    <changeSet id="20201116195135-1-relations" author="jhipster">
 
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
@@ -47,7 +47,7 @@
           This can be customized by adding or removing 'faker' in the 'spring.liquibase.contexts'
           Spring Boot configuration key.
     -->
-    <changeSet id="20201115183908-1-data" author="jhipster" context="faker">
+    <changeSet id="20201116195135-1-data" author="jhipster" context="faker">
         <loadData
                   file="config/liquibase/fake-data/toll_request.csv"
                   separator=";"
