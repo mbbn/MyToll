@@ -40,6 +40,9 @@ entity Bill {
     amount Integer required
     externalNumber String required
     billDate ZonedDateTime required
+    paid Boolean required
+    sepandarShare Integer
+    issuerShare Integer
 }
 
 enum TaxCategory {
@@ -59,6 +62,7 @@ entity TollRequest{
 }
 
 entity PayRequest{
+    trackingId String required
     accountNo String required
     title String required
     sendSms Boolean required

@@ -159,13 +159,19 @@ public class TollRequestService extends RestTemplate {
 
             MPayBillRequestDto mPayBillRequestDto = new MPayBillRequestDto();
             mPayBillRequestDto.setBills(bills.stream().map(Bill::getBillId).toArray(String[]::new));
+            mPayBillRequestDto.setExTrackingId(trackId);
 
             HttpEntity<MPayBillRequestDto> requestEntity = new HttpEntity<>(mPayBillRequestDto, headers);
             ResponseEntity<SepandarResponseDto<MPayBillResponseDto>> response = exchange(uri, HttpMethod.POST, requestEntity, new ParameterizedTypeReference<SepandarResponseDto<MPayBillResponseDto>>() {});
             SepandarResponseDto<MPayBillResponseDto> sepandarResponseDto = response.getBody();
             if(sepandarResponseDto!= null && sepandarResponseDto.isSuccess()){
                 MPayBillResponseDto result = sepandarResponseDto.getResult();
-                result.getData()
+                for(PayBillDto payBillDto:result.getData()){
+                    Bill b = bills.stream().filter(bill -> payBillDto.getExternalNumber().equals(bill.getExternalNumber())).findFirst().orElse(null);
+                    if(b!=null){
+                        b.set
+                    }
+                }
             }else {
                 throw new RuntimeException("failed to login");
             }
