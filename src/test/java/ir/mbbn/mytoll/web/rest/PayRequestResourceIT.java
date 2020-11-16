@@ -19,9 +19,14 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
+import java.time.Instant;
+import java.time.ZonedDateTime;
+import java.time.ZoneOffset;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
+import static ir.mbbn.mytoll.web.rest.TestUtil.sameInstant;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
@@ -46,11 +51,14 @@ public class PayRequestResourceIT {
     private static final String DEFAULT_TITLE = "AAAAAAAAAA";
     private static final String UPDATED_TITLE = "BBBBBBBBBB";
 
+    private static final ZonedDateTime DEFAULT_EXPIRATION_DATE = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
+    private static final ZonedDateTime UPDATED_EXPIRATION_DATE = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
+
     private static final Boolean DEFAULT_SEND_SMS = false;
     private static final Boolean UPDATED_SEND_SMS = true;
 
-    private static final String DEFAULT_AMOUNT = "AAAAAAAAAA";
-    private static final String UPDATED_AMOUNT = "BBBBBBBBBB";
+    private static final Integer DEFAULT_AMOUNT = 1;
+    private static final Integer UPDATED_AMOUNT = 2;
 
     private static final String DEFAULT_CALL_BACK_SERVICE = "AAAAAAAAAA";
     private static final String UPDATED_CALL_BACK_SERVICE = "BBBBBBBBBB";
@@ -80,6 +88,7 @@ public class PayRequestResourceIT {
             .trackingId(DEFAULT_TRACKING_ID)
             .accountNo(DEFAULT_ACCOUNT_NO)
             .title(DEFAULT_TITLE)
+            .expirationDate(DEFAULT_EXPIRATION_DATE)
             .sendSms(DEFAULT_SEND_SMS)
             .amount(DEFAULT_AMOUNT)
             .callBackService(DEFAULT_CALL_BACK_SERVICE);
@@ -96,6 +105,7 @@ public class PayRequestResourceIT {
             .trackingId(UPDATED_TRACKING_ID)
             .accountNo(UPDATED_ACCOUNT_NO)
             .title(UPDATED_TITLE)
+            .expirationDate(UPDATED_EXPIRATION_DATE)
             .sendSms(UPDATED_SEND_SMS)
             .amount(UPDATED_AMOUNT)
             .callBackService(UPDATED_CALL_BACK_SERVICE);
@@ -124,6 +134,7 @@ public class PayRequestResourceIT {
         assertThat(testPayRequest.getTrackingId()).isEqualTo(DEFAULT_TRACKING_ID);
         assertThat(testPayRequest.getAccountNo()).isEqualTo(DEFAULT_ACCOUNT_NO);
         assertThat(testPayRequest.getTitle()).isEqualTo(DEFAULT_TITLE);
+        assertThat(testPayRequest.getExpirationDate()).isEqualTo(DEFAULT_EXPIRATION_DATE);
         assertThat(testPayRequest.isSendSms()).isEqualTo(DEFAULT_SEND_SMS);
         assertThat(testPayRequest.getAmount()).isEqualTo(DEFAULT_AMOUNT);
         assertThat(testPayRequest.getCallBackService()).isEqualTo(DEFAULT_CALL_BACK_SERVICE);
@@ -208,6 +219,25 @@ public class PayRequestResourceIT {
 
     @Test
     @Transactional
+    public void checkExpirationDateIsRequired() throws Exception {
+        int databaseSizeBeforeTest = payRequestRepository.findAll().size();
+        // set the field null
+        payRequest.setExpirationDate(null);
+
+        // Create the PayRequest, which fails.
+
+
+        restPayRequestMockMvc.perform(post("/api/pay-requests")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(payRequest)))
+            .andExpect(status().isBadRequest());
+
+        List<PayRequest> payRequestList = payRequestRepository.findAll();
+        assertThat(payRequestList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void checkSendSmsIsRequired() throws Exception {
         int databaseSizeBeforeTest = payRequestRepository.findAll().size();
         // set the field null
@@ -277,6 +307,7 @@ public class PayRequestResourceIT {
             .andExpect(jsonPath("$.[*].trackingId").value(hasItem(DEFAULT_TRACKING_ID)))
             .andExpect(jsonPath("$.[*].accountNo").value(hasItem(DEFAULT_ACCOUNT_NO)))
             .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE)))
+            .andExpect(jsonPath("$.[*].expirationDate").value(hasItem(sameInstant(DEFAULT_EXPIRATION_DATE))))
             .andExpect(jsonPath("$.[*].sendSms").value(hasItem(DEFAULT_SEND_SMS.booleanValue())))
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT)))
             .andExpect(jsonPath("$.[*].callBackService").value(hasItem(DEFAULT_CALL_BACK_SERVICE)));
@@ -316,6 +347,7 @@ public class PayRequestResourceIT {
             .andExpect(jsonPath("$.trackingId").value(DEFAULT_TRACKING_ID))
             .andExpect(jsonPath("$.accountNo").value(DEFAULT_ACCOUNT_NO))
             .andExpect(jsonPath("$.title").value(DEFAULT_TITLE))
+            .andExpect(jsonPath("$.expirationDate").value(sameInstant(DEFAULT_EXPIRATION_DATE)))
             .andExpect(jsonPath("$.sendSms").value(DEFAULT_SEND_SMS.booleanValue()))
             .andExpect(jsonPath("$.amount").value(DEFAULT_AMOUNT))
             .andExpect(jsonPath("$.callBackService").value(DEFAULT_CALL_BACK_SERVICE));
@@ -344,6 +376,7 @@ public class PayRequestResourceIT {
             .trackingId(UPDATED_TRACKING_ID)
             .accountNo(UPDATED_ACCOUNT_NO)
             .title(UPDATED_TITLE)
+            .expirationDate(UPDATED_EXPIRATION_DATE)
             .sendSms(UPDATED_SEND_SMS)
             .amount(UPDATED_AMOUNT)
             .callBackService(UPDATED_CALL_BACK_SERVICE);
@@ -360,6 +393,7 @@ public class PayRequestResourceIT {
         assertThat(testPayRequest.getTrackingId()).isEqualTo(UPDATED_TRACKING_ID);
         assertThat(testPayRequest.getAccountNo()).isEqualTo(UPDATED_ACCOUNT_NO);
         assertThat(testPayRequest.getTitle()).isEqualTo(UPDATED_TITLE);
+        assertThat(testPayRequest.getExpirationDate()).isEqualTo(UPDATED_EXPIRATION_DATE);
         assertThat(testPayRequest.isSendSms()).isEqualTo(UPDATED_SEND_SMS);
         assertThat(testPayRequest.getAmount()).isEqualTo(UPDATED_AMOUNT);
         assertThat(testPayRequest.getCallBackService()).isEqualTo(UPDATED_CALL_BACK_SERVICE);

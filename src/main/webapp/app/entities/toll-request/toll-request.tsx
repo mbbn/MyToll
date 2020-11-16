@@ -15,7 +15,7 @@ import {IRootState} from "app/shared/reducers";
 import {IBill} from "app/shared/model/bill.model";
 import {dateStrToJalali, dateStrToJalaliWithFormat} from "app/component/datePicker";
 import {Dialog, DialogTitle, DialogContent, DialogActions, Button} from '@material-ui/core';
-import {pay} from 'app/entities/toll-request/toll-request.reducer';
+import {pay, mPayBill} from 'app/entities/toll-request/toll-request.reducer';
 import {Translate} from 'react-jhipster';
 import {Alert} from '@material-ui/lab';
 import {toast} from 'react-toastify';
@@ -49,7 +49,7 @@ export const TollRequest = (props: ITollDataTableProps) => {
 
   const handlePay = () => {
     const payRequest = {...defaultPayRequest};
-    payRequest.bills = bills;
+    payRequest.bills = selectedBills;
     payRequest.customer = {...defaultCustomer};
     payRequest.customer.mobile = mobile;
     pay(payRequest).payload.then(response => {

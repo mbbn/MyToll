@@ -24,7 +24,6 @@ import org.springframework.web.util.UriBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
-import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -42,16 +41,16 @@ public class TollRequestService extends RestTemplate {
     private final ApplicationProperties.SepandarTax sepandar;
     private final CustomerRepository customerRepository;
     private final BillRepository billRepository;
-    private final PayRequestRepository payRequestRepository;
+    private final PaymentService paymentService;
 
     private String token;
     private Date expireTime;
 
-    public TollRequestService(ApplicationProperties applicationProperties, CustomerRepository customerRepository, BillRepository billRepository, PayRequestRepository payRequestRepository) {
+    public TollRequestService(ApplicationProperties applicationProperties, CustomerRepository customerRepository, BillRepository billRepository, PaymentService paymentService) {
         sepandar = applicationProperties.getTax();
         this.customerRepository = customerRepository;
         this.billRepository = billRepository;
-        this.payRequestRepository = payRequestRepository;
+        this.paymentService = paymentService;
     }
 
     private UriBuilder getUrlBuilder(){
@@ -189,7 +188,7 @@ public class TollRequestService extends RestTemplate {
         }
     }
 
-    public void pay(PayRequest payRequest) {
+    public String pay(PayRequest payRequest) {
         Customer customer = payRequest.getCustomer();
         String mobileNumber = customer.getMobile();
         customer = customerRepository.findOneCustomerByMobile(mobileNumber).orElse(null);
@@ -204,15 +203,18 @@ public class TollRequestService extends RestTemplate {
         }
         payRequest.setCustomer(customer);
 
-        String today = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMddhhmmss"));
-        String trackId = today + mobileNumber;
-        payRequest.setTrackingId(trackId);
-
-        Set<Bill> bills = mPayBill(trackId, payRequest.getBills());
-        Set<String> externalNumbers = bills.stream().map(Bill::getExternalNumber).collect(Collectors.toSet());
+        Integer totalAmount = 0;
+        Set<String> externalNumbers = payRequest.getBills().stream().map(Bill::getExternalNumber).collect(Collectors.toSet());
         Set<Bill> tryBills = billRepository.findAllByExternalNumberIn(externalNumbers);
+        for (Bill payBill : payRequest.getBills()) {
+            if (tryBills.stream().noneMatch(bill -> payBill.getExternalNumber().equals(bill.getExternalNumber()))) {
+                tryBills.add(payBill);
+            }
+            totalAmount += payBill.getAmount();
+        }
+        payRequest.setAmount(totalAmount);
         payRequest.setBills(tryBills);
 
-        payRequest = payRequestRepository.save(payRequest);
+        return paymentService.pay(payRequest);
     }
 }

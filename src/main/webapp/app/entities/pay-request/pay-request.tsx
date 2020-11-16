@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Col, Row, Table } from 'reactstrap';
-import { Translate, ICrudGetAllAction } from 'react-jhipster';
+import { Translate, ICrudGetAllAction, TextFormat } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
@@ -46,6 +46,9 @@ export const PayRequest = (props: IPayRequestProps) => {
                   <Translate contentKey="myTollApp.payRequest.title">Title</Translate>
                 </th>
                 <th>
+                  <Translate contentKey="myTollApp.payRequest.expirationDate">Expiration Date</Translate>
+                </th>
+                <th>
                   <Translate contentKey="myTollApp.payRequest.sendSms">Send Sms</Translate>
                 </th>
                 <th>
@@ -74,6 +77,11 @@ export const PayRequest = (props: IPayRequestProps) => {
                   <td>{payRequest.trackingId}</td>
                   <td>{payRequest.accountNo}</td>
                   <td>{payRequest.title}</td>
+                  <td>
+                    {payRequest.expirationDate ? (
+                      <TextFormat type="date" value={payRequest.expirationDate} format={APP_DATE_FORMAT} />
+                    ) : null}
+                  </td>
                   <td>{payRequest.sendSms ? 'true' : 'false'}</td>
                   <td>{payRequest.amount}</td>
                   <td>{payRequest.callBackService}</td>

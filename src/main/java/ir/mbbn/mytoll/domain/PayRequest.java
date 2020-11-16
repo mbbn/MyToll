@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
+import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -38,12 +39,16 @@ public class PayRequest implements Serializable {
     private String title;
 
     @NotNull
+    @Column(name = "expiration_date", nullable = false)
+    private ZonedDateTime expirationDate;
+
+    @NotNull
     @Column(name = "send_sms", nullable = false)
     private Boolean sendSms;
 
     @NotNull
     @Column(name = "amount", nullable = false)
-    private String amount;
+    private Integer amount;
 
     @NotNull
     @Column(name = "call_back_service", nullable = false)
@@ -108,6 +113,19 @@ public class PayRequest implements Serializable {
         this.title = title;
     }
 
+    public ZonedDateTime getExpirationDate() {
+        return expirationDate;
+    }
+
+    public PayRequest expirationDate(ZonedDateTime expirationDate) {
+        this.expirationDate = expirationDate;
+        return this;
+    }
+
+    public void setExpirationDate(ZonedDateTime expirationDate) {
+        this.expirationDate = expirationDate;
+    }
+
     public Boolean isSendSms() {
         return sendSms;
     }
@@ -121,16 +139,16 @@ public class PayRequest implements Serializable {
         this.sendSms = sendSms;
     }
 
-    public String getAmount() {
+    public Integer getAmount() {
         return amount;
     }
 
-    public PayRequest amount(String amount) {
+    public PayRequest amount(Integer amount) {
         this.amount = amount;
         return this;
     }
 
-    public void setAmount(String amount) {
+    public void setAmount(Integer amount) {
         this.amount = amount;
     }
 
@@ -210,8 +228,9 @@ public class PayRequest implements Serializable {
             ", trackingId='" + getTrackingId() + "'" +
             ", accountNo='" + getAccountNo() + "'" +
             ", title='" + getTitle() + "'" +
+            ", expirationDate='" + getExpirationDate() + "'" +
             ", sendSms='" + isSendSms() + "'" +
-            ", amount='" + getAmount() + "'" +
+            ", amount=" + getAmount() +
             ", callBackService='" + getCallBackService() + "'" +
             "}";
     }

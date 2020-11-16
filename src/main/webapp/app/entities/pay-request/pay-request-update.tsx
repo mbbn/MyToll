@@ -47,6 +47,8 @@ export const PayRequestUpdate = (props: IPayRequestUpdateProps) => {
   }, [props.updateSuccess]);
 
   const saveEntity = (event, errors, values) => {
+    values.expirationDate = convertDateTimeToServer(values.expirationDate);
+
     if (errors.length === 0) {
       const entity = {
         ...payRequestEntity,
@@ -124,6 +126,22 @@ export const PayRequestUpdate = (props: IPayRequestUpdateProps) => {
                   }}
                 />
               </AvGroup>
+              <AvGroup>
+                <Label id="expirationDateLabel" for="pay-request-expirationDate">
+                  <Translate contentKey="myTollApp.payRequest.expirationDate">Expiration Date</Translate>
+                </Label>
+                <AvInput
+                  id="pay-request-expirationDate"
+                  type="datetime-local"
+                  className="form-control"
+                  name="expirationDate"
+                  placeholder={'YYYY-MM-DD HH:mm'}
+                  value={isNew ? displayDefaultDateTime() : convertDateTimeFromServer(props.payRequestEntity.expirationDate)}
+                  validate={{
+                    required: { value: true, errorMessage: translate('entity.validation.required') },
+                  }}
+                />
+              </AvGroup>
               <AvGroup check>
                 <Label id="sendSmsLabel">
                   <AvInput id="pay-request-sendSms" type="checkbox" className="form-check-input" name="sendSms" />
@@ -136,10 +154,12 @@ export const PayRequestUpdate = (props: IPayRequestUpdateProps) => {
                 </Label>
                 <AvField
                   id="pay-request-amount"
-                  type="text"
+                  type="string"
+                  className="form-control"
                   name="amount"
                   validate={{
                     required: { value: true, errorMessage: translate('entity.validation.required') },
+                    number: { value: true, errorMessage: translate('entity.validation.number') },
                   }}
                 />
               </AvGroup>

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col } from 'reactstrap';
-import { Translate, ICrudGetAction } from 'react-jhipster';
+import { Translate, ICrudGetAction, TextFormat } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
@@ -43,6 +43,16 @@ export const PayRequestDetail = (props: IPayRequestDetailProps) => {
             </span>
           </dt>
           <dd>{payRequestEntity.title}</dd>
+          <dt>
+            <span id="expirationDate">
+              <Translate contentKey="myTollApp.payRequest.expirationDate">Expiration Date</Translate>
+            </span>
+          </dt>
+          <dd>
+            {payRequestEntity.expirationDate ? (
+              <TextFormat value={payRequestEntity.expirationDate} type="date" format={APP_DATE_FORMAT} />
+            ) : null}
+          </dd>
           <dt>
             <span id="sendSms">
               <Translate contentKey="myTollApp.payRequest.sendSms">Send Sms</Translate>

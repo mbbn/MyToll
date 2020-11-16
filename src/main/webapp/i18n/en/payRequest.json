@@ -19,6 +19,7 @@
       "trackingId": "Tracking Id",
       "accountNo": "Account No",
       "title": "Title",
+      "expirationDate": "Expiration Date",
       "sendSms": "Send Sms",
       "amount": "Amount",
       "callBackService": "Call Back Service",

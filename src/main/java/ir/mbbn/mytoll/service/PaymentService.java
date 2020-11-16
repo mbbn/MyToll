@@ -4,6 +4,7 @@ import ir.mbbn.mytoll.config.ApplicationProperties;
 import ir.mbbn.mytoll.domain.Bill;
 import ir.mbbn.mytoll.domain.Customer;
 import ir.mbbn.mytoll.domain.PayRequest;
+import ir.mbbn.mytoll.repository.PayRequestRepository;
 import ir.mbbn.mytoll.service.dto.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,14 +31,16 @@ public class PaymentService extends RestTemplate {
     private final Logger log = LoggerFactory.getLogger(PaymentService.class);
 
     private final ApplicationProperties.SepandarPayment sepandar;
+    private final PayRequestRepository payRequestRepository;
     private final String accountNo;
     private final String payTitle;
 
     private String token;
     private Date expireTime;
 
-    public PaymentService(ApplicationProperties applicationProperties, MessageSource messageSource) {
+    public PaymentService(ApplicationProperties applicationProperties, PayRequestRepository payRequestRepository, MessageSource messageSource) {
         this.sepandar = applicationProperties.getPayment();
+        this.payRequestRepository = payRequestRepository;
         this.accountNo = this.sepandar.getAccountNo();
         this.payTitle = messageSource.getMessage("payment.pay.title", null, Locale.forLanguageTag("fa"));
     }
@@ -85,7 +88,7 @@ public class PaymentService extends RestTemplate {
     public String pay(PayRequest payRequest){
         try {
             String token = login();
-            String PAYMENT_CREATE_PATH = "api/bill/payment/create";
+            String PAYMENT_CREATE_PATH = "api/payment/create";
             URI uri = getUrlBuilder().path(PAYMENT_CREATE_PATH).build();
             HttpHeaders headers = new HttpHeaders();
             headers.add(HttpHeaders.AUTHORIZATION, token);
@@ -127,6 +130,8 @@ public class PaymentService extends RestTemplate {
             }
         } catch (RestClientException e) {
             throw new RuntimeException("failed to login");
+        } finally {
+            payRequestRepository.save(payRequest);
         }
     }
 }

@@ -67,7 +67,7 @@ entity PayRequest{
     title String required
     expirationDate ZonedDateTime required
     sendSms Boolean required
-    amount String required
+    amount Integer required
     callBackService String required
 }
 

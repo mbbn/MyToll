@@ -25,10 +25,13 @@
             <column name="title" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
+            <column name="expiration_date" type="datetime">
+                <constraints nullable="false" />
+            </column>
             <column name="send_sms" type="boolean">
                 <constraints nullable="false" />
             </column>
-            <column name="amount" type="varchar(255)">
+            <column name="amount" type="integer">
                 <constraints nullable="false" />
             </column>
             <column name="call_back_service" type="varchar(255)">
@@ -39,6 +42,7 @@
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
+        <dropDefaultValue tableName="pay_request" columnName="expiration_date" columnDataType="datetime"/>
     </changeSet>
 
     <changeSet id="20201115184008-1-relations" author="jhipster">
@@ -74,8 +78,9 @@
             <column name="tracking_id" type="string"/>
             <column name="account_no" type="string"/>
             <column name="title" type="string"/>
+            <column name="expiration_date" type="datetime"/>
             <column name="send_sms" type="boolean"/>
-            <column name="amount" type="string"/>
+            <column name="amount" type="numeric"/>
             <column name="call_back_service" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
