@@ -89,8 +89,12 @@ public class ApplicationProperties {
         }
     }
 
-    public static class SepandarPayment extends SepandarTax{
+    public static class SepandarPayment extends SepandarTax {
+
         private String accountNo;
+        private String callBackUrl;
+        private String failureCallBackUrl;
+        private String callBackUrlService;
 
         public String getAccountNo() {
             return accountNo;
@@ -98,6 +102,30 @@ public class ApplicationProperties {
 
         public void setAccountNo(String accountNo) {
             this.accountNo = accountNo;
+        }
+
+        public String getCallBackUrl() {
+            return callBackUrl;
+        }
+
+        public void setCallBackUrl(String callBackUrl) {
+            this.callBackUrl = callBackUrl;
+        }
+
+        public String getFailureCallBackUrl() {
+            return failureCallBackUrl;
+        }
+
+        public void setFailureCallBackUrl(String failureCallBackUrl) {
+            this.failureCallBackUrl = failureCallBackUrl;
+        }
+
+        public String getCallBackUrlService() {
+            return callBackUrlService;
+        }
+
+        public void setCallBackUrlService(String callBackUrlService) {
+            this.callBackUrlService = callBackUrlService;
         }
     }
 }

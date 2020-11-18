@@ -26,4 +26,6 @@ public interface PayRequestRepository extends JpaRepository<PayRequest, Long> {
 
     @Query("select payRequest from PayRequest payRequest left join fetch payRequest.bills where payRequest.id =:id")
     Optional<PayRequest> findOneWithEagerRelationships(@Param("id") Long id);
+
+    Optional<PayRequest> findOneByTrackingId(@Param("trackingId") String trackingId);
 }

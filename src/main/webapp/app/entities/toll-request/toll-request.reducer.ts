@@ -45,9 +45,9 @@ export const getBills: (data: ITollRequest) => IPayload<IBill> = entity => ({
   payload: axios.post(apiUrl+'/get-plate-bills', cleanEntity(entity))
 });
 
-export const mPayBill: (payRequest: IPayRequest) => IPayload<IPayRequest> = (payRequest) => ({
+export const verifyPay: (trackingId: string) => IPayload<IPayRequest> = (trackingId) => ({
   type: ACTION_TYPES.M_PAY_BILL,
-  payload: axios.post(apiUrl + '/mPayBill', payRequest)
+  payload: axios.get(apiUrl + '/verifyPay?trackingId='+trackingId)
 });
 
 export const pay: (payRequest: IPayRequest) => IPayload<string> = (payRequest) => ({

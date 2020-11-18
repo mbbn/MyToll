@@ -16,7 +16,7 @@ import java.util.Set;
  * A PayRequest.
  */
 @Entity
-@Table(name = "pay_request")
+@Table(name = "pay_request", indexes = {@Index(name = "pay_request_uk", columnList = "tracking_id", unique = true)})
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class PayRequest implements Serializable {
 

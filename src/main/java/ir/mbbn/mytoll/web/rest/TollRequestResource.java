@@ -46,19 +46,18 @@ public class TollRequestResource {
         return tollRequestService.getPlateBills(tollRequest);
     }
 
-    @PostMapping("/mPayBill")
-    public ResponseEntity<PayRequest> mPayBill(@RequestBody PayRequest payRequest) throws URISyntaxException {
-        log.debug("REST request to Pay Bills");
-//        Set<Bill> bills = tollRequestService.mPayBill(trackId, payRequest.getBills());
-//        payRequest.setBills(bills);
-
-        return ResponseEntity.accepted()
-            .body(payRequest);
-    }
-
     @PostMapping("/pay")
     public String pay(@RequestBody PayRequest payRequest) throws URISyntaxException {
         log.debug("REST request to Pay Bills");
         return tollRequestService.pay(payRequest);
+    }
+
+    @GetMapping("/verifyPay")
+    public ResponseEntity<PayRequest> verifyPay(@RequestParam String trackingId) throws URISyntaxException {
+        log.debug("REST request to Pay Bills");
+        PayRequest payRequest = tollRequestService.mPayBill(trackingId);
+//        tollRequestService.
+        return ResponseEntity.accepted()
+            .body(payRequest);
     }
 }

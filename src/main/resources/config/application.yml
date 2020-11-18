@@ -181,3 +181,6 @@ application:
     appId: 5e244a48d26abbffec0acd7d
     orgId: 5f54d7300828cc001887b433
     accountNo: 179
+    callBackUrl: http://mytoll.ir/callback
+    failureCallBackUrl: http://mytoll.ir/callback
+    callBackUrlService: transaction.charge

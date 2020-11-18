@@ -9,9 +9,9 @@ import {connect} from 'react-redux';
 import {IRootState} from "app/shared/reducers";
 import {convertDateTimeToServer} from "app/shared/util/date-utils";
 import {getBills} from 'app/entities/toll-request/toll-request.reducer';
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import {makeStyles, createStyles, Theme} from '@material-ui/core/styles';
 import {IBill} from "app/shared/model/bill.model";
-import { toast } from 'react-toastify';
+import {toast} from 'react-toastify';
 import TollRequest from "app/entities/toll-request/toll-request";
 
 const useStyles = makeStyles((theme: Theme) =>

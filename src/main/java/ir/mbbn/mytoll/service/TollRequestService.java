@@ -43,15 +43,17 @@ public class TollRequestService extends RestTemplate {
     private final CustomerRepository customerRepository;
     private final BillRepository billRepository;
     private final PaymentService paymentService;
+    private final PayRequestRepository payRequestRepository;
 
     private String token;
     private Date expireTime;
 
-    public TollRequestService(ApplicationProperties applicationProperties, CustomerRepository customerRepository, BillRepository billRepository, PaymentService paymentService) {
+    public TollRequestService(ApplicationProperties applicationProperties, CustomerRepository customerRepository, BillRepository billRepository, PaymentService paymentService, PayRequestRepository payRequestRepository) {
         sepandar = applicationProperties.getTax();
         this.customerRepository = customerRepository;
         this.billRepository = billRepository;
         this.paymentService = paymentService;
+        this.payRequestRepository = payRequestRepository;
     }
 
     private UriBuilder getUrlBuilder(){
@@ -153,43 +155,6 @@ public class TollRequestService extends RestTemplate {
         }
     }
 
-    public Set<Bill> mPayBill(String trackId, Set<Bill> bills) {
-        try {
-            String token = login();
-            String M_PAY_BILL_PATH = "api/bill/mPayBill";
-            URI uri = getUrlBuilder().path(M_PAY_BILL_PATH).build();
-            HttpHeaders headers = new HttpHeaders();
-            headers.add(HttpHeaders.AUTHORIZATION, token);
-            headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-
-            MPayBillRequestDto mPayBillRequestDto = new MPayBillRequestDto();
-            mPayBillRequestDto.setBills(bills.stream().map(Bill::getBillId).toArray(String[]::new));
-            mPayBillRequestDto.setExTrackingId(trackId);
-
-            HttpEntity<MPayBillRequestDto> requestEntity = new HttpEntity<>(mPayBillRequestDto, headers);
-            ResponseEntity<SepandarResponseDto<MPayBillResponseDto>> response = exchange(uri, HttpMethod.POST, requestEntity, new ParameterizedTypeReference<SepandarResponseDto<MPayBillResponseDto>>() {});
-            SepandarResponseDto<MPayBillResponseDto> sepandarResponseDto = response.getBody();
-            if(sepandarResponseDto!= null && sepandarResponseDto.isSuccess()){
-                MPayBillResponseDto result = sepandarResponseDto.getResult();
-                Set<Bill> resultBills = new HashSet<>();
-                for(PayBillDto payBillDto:result.getData()){
-                    Bill b = bills.stream().filter(bill -> payBillDto.getExTrackingId().equals(trackId) &&  payBillDto.getExternalNumber().equals(bill.getExternalNumber())).findFirst().orElse(null);
-                    if(b!=null){
-                        b.setPaid("Paid".equalsIgnoreCase(payBillDto.getStatus()));
-                        b.setSepandarShare(payBillDto.getSepandarShare());
-                        b.setIssuerShare(payBillDto.getIssuerShare());
-                        resultBills.add(b);
-                    }
-                }
-                return resultBills;
-            }else {
-                throw new RuntimeException("failed to login");
-            }
-        } catch (RestClientException e) {
-            throw new RuntimeException("failed to login");
-        }
-    }
-
     public String pay(PayRequest payRequest) {
         Customer customer = payRequest.getCustomer();
         String mobileNumber = customer.getMobile();
@@ -223,5 +188,86 @@ public class TollRequestService extends RestTemplate {
         payRequest.setBills(tryBills);
 
         return paymentService.pay(payRequest);
+    }
+
+    public PayRequest mPayBill(String trackingId) {
+        PayRequest payRequest = payRequestRepository.findOneByTrackingId(trackingId).orElse(null);
+        if(payRequest != null){
+            try {
+                String token = login();
+                String M_PAY_BILL_PATH = "api/bill/mPayBill";
+                URI uri = getUrlBuilder().path(M_PAY_BILL_PATH).build();
+                HttpHeaders headers = new HttpHeaders();
+                headers.add(HttpHeaders.AUTHORIZATION, token);
+                headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+
+                MPayBillRequestDto mPayBillRequestDto = new MPayBillRequestDto();
+                mPayBillRequestDto.setBills(payRequest.getBills().stream().map(Bill::getBillId).toArray(String[]::new));
+                mPayBillRequestDto.setExTrackingId(trackingId);
+
+                HttpEntity<MPayBillRequestDto> requestEntity = new HttpEntity<>(mPayBillRequestDto, headers);
+                ResponseEntity<SepandarResponseDto<MPayBillResponseDto>> response = exchange(uri, HttpMethod.POST, requestEntity, new ParameterizedTypeReference<SepandarResponseDto<MPayBillResponseDto>>() {});
+                SepandarResponseDto<MPayBillResponseDto> sepandarResponseDto = response.getBody();
+                if(sepandarResponseDto!= null && sepandarResponseDto.isSuccess()){
+                    MPayBillResponseDto result = sepandarResponseDto.getResult();
+                    Set<Bill> resultBills = new HashSet<>();
+                    for(PayBillDto payBillDto:result.getData()){
+                        Bill b = payRequest.getBills().stream().filter(bill -> payBillDto.getExTrackingId().equals(trackingId) &&  payBillDto.getExternalNumber().equals(bill.getExternalNumber())).findFirst().orElse(null);
+                        if(b!=null){
+                            b.setPaid("Paid".equalsIgnoreCase(payBillDto.getStatus()));
+                            b.setSepandarShare(payBillDto.getSepandarShare());
+                            b.setIssuerShare(payBillDto.getIssuerShare());
+                            resultBills.add(b);
+                        }
+                    }
+                    payRequest.setBills(resultBills);
+                    payRequest = payRequestRepository.save(payRequest);
+                    return payRequest;
+                }else {
+                    throw new RuntimeException("failed to login");
+                }
+            } catch (RestClientException e) {
+                throw new RuntimeException("failed to login");
+            }
+        }
+        return payRequest;
+    }
+
+    public PayRequest trackingVerification(String trackingId) {
+        PayRequest payRequest = payRequestRepository.findOneByTrackingId(trackingId).orElse(null);
+        if(payRequest != null){
+            try {
+                String token = login();
+                String M_PAY_BILL_PATH = "api/bill/trackingVerification";
+                URI uri = getUrlBuilder().path(M_PAY_BILL_PATH).build();
+                HttpHeaders headers = new HttpHeaders();
+                headers.add(HttpHeaders.AUTHORIZATION, token);
+                headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+
+                TrackingVerificationRequestDto trackingVerificationRequestDto = new TrackingVerificationRequestDto();
+                trackingVerificationRequestDto.setExTrackingId(trackingId);
+
+                HttpEntity<TrackingVerificationRequestDto> requestEntity = new HttpEntity<>(trackingVerificationRequestDto, headers);
+                ResponseEntity<SepandarResponseDto<TrackingVerificationResponseDto[]>> response = exchange(uri, HttpMethod.POST, requestEntity, new ParameterizedTypeReference<SepandarResponseDto<TrackingVerificationResponseDto[]>>() {});
+                SepandarResponseDto<TrackingVerificationResponseDto[]> sepandarResponseDto = response.getBody();
+                if(sepandarResponseDto!= null && sepandarResponseDto.isSuccess()){
+                    TrackingVerificationResponseDto[] result = sepandarResponseDto.getResult();
+                    for(TrackingVerificationResponseDto responseDto:result){
+                        Set<Bill> bills = payRequest.getBills();
+                        Bill payedBill = bills.stream().filter(bill -> bill.getBillId().equals(responseDto.getBillId())).findFirst().orElse(null);
+                        if(payedBill != null){
+                            payedBill.setPaid(responseDto.getPaid());
+                        }
+                    }
+                    payRequest = payRequestRepository.save(payRequest);
+                    return payRequest;
+                }else {
+                    throw new RuntimeException("failed to login");
+                }
+            } catch (RestClientException e) {
+                throw new RuntimeException("failed to login");
+            }
+        }
+        return payRequest;
     }
 }

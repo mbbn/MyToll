@@ -45,7 +45,7 @@ export const Home = (props: IHomeProp) => {
         </Card>
       </Grid>
       <Grid sm={8} item>
-        <Card>
+        {/* <Card>
           <CardHeader>
             <h2>
               <Translate contentKey="home.title">Welcome!</Translate>
@@ -74,7 +74,7 @@ export const Home = (props: IHomeProp) => {
               </div>
             )}
           </CardContent>
-        </Card>
+        </Card>*/}
       </Grid>
     </Grid>
   );

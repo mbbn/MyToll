@@ -65,12 +65,12 @@ const Header = (props: IHeaderProps) => {
       <LoadingBar className="loading-bar" />
       <AppBar position={"fixed"}>
         <Toolbar variant={"dense"} disableGutters={true}>
-          <Home />
+          {/* <Home />
           {props.isAuthenticated && <EntitiesMenu />}
           {props.isAuthenticated && props.isAdmin && (
             <AdminMenu showSwagger={props.isSwaggerEnabled} showDatabase={!props.isInProduction} />
           )}
-          <AccountMenu isAuthenticated={props.isAuthenticated} />
+          <AccountMenu isAuthenticated={props.isAuthenticated} />*/}
           <Brand/>
         </Toolbar>
       </AppBar>

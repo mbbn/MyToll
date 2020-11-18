@@ -30,7 +30,7 @@ public class PaymentService extends RestTemplate {
 
     private final Logger log = LoggerFactory.getLogger(PaymentService.class);
 
-    private final ApplicationProperties.SepandarPayment sepandar;
+    private final ApplicationProperties.SepandarPayment sepandarPayment;
     private final PayRequestRepository payRequestRepository;
     private final String accountNo;
     private final String payTitle;
@@ -39,26 +39,26 @@ public class PaymentService extends RestTemplate {
     private Date expireTime;
 
     public PaymentService(ApplicationProperties applicationProperties, PayRequestRepository payRequestRepository, MessageSource messageSource) {
-        this.sepandar = applicationProperties.getPayment();
+        this.sepandarPayment = applicationProperties.getPayment();
         this.payRequestRepository = payRequestRepository;
-        this.accountNo = this.sepandar.getAccountNo();
+        this.accountNo = this.sepandarPayment.getAccountNo();
         this.payTitle = messageSource.getMessage("payment.pay.title", null, Locale.forLanguageTag("fa"));
     }
 
     private UriBuilder getUrlBuilder(){
-        String schema = sepandar.getSchema();
-        String host = sepandar.getHost();
-        int port = sepandar.getPort();
+        String schema = sepandarPayment.getSchema();
+        String host = sepandarPayment.getHost();
+        int port = sepandarPayment.getPort();
         UriBuilder builder = new DefaultUriBuilderFactory().builder();
         return builder.scheme(schema).host(host).port(port);
     }
 
     private String login() {
         if(token == null || expireTime == null || System.currentTimeMillis() > expireTime.getTime() ){
-            String username = sepandar.getUsername();
-            String password = sepandar.getPassword();
-            String appId = sepandar.getAppId();
-            String orgId = sepandar.getOrgId();
+            String username = sepandarPayment.getUsername();
+            String password = sepandarPayment.getPassword();
+            String appId = sepandarPayment.getAppId();
+            String orgId = sepandarPayment.getOrgId();
             try {
                 String LOGIN_PATH = "/user/app/login";
                 URI uri = getUrlBuilder().path(LOGIN_PATH)
@@ -105,7 +105,7 @@ public class PaymentService extends RestTemplate {
             String[] externalId = payRequest.getBills().stream().map(Bill::getExternalNumber).toArray(String[]::new);
             payRequestDto.setExternalId(externalId);
 
-            ZonedDateTime expirationDate = ZonedDateTime.now().plusHours(1);
+            ZonedDateTime expirationDate = ZonedDateTime.now().plusDays(1);
             payRequestDto.setExpirationDate(expirationDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'hh:mm:ss.SSSZ")));
             payRequest.setExpirationDate(expirationDate);
 
@@ -115,10 +115,13 @@ public class PaymentService extends RestTemplate {
             payRequest.setSendSms(true);
             payRequestDto.setSendEmail(false);
             payRequestDto.setAmount(payRequest.getAmount());
-            payRequestDto.setCallBackUrl("http://mytoll.ir");
-            payRequestDto.setFailureCallBackUrl("http://mytoll.ir");
-            payRequestDto.setCallBackService("transaction.charge");
-            payRequest.setCallBackService("transaction.charge");
+
+            String callBackUrl = sepandarPayment.getCallBackUrl() + "/"+payRequest.getTrackingId();
+            payRequestDto.setCallBackUrl(callBackUrl);
+            String failureCallBackUrl = sepandarPayment.getFailureCallBackUrl() + "/"+payRequest.getTrackingId();
+            payRequestDto.setFailureCallBackUrl(failureCallBackUrl);
+            payRequestDto.setCallBackService(sepandarPayment.getCallBackUrlService());
+            payRequest.setCallBackService(sepandarPayment.getCallBackUrlService());
             payRequestDto.setSource("IPG");
 
             HttpEntity<PayRequestDto> requestEntity = new HttpEntity<>(payRequestDto, headers);

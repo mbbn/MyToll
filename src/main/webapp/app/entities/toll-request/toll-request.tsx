@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {Backdrop, CircularProgress} from '@material-ui/core'
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import {connect} from 'react-redux';
 import {useTheme} from '@material-ui/core/styles';
@@ -15,12 +16,22 @@ import {IRootState} from "app/shared/reducers";
 import {IBill} from "app/shared/model/bill.model";
 import {dateStrToJalali, dateStrToJalaliWithFormat} from "app/component/datePicker";
 import {Dialog, DialogTitle, DialogContent, DialogActions, Button} from '@material-ui/core';
-import {pay, mPayBill} from 'app/entities/toll-request/toll-request.reducer';
+import {pay} from 'app/entities/toll-request/toll-request.reducer';
+import {makeStyles, createStyles, Theme} from '@material-ui/core/styles';
+import {defaultValue as defaultPayRequest} from "app/shared/model/pay-request.model";
+import {defaultValue as defaultCustomer} from "app/shared/model/customer.model";
 import {Translate} from 'react-jhipster';
 import {Alert} from '@material-ui/lab';
 import {toast} from 'react-toastify';
-import {defaultValue as defaultPayRequest} from "app/shared/model/pay-request.model";
-import {defaultValue as defaultCustomer} from "app/shared/model/customer.model";
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    backdrop: {
+      zIndex: theme.zIndex.snackbar + 1,
+      color: '#fff',
+    },
+  }),
+);
 
 export interface ITollDataTableProps extends StateProps, DispatchProps {
   bills: IBill[];
@@ -32,14 +43,17 @@ export interface ITollDataTableProps extends StateProps, DispatchProps {
 export const TollRequest = (props: ITollDataTableProps) => {
   const {mobile, bills} = props;
   const theme = useTheme();
+  const classes = useStyles();
   const matches = useMediaQuery(theme.breakpoints.up('sm'));
 
+  const [open, setOpen] = React.useState(false);
   const [showDialog, setShowDialog] = useState(true);
   const [selectedBills, setSelectedBills] = useState(Object.assign([], bills));
   let totalAmount = 0;
   selectedBills.forEach(bill => totalAmount += bill.amount);
 
   const handleClose = () => {
+    setOpen(false);
     if(props.handleClose){
       props.handleClose();
     } else {
@@ -52,6 +66,7 @@ export const TollRequest = (props: ITollDataTableProps) => {
     payRequest.bills = selectedBills;
     payRequest.customer = {...defaultCustomer};
     payRequest.customer.mobile = mobile;
+    setOpen(true);
     pay(payRequest).payload.then(response => {
       if (typeof window !== 'undefined') {
         window.location.href = response.data;
@@ -132,6 +147,9 @@ export const TollRequest = (props: ITollDataTableProps) => {
         </Button>
       </DialogActions>
     </Dialog>
+    <Backdrop open={open} className={classes.backdrop}>
+      <CircularProgress color="inherit" />
+    </Backdrop>
   </>);
 };
 
