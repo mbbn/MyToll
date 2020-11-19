@@ -24,8 +24,9 @@
       "sendSms": "Send Sms",
       "amount": "Amount",
       "callBackService": "Call Back Service",
-      "deposit": "Deposit",
-      "depositTime": "Deposit Time",
+      "paid": "Paid",
+      "paymentDate": "Payment Date",
+      "bankTrackingId": "Bank Tracking Id",
       "customer": "Customer",
       "bills": "Bills"
     }

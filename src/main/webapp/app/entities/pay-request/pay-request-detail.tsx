@@ -80,19 +80,25 @@ export const PayRequestDetail = (props: IPayRequestDetailProps) => {
           </dt>
           <dd>{payRequestEntity.callBackService}</dd>
           <dt>
-            <span id="deposit">
-              <Translate contentKey="myTollApp.payRequest.deposit">Deposit</Translate>
+            <span id="paid">
+              <Translate contentKey="myTollApp.payRequest.paid">Paid</Translate>
             </span>
           </dt>
-          <dd>{payRequestEntity.deposit ? 'true' : 'false'}</dd>
+          <dd>{payRequestEntity.paid ? 'true' : 'false'}</dd>
           <dt>
-            <span id="depositTime">
-              <Translate contentKey="myTollApp.payRequest.depositTime">Deposit Time</Translate>
+            <span id="paymentDate">
+              <Translate contentKey="myTollApp.payRequest.paymentDate">Payment Date</Translate>
             </span>
           </dt>
           <dd>
-            {payRequestEntity.depositTime ? <TextFormat value={payRequestEntity.depositTime} type="date" format={APP_DATE_FORMAT} /> : null}
+            {payRequestEntity.paymentDate ? <TextFormat value={payRequestEntity.paymentDate} type="date" format={APP_DATE_FORMAT} /> : null}
           </dd>
+          <dt>
+            <span id="bankTrackingId">
+              <Translate contentKey="myTollApp.payRequest.bankTrackingId">Bank Tracking Id</Translate>
+            </span>
+          </dt>
+          <dd>{payRequestEntity.bankTrackingId}</dd>
           <dt>
             <Translate contentKey="myTollApp.payRequest.customer">Customer</Translate>
           </dt>

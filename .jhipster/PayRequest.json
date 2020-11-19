@@ -58,12 +58,16 @@
       ]
     },
     {
-      "fieldName": "deposit",
+      "fieldName": "paid",
       "fieldType": "Boolean"
     },
     {
-      "fieldName": "depositTime",
+      "fieldName": "paymentDate",
       "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "bankTrackingId",
+      "fieldType": "String"
     }
   ],
   "relationships": [

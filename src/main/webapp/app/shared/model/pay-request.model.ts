@@ -12,13 +12,14 @@ export interface IPayRequest {
   sendSms?: boolean;
   amount?: number;
   callBackService?: string;
-  deposit?: boolean;
-  depositTime?: string;
+  paid?: boolean;
+  paymentDate?: string;
+  bankTrackingId?: string;
   customer?: ICustomer;
   bills?: IBill[];
 }
 
 export const defaultValue: Readonly<IPayRequest> = {
   sendSms: false,
-  deposit: false,
+  paid: false,
 };

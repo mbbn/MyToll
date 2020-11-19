@@ -40,7 +40,7 @@ entity Bill {
     amount Integer required
     externalNumber String required
     billDate ZonedDateTime required
-    paid Boolean required
+    billStatus BillStatus required
     sepandarShare Integer
     issuerShare Integer
 }
@@ -50,6 +50,12 @@ enum TaxCategory {
     HIGHWAY,
     PARKING,
     CITYTAX
+}
+
+enum BillStatus {
+    UNPAID(0),
+    PAID(1),
+    DEPOSIT(2)
 }
 
 @dto

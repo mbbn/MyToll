@@ -58,11 +58,14 @@ public class PayRequest implements Serializable {
     @Column(name = "call_back_service", nullable = false)
     private String callBackService;
 
-    @Column(name = "deposit")
-    private Boolean deposit;
+    @Column(name = "paid")
+    private Boolean paid;
 
-    @Column(name = "deposit_time")
-    private ZonedDateTime depositTime;
+    @Column(name = "payment_date")
+    private ZonedDateTime paymentDate;
+
+    @Column(name = "bank_tracking_id")
+    private String bankTrackingId;
 
     @ManyToOne
     @JsonIgnoreProperties(value = "payRequests", allowSetters = true)
@@ -188,30 +191,43 @@ public class PayRequest implements Serializable {
         this.callBackService = callBackService;
     }
 
-    public Boolean isDeposit() {
-        return deposit;
+    public Boolean isPaid() {
+        return paid;
     }
 
-    public PayRequest deposit(Boolean deposit) {
-        this.deposit = deposit;
+    public PayRequest paid(Boolean paid) {
+        this.paid = paid;
         return this;
     }
 
-    public void setDeposit(Boolean deposit) {
-        this.deposit = deposit;
+    public void setPaid(Boolean paid) {
+        this.paid = paid;
     }
 
-    public ZonedDateTime getDepositTime() {
-        return depositTime;
+    public ZonedDateTime getPaymentDate() {
+        return paymentDate;
     }
 
-    public PayRequest depositTime(ZonedDateTime depositTime) {
-        this.depositTime = depositTime;
+    public PayRequest paymentDate(ZonedDateTime paymentDate) {
+        this.paymentDate = paymentDate;
         return this;
     }
 
-    public void setDepositTime(ZonedDateTime depositTime) {
-        this.depositTime = depositTime;
+    public void setPaymentDate(ZonedDateTime paymentDate) {
+        this.paymentDate = paymentDate;
+    }
+
+    public String getBankTrackingId() {
+        return bankTrackingId;
+    }
+
+    public PayRequest bankTrackingId(String bankTrackingId) {
+        this.bankTrackingId = bankTrackingId;
+        return this;
+    }
+
+    public void setBankTrackingId(String bankTrackingId) {
+        this.bankTrackingId = bankTrackingId;
     }
 
     public Customer getCustomer() {
@@ -282,8 +298,9 @@ public class PayRequest implements Serializable {
             ", sendSms='" + isSendSms() + "'" +
             ", amount=" + getAmount() +
             ", callBackService='" + getCallBackService() + "'" +
-            ", deposit='" + isDeposit() + "'" +
-            ", depositTime='" + getDepositTime() + "'" +
+            ", paid='" + isPaid() + "'" +
+            ", paymentDate='" + getPaymentDate() + "'" +
+            ", bankTrackingId='" + getBankTrackingId() + "'" +
             "}";
     }
 }

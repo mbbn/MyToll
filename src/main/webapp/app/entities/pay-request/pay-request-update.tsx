@@ -49,7 +49,7 @@ export const PayRequestUpdate = (props: IPayRequestUpdateProps) => {
   const saveEntity = (event, errors, values) => {
     values.requestTime = convertDateTimeToServer(values.requestTime);
     values.expirationDate = convertDateTimeToServer(values.expirationDate);
-    values.depositTime = convertDateTimeToServer(values.depositTime);
+    values.paymentDate = convertDateTimeToServer(values.paymentDate);
 
     if (errors.length === 0) {
       const entity = {
@@ -195,23 +195,29 @@ export const PayRequestUpdate = (props: IPayRequestUpdateProps) => {
                 />
               </AvGroup>
               <AvGroup check>
-                <Label id="depositLabel">
-                  <AvInput id="pay-request-deposit" type="checkbox" className="form-check-input" name="deposit" />
-                  <Translate contentKey="myTollApp.payRequest.deposit">Deposit</Translate>
+                <Label id="paidLabel">
+                  <AvInput id="pay-request-paid" type="checkbox" className="form-check-input" name="paid" />
+                  <Translate contentKey="myTollApp.payRequest.paid">Paid</Translate>
                 </Label>
               </AvGroup>
               <AvGroup>
-                <Label id="depositTimeLabel" for="pay-request-depositTime">
-                  <Translate contentKey="myTollApp.payRequest.depositTime">Deposit Time</Translate>
+                <Label id="paymentDateLabel" for="pay-request-paymentDate">
+                  <Translate contentKey="myTollApp.payRequest.paymentDate">Payment Date</Translate>
                 </Label>
                 <AvInput
-                  id="pay-request-depositTime"
+                  id="pay-request-paymentDate"
                   type="datetime-local"
                   className="form-control"
-                  name="depositTime"
+                  name="paymentDate"
                   placeholder={'YYYY-MM-DD HH:mm'}
-                  value={isNew ? displayDefaultDateTime() : convertDateTimeFromServer(props.payRequestEntity.depositTime)}
+                  value={isNew ? displayDefaultDateTime() : convertDateTimeFromServer(props.payRequestEntity.paymentDate)}
                 />
+              </AvGroup>
+              <AvGroup>
+                <Label id="bankTrackingIdLabel" for="pay-request-bankTrackingId">
+                  <Translate contentKey="myTollApp.payRequest.bankTrackingId">Bank Tracking Id</Translate>
+                </Label>
+                <AvField id="pay-request-bankTrackingId" type="text" name="bankTrackingId" />
               </AvGroup>
               <AvGroup>
                 <Label for="pay-request-customer">

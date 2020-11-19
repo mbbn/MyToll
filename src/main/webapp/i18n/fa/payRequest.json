@@ -16,10 +16,6 @@
       "detail": {
         "title": "Pay Request"
       },
-      "payStatus": {
-        "paid": "پرداخت با موفقیت انجام شد.",
-        "fail": "پرداخت ناموفق بود"
-      },
       "requestTime": "Request Time",
       "trackingId": "Tracking Id",
       "accountNo": "Account No",
@@ -28,8 +24,9 @@
       "sendSms": "Send Sms",
       "amount": "Amount",
       "callBackService": "Call Back Service",
-      "deposit": "Deposit",
-      "depositTime": "Deposit Time",
+      "paid": "Paid",
+      "paymentDate": "Payment Date",
+      "bankTrackingId": "Bank Tracking Id",
       "customer": "Customer",
       "bills": "Bills"
     }

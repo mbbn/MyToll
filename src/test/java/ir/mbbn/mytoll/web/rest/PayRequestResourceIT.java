@@ -66,11 +66,14 @@ public class PayRequestResourceIT {
     private static final String DEFAULT_CALL_BACK_SERVICE = "AAAAAAAAAA";
     private static final String UPDATED_CALL_BACK_SERVICE = "BBBBBBBBBB";
 
-    private static final Boolean DEFAULT_DEPOSIT = false;
-    private static final Boolean UPDATED_DEPOSIT = true;
+    private static final Boolean DEFAULT_PAID = false;
+    private static final Boolean UPDATED_PAID = true;
 
-    private static final ZonedDateTime DEFAULT_DEPOSIT_TIME = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
-    private static final ZonedDateTime UPDATED_DEPOSIT_TIME = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
+    private static final ZonedDateTime DEFAULT_PAYMENT_DATE = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
+    private static final ZonedDateTime UPDATED_PAYMENT_DATE = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
+
+    private static final String DEFAULT_BANK_TRACKING_ID = "AAAAAAAAAA";
+    private static final String UPDATED_BANK_TRACKING_ID = "BBBBBBBBBB";
 
     @Autowired
     private PayRequestRepository payRequestRepository;
@@ -102,8 +105,9 @@ public class PayRequestResourceIT {
             .sendSms(DEFAULT_SEND_SMS)
             .amount(DEFAULT_AMOUNT)
             .callBackService(DEFAULT_CALL_BACK_SERVICE)
-            .deposit(DEFAULT_DEPOSIT)
-            .depositTime(DEFAULT_DEPOSIT_TIME);
+            .paid(DEFAULT_PAID)
+            .paymentDate(DEFAULT_PAYMENT_DATE)
+            .bankTrackingId(DEFAULT_BANK_TRACKING_ID);
         return payRequest;
     }
     /**
@@ -122,8 +126,9 @@ public class PayRequestResourceIT {
             .sendSms(UPDATED_SEND_SMS)
             .amount(UPDATED_AMOUNT)
             .callBackService(UPDATED_CALL_BACK_SERVICE)
-            .deposit(UPDATED_DEPOSIT)
-            .depositTime(UPDATED_DEPOSIT_TIME);
+            .paid(UPDATED_PAID)
+            .paymentDate(UPDATED_PAYMENT_DATE)
+            .bankTrackingId(UPDATED_BANK_TRACKING_ID);
         return payRequest;
     }
 
@@ -154,8 +159,9 @@ public class PayRequestResourceIT {
         assertThat(testPayRequest.isSendSms()).isEqualTo(DEFAULT_SEND_SMS);
         assertThat(testPayRequest.getAmount()).isEqualTo(DEFAULT_AMOUNT);
         assertThat(testPayRequest.getCallBackService()).isEqualTo(DEFAULT_CALL_BACK_SERVICE);
-        assertThat(testPayRequest.isDeposit()).isEqualTo(DEFAULT_DEPOSIT);
-        assertThat(testPayRequest.getDepositTime()).isEqualTo(DEFAULT_DEPOSIT_TIME);
+        assertThat(testPayRequest.isPaid()).isEqualTo(DEFAULT_PAID);
+        assertThat(testPayRequest.getPaymentDate()).isEqualTo(DEFAULT_PAYMENT_DATE);
+        assertThat(testPayRequest.getBankTrackingId()).isEqualTo(DEFAULT_BANK_TRACKING_ID);
     }
 
     @Test
@@ -349,8 +355,9 @@ public class PayRequestResourceIT {
             .andExpect(jsonPath("$.[*].sendSms").value(hasItem(DEFAULT_SEND_SMS.booleanValue())))
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT)))
             .andExpect(jsonPath("$.[*].callBackService").value(hasItem(DEFAULT_CALL_BACK_SERVICE)))
-            .andExpect(jsonPath("$.[*].deposit").value(hasItem(DEFAULT_DEPOSIT.booleanValue())))
-            .andExpect(jsonPath("$.[*].depositTime").value(hasItem(sameInstant(DEFAULT_DEPOSIT_TIME))));
+            .andExpect(jsonPath("$.[*].paid").value(hasItem(DEFAULT_PAID.booleanValue())))
+            .andExpect(jsonPath("$.[*].paymentDate").value(hasItem(sameInstant(DEFAULT_PAYMENT_DATE))))
+            .andExpect(jsonPath("$.[*].bankTrackingId").value(hasItem(DEFAULT_BANK_TRACKING_ID)));
     }
     
     @SuppressWarnings({"unchecked"})
@@ -392,8 +399,9 @@ public class PayRequestResourceIT {
             .andExpect(jsonPath("$.sendSms").value(DEFAULT_SEND_SMS.booleanValue()))
             .andExpect(jsonPath("$.amount").value(DEFAULT_AMOUNT))
             .andExpect(jsonPath("$.callBackService").value(DEFAULT_CALL_BACK_SERVICE))
-            .andExpect(jsonPath("$.deposit").value(DEFAULT_DEPOSIT.booleanValue()))
-            .andExpect(jsonPath("$.depositTime").value(sameInstant(DEFAULT_DEPOSIT_TIME)));
+            .andExpect(jsonPath("$.paid").value(DEFAULT_PAID.booleanValue()))
+            .andExpect(jsonPath("$.paymentDate").value(sameInstant(DEFAULT_PAYMENT_DATE)))
+            .andExpect(jsonPath("$.bankTrackingId").value(DEFAULT_BANK_TRACKING_ID));
     }
     @Test
     @Transactional
@@ -424,8 +432,9 @@ public class PayRequestResourceIT {
             .sendSms(UPDATED_SEND_SMS)
             .amount(UPDATED_AMOUNT)
             .callBackService(UPDATED_CALL_BACK_SERVICE)
-            .deposit(UPDATED_DEPOSIT)
-            .depositTime(UPDATED_DEPOSIT_TIME);
+            .paid(UPDATED_PAID)
+            .paymentDate(UPDATED_PAYMENT_DATE)
+            .bankTrackingId(UPDATED_BANK_TRACKING_ID);
 
         restPayRequestMockMvc.perform(put("/api/pay-requests")
             .contentType(MediaType.APPLICATION_JSON)
@@ -444,8 +453,9 @@ public class PayRequestResourceIT {
         assertThat(testPayRequest.isSendSms()).isEqualTo(UPDATED_SEND_SMS);
         assertThat(testPayRequest.getAmount()).isEqualTo(UPDATED_AMOUNT);
         assertThat(testPayRequest.getCallBackService()).isEqualTo(UPDATED_CALL_BACK_SERVICE);
-        assertThat(testPayRequest.isDeposit()).isEqualTo(UPDATED_DEPOSIT);
-        assertThat(testPayRequest.getDepositTime()).isEqualTo(UPDATED_DEPOSIT_TIME);
+        assertThat(testPayRequest.isPaid()).isEqualTo(UPDATED_PAID);
+        assertThat(testPayRequest.getPaymentDate()).isEqualTo(UPDATED_PAYMENT_DATE);
+        assertThat(testPayRequest.getBankTrackingId()).isEqualTo(UPDATED_BANK_TRACKING_ID);
     }
 
     @Test
