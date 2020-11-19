@@ -1,5 +1,6 @@
-import React, {useState} from 'react';
-import {Button, Backdrop, CircularProgress} from '@material-ui/core'
+import React from 'react';
+import {useHistory} from 'react-router';
+import {Button} from '@material-ui/core'
 import Grid from '@material-ui/core/Grid';
 import {Formik} from 'formik';
 import {translate} from 'react-jhipster';
@@ -7,33 +8,12 @@ import Plate from "app/component/plate";
 import TextField from "app/component/textField";
 import {connect} from 'react-redux';
 import {IRootState} from "app/shared/reducers";
-import {convertDateTimeToServer} from "app/shared/util/date-utils";
-import {getBills} from 'app/entities/toll-request/toll-request.reducer';
-import {makeStyles, createStyles, Theme} from '@material-ui/core/styles';
-import {IBill} from "app/shared/model/bill.model";
-import {toast} from 'react-toastify';
-import TollRequest from "app/entities/toll-request/toll-request";
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    backdrop: {
-      zIndex: theme.zIndex.drawer + 1,
-      color: '#fff',
-    },
-  }),
-);
 
 export interface IMarginalProps extends StateProps, DispatchProps {
-  afterLoadBills?(bills: IBill[]): void;
 }
 
 export const Marginal = (props: IMarginalProps) => {
-  const {afterLoadBills} = props;
-  const classes = useStyles();
-  const [mobile, setMobile] = React.useState(null);
-  const [open, setOpen] = React.useState(false);
-  const [bills, setBills] = useState([]);
-  const [showTollRequest, setShowTollRequest] = useState(false);
+  const history = useHistory();
 
   const isValid = (values: any) => {
     const errors = {};
@@ -51,25 +31,7 @@ export const Marginal = (props: IMarginalProps) => {
   };
 
   const save = (values: any) => {
-    values.fromDate = convertDateTimeToServer(values.fromDate);
-    values.toDate = convertDateTimeToServer(values.toDate);
-
-    const entity = {
-      ...values
-    };
-    setOpen(true);
-    getBills(entity).payload.then(response => {
-      setBills(response.data as IBill[]);
-      setMobile(values['mobile']);
-      setShowTollRequest(true);
-      if(afterLoadBills){
-        afterLoadBills(response.data as IBill[]);
-      }
-    }).catch(reason => {
-      toast.error(translate('global.messages.error.internalError'));
-    }).finally(()=>{
-      setOpen(false);
-    });
+    history.push(values['mobile']+'/'+values['plate']+'/bills');
   };
 
   return (<>
@@ -96,10 +58,6 @@ export const Marginal = (props: IMarginalProps) => {
         </Grid>
       </form>
     )}</Formik>
-    <Backdrop open={open} className={classes.backdrop}>
-      <CircularProgress color="inherit" />
-    </Backdrop>
-    {showTollRequest ? <TollRequest bills={bills} mobile={mobile} handleClose={() => {setShowTollRequest(false)}}/> : null}
   </>);
 };
 

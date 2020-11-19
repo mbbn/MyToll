@@ -10,8 +10,8 @@ import {IPayRequest} from "app/shared/model/pay-request.model";
 
 export const ACTION_TYPES = {
   GET_BILLS: 'tollRequest/GET_BILLS',
-  M_PAY_BILL: 'tollRequest/M_PAY_BILL',
   PAY: 'tollRequest/PAY',
+  VERIFY_PAY: 'tollRequest/VERIFY_PAY',
 };
 
 const initialState = {
@@ -40,13 +40,13 @@ export default (state: TollRequestState = initialState, action): TollRequestStat
 const apiUrl = 'api/toll-requests';
 
 // Actions
-export const getBills: (data: ITollRequest) => IPayload<IBill> = entity => ({
+export const getBills: (plate: number) => IPayload<IBill> = plate => ({
   type: ACTION_TYPES.GET_BILLS,
-  payload: axios.post(apiUrl+'/get-plate-bills', cleanEntity(entity))
+  payload: axios.get(apiUrl+'/get-plate-bills?plate='+plate)
 });
 
 export const verifyPay: (trackingId: string) => IPayload<IPayRequest> = (trackingId) => ({
-  type: ACTION_TYPES.M_PAY_BILL,
+  type: ACTION_TYPES.VERIFY_PAY,
   payload: axios.get(apiUrl + '/verifyPay?trackingId='+trackingId)
 });
 

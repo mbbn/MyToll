@@ -34,7 +34,7 @@ const myTollTheme = createMuiTheme({
     MuiFormControl:{
       root:{
         marginBottom: 10,
-        marginRight: 5,
+        // marginRight: 5,
         fontFamily: 'IRANSansWeb'
       }
     },

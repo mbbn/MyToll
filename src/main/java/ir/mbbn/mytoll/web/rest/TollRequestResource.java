@@ -1,9 +1,10 @@
 package ir.mbbn.mytoll.web.rest;
 
+import io.github.jhipster.web.util.ResponseUtil;
 import ir.mbbn.mytoll.domain.Bill;
 import ir.mbbn.mytoll.domain.PayRequest;
-import ir.mbbn.mytoll.domain.TollRequest;
 
+import ir.mbbn.mytoll.repository.PayRequestRepository;
 import ir.mbbn.mytoll.service.TollRequestService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * REST controller for managing {@link ir.mbbn.mytoll.domain.TollRequest}.
@@ -30,9 +32,11 @@ public class TollRequestResource {
     private String applicationName;
 
     private final TollRequestService tollRequestService;
+    private final PayRequestRepository payRequestRepository;
 
-    public TollRequestResource(TollRequestService tollRequestService) {
+    public TollRequestResource(TollRequestService tollRequestService, PayRequestRepository payRequestRepository) {
         this.tollRequestService = tollRequestService;
+        this.payRequestRepository = payRequestRepository;
     }
 
     /**
@@ -40,10 +44,10 @@ public class TollRequestResource {
      *
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of plate bills in body.
      */
-    @PostMapping("/get-plate-bills")
-    public List<Bill> getPlateBills(@Valid @RequestBody TollRequest tollRequest) throws URISyntaxException {
+    @GetMapping("/get-plate-bills")
+    public List<Bill> getPlateBills(@Valid @RequestParam Integer plate) throws URISyntaxException {
         log.debug("REST request to get Plate Bills");
-        return tollRequestService.getPlateBills(tollRequest);
+        return tollRequestService.getPlateBills(plate);
     }
 
     @PostMapping("/pay")
@@ -55,9 +59,14 @@ public class TollRequestResource {
     @GetMapping("/verifyPay")
     public ResponseEntity<PayRequest> verifyPay(@RequestParam String trackingId) throws URISyntaxException {
         log.debug("REST request to Pay Bills");
-        PayRequest payRequest = tollRequestService.mPayBill(trackingId);
-//        tollRequestService.
-        return ResponseEntity.accepted()
-            .body(payRequest);
+        Optional<PayRequest> optionalPayRequest = payRequestRepository.findOneByTrackingId(trackingId);
+        if(optionalPayRequest.isPresent()){
+            PayRequest payRequest = optionalPayRequest.get();
+            for(Bill bill: payRequest.getBills()){
+                bill.setPaid(true);
+            }
+            payRequestRepository.save(payRequest);
+        }
+        return ResponseUtil.wrapOrNotFound(optionalPayRequest);
     }
 }

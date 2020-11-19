@@ -16,6 +16,10 @@
       "detail": {
         "title": "Pay Request"
       },
+      "payStatus": {
+        "paid": "پرداخت با موفقیت انجام شد.",
+        "fail": "پرداخت ناموفق بود"
+      },
       "trackingId": "Tracking Id",
       "accountNo": "Account No",
       "title": "Title",

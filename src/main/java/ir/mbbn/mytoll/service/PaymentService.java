@@ -116,9 +116,10 @@ public class PaymentService extends RestTemplate {
             payRequestDto.setSendEmail(false);
             payRequestDto.setAmount(payRequest.getAmount());
 
-            String callBackUrl = sepandarPayment.getCallBackUrl() + "/"+payRequest.getTrackingId();
+            String callBackUrl = sepandarPayment.getCallBackUrl() + "/" + payRequest.getTrackingId() + "/1";
             payRequestDto.setCallBackUrl(callBackUrl);
-            String failureCallBackUrl = sepandarPayment.getFailureCallBackUrl() + "/"+payRequest.getTrackingId();
+            payRequestDto.setCallBackService(callBackUrl);
+            String failureCallBackUrl = sepandarPayment.getFailureCallBackUrl() + "/" + payRequest.getTrackingId() + "/0";
             payRequestDto.setFailureCallBackUrl(failureCallBackUrl);
             payRequestDto.setCallBackService(sepandarPayment.getCallBackUrlService());
             payRequest.setCallBackService(sepandarPayment.getCallBackUrlService());

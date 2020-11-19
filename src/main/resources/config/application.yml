@@ -184,3 +184,4 @@ application:
     callBackUrl: http://mytoll.ir/callback
     failureCallBackUrl: http://mytoll.ir/callback
     callBackUrlService: transaction.charge
+#    callBackUrlService: bill.chargePayBill

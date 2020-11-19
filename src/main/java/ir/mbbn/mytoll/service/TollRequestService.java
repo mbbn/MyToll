@@ -96,7 +96,7 @@ public class TollRequestService extends RestTemplate {
         }
     }
 
-    public List<Bill> getPlateBills(@Valid TollRequest tollRequest) {
+    public List<Bill> getPlateBills(@Valid Integer plate) {
         try {
             String token = login();
             String GET_PLATE_BILLS_PATH = "api/bill/getPlateBills";
@@ -113,13 +113,7 @@ public class TollRequestService extends RestTemplate {
             billTypeabbrivation.add("ISFPRK");
             billTypeabbrivation.add("KSHPRK");
             plateBillsRequestDto.setBillTypeabbrivation(billTypeabbrivation);
-            plateBillsRequestDto.setPlate(tollRequest.getPlate());
-            if(tollRequest.getFromDate() != null){
-                plateBillsRequestDto.setFromDate(tollRequest.getFromDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'hh:mm:ss.SSSZ")));
-            }
-            if(tollRequest.getToDate() != null){
-                plateBillsRequestDto.setToDate(tollRequest.getToDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'hh:mm:ss.SSSZ")));
-            }
+            plateBillsRequestDto.setPlate(plate);
             HttpEntity<PlateBillsRequestDto> requestEntity = new HttpEntity<>(plateBillsRequestDto, headers);
             ResponseEntity<SepandarResponseDto<PlateBillsResponseDto>> response = exchange(uri, HttpMethod.POST, requestEntity, new ParameterizedTypeReference<SepandarResponseDto<PlateBillsResponseDto>>() {});
             SepandarResponseDto<PlateBillsResponseDto> sepandarResponseDto = response.getBody();
@@ -140,7 +134,7 @@ public class TollRequestService extends RestTemplate {
                         bill.setFromDate(extraInfo.getFrom());
                         bill.setToDate(extraInfo.getTo());
                     }
-                    bill.setPlate(String.valueOf(tollRequest.getPlate()));
+                    bill.setPlate(String.valueOf(plate));
                     bill.setBillId(billDto.get_id());
                     bill.setAmount(billDto.getAmount());
                     bill.setExternalNumber(billDto.getExternalNumber());

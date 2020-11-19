@@ -7,6 +7,15 @@
         "createOrEditLabel": "Create or edit a Toll Request",
         "notFound": "قبضی برای شما یافت نشد"
       },
+      "plateBills": {
+        "selectAll": "انتخاب همه"
+      },
+      "billDisplay": {
+        "amount": "{{ amount }} ریال",
+        "durationTime": "مدت توقف {{ time }} دقیقه",
+        "paid": "پرداخت شده",
+        "unpaid": "پرداخت نشده"
+      },
       "created": "A new Toll Request is created with identifier {{ param }}",
       "updated": "A Toll Request is updated with identifier {{ param }}",
       "deleted": "A Toll Request is deleted with identifier {{ param }}",
