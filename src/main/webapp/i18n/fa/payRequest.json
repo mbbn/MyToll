@@ -20,6 +20,7 @@
         "paid": "پرداخت با موفقیت انجام شد.",
         "fail": "پرداخت ناموفق بود"
       },
+      "requestTime": "Request Time",
       "trackingId": "Tracking Id",
       "accountNo": "Account No",
       "title": "Title",

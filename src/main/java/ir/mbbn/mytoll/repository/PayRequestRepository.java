@@ -30,5 +30,5 @@ public interface PayRequestRepository extends JpaRepository<PayRequest, Long> {
 
     Optional<PayRequest> findOneByTrackingId(@Param("trackingId") String trackingId);
 
-    Optional<PayRequest> findTopByDepositIsNull();
+    Optional<PayRequest> getFirstByDepositTimeIsNull();
 }

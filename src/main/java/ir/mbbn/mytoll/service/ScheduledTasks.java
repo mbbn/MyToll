@@ -26,8 +26,7 @@ public class ScheduledTasks {
     @Scheduled(fixedRate = SchedulerConfiguration.DURATION_TIME, initialDelay = 1000)
     public void depositBills(){
         if(lastInquiryTime == null){
-            Optional<PayRequest> optionalPayRequest = payRequestRepository.findTopByDepositIsNull();
-            lastInquiryTime = optionalPayRequest.orElse(null).get;
+            payRequestRepository.getFirstByDepositTimeIsNull().ifPresent(payRequest -> lastInquiryTime = payRequest.getRequestTime());
         }
         log.info("asghar");
     }

@@ -2,6 +2,13 @@
   "name": "PayRequest",
   "fields": [
     {
+      "fieldName": "requestTime",
+      "fieldType": "ZonedDateTime",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
       "fieldName": "trackingId",
       "fieldType": "String",
       "fieldValidateRules": [

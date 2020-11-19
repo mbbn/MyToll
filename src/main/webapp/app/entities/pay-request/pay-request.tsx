@@ -37,6 +37,9 @@ export const PayRequest = (props: IPayRequestProps) => {
                   <Translate contentKey="global.field.id">ID</Translate>
                 </th>
                 <th>
+                  <Translate contentKey="myTollApp.payRequest.requestTime">Request Time</Translate>
+                </th>
+                <th>
                   <Translate contentKey="myTollApp.payRequest.trackingId">Tracking Id</Translate>
                 </th>
                 <th>
@@ -79,6 +82,9 @@ export const PayRequest = (props: IPayRequestProps) => {
                     <Button tag={Link} to={`${match.url}/${payRequest.id}`} color="link" size="sm">
                       {payRequest.id}
                     </Button>
+                  </td>
+                  <td>
+                    {payRequest.requestTime ? <TextFormat type="date" value={payRequest.requestTime} format={APP_DATE_FORMAT} /> : null}
                   </td>
                   <td>{payRequest.trackingId}</td>
                   <td>{payRequest.accountNo}</td>

@@ -4,6 +4,7 @@ import { IBill } from 'app/shared/model/bill.model';
 
 export interface IPayRequest {
   id?: number;
+  requestTime?: string;
   trackingId?: string;
   accountNo?: string;
   title?: string;

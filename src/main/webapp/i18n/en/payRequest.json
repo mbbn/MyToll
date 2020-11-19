@@ -16,6 +16,7 @@
       "detail": {
         "title": "Pay Request"
       },
+      "requestTime": "Request Time",
       "trackingId": "Tracking Id",
       "accountNo": "Account No",
       "title": "Title",

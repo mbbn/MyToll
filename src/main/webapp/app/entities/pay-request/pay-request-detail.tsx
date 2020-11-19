@@ -26,6 +26,14 @@ export const PayRequestDetail = (props: IPayRequestDetailProps) => {
         </h2>
         <dl className="jh-entity-details">
           <dt>
+            <span id="requestTime">
+              <Translate contentKey="myTollApp.payRequest.requestTime">Request Time</Translate>
+            </span>
+          </dt>
+          <dd>
+            {payRequestEntity.requestTime ? <TextFormat value={payRequestEntity.requestTime} type="date" format={APP_DATE_FORMAT} /> : null}
+          </dd>
+          <dt>
             <span id="trackingId">
               <Translate contentKey="myTollApp.payRequest.trackingId">Tracking Id</Translate>
             </span>

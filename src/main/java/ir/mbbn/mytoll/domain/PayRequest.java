@@ -27,6 +27,10 @@ public class PayRequest implements Serializable {
     private Long id;
 
     @NotNull
+    @Column(name = "request_time", nullable = false)
+    private ZonedDateTime requestTime;
+
+    @NotNull
     @Column(name = "tracking_id", nullable = false)
     private String trackingId;
 
@@ -78,6 +82,19 @@ public class PayRequest implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public ZonedDateTime getRequestTime() {
+        return requestTime;
+    }
+
+    public PayRequest requestTime(ZonedDateTime requestTime) {
+        this.requestTime = requestTime;
+        return this;
+    }
+
+    public void setRequestTime(ZonedDateTime requestTime) {
+        this.requestTime = requestTime;
     }
 
     public String getTrackingId() {
@@ -257,6 +274,7 @@ public class PayRequest implements Serializable {
     public String toString() {
         return "PayRequest{" +
             "id=" + getId() +
+            ", requestTime='" + getRequestTime() + "'" +
             ", trackingId='" + getTrackingId() + "'" +
             ", accountNo='" + getAccountNo() + "'" +
             ", title='" + getTitle() + "'" +
