@@ -70,8 +70,9 @@ entity PayRequest{
     sendSms Boolean required
     amount Integer required
     callBackService String required
-    deposit Boolean
-    depositTime ZonedDateTime
+    paid Boolean
+    paymentDate ZonedDateTime
+    bankTrackingId String
 }
 
 relationship ManyToOne {
