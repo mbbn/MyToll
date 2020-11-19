@@ -142,7 +142,7 @@ const Plate = (props: IPlateProps) => {
           <MenuItem value="39">{translate('myTollApp.PlateAlphabet.A39')}</MenuItem>
           <MenuItem value="40">{translate('myTollApp.PlateAlphabet.A40')}</MenuItem>
           <MenuItem value="41">{translate('myTollApp.PlateAlphabet.A41')}</MenuItem>
-        </Select> : <div style={{textAlign: 'center'}}>{translate('myTollApp.PlateAlphabet.A'+part2)}</div>}
+        </Select> : <div style={{textAlign: 'center'}}>{part2 != null ? translate('myTollApp.PlateAlphabet.A'+part2):''}</div>}
       </Grid>
       <Grid item xs={3}>
         <TextField name={'part3'} value={part3} disabled={!editable} autoComplete={'off'} error={error} style={{margin: 0}}

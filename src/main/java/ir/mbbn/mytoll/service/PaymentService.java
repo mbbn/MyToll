@@ -22,6 +22,7 @@ import java.net.URI;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 @Service
@@ -125,6 +126,8 @@ public class PaymentService extends RestTemplate {
             payRequest.setCallBackService(sepandarPayment.getCallBackUrlService());
             payRequestDto.setSource("IPG");
 
+            payRequest.setRequestTime(ZonedDateTime.now());
+
             HttpEntity<PayRequestDto> requestEntity = new HttpEntity<>(payRequestDto, headers);
             ResponseEntity<SepandarResponseDto<PayResponseDto>> response = exchange(uri, HttpMethod.POST, requestEntity, new ParameterizedTypeReference<SepandarResponseDto<PayResponseDto>>() {});
             SepandarResponseDto<PayResponseDto> sepandarResponseDto = response.getBody();
@@ -138,6 +141,33 @@ public class PaymentService extends RestTemplate {
             throw new RuntimeException("failed to login");
         } finally {
             payRequestRepository.save(payRequest);
+        }
+    }
+
+    public List<PaymentDto> paid(ZonedDateTime startTime, ZonedDateTime endTime){
+        try {
+            String token = login();
+            String PAYMENT_CREATE_PATH = "api/payment/getall/paid";
+            URI uri = getUrlBuilder().path(PAYMENT_CREATE_PATH).build();
+            HttpHeaders headers = new HttpHeaders();
+            headers.add(HttpHeaders.AUTHORIZATION, token);
+            headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+
+            PaidRequestDto paidRequestDto = new PaidRequestDto();
+            paidRequestDto.setStartTime(startTime);
+            paidRequestDto.setEndTime(endTime);
+
+            HttpEntity<PaidRequestDto> requestEntity = new HttpEntity<>(paidRequestDto, headers);
+            ResponseEntity<SepandarResponseDto<PaidResponseDto>> response = exchange(uri, HttpMethod.POST, requestEntity, new ParameterizedTypeReference<SepandarResponseDto<PaidResponseDto>>() {});
+            SepandarResponseDto<PaidResponseDto> sepandarResponseDto = response.getBody();
+            if(sepandarResponseDto!= null && sepandarResponseDto.isSuccess()){
+                PaidResponseDto result = sepandarResponseDto.getResult();
+                return result.getPayments();
+            }else {
+                throw new RuntimeException("failed to login");
+            }
+        } catch (RestClientException e) {
+            throw new RuntimeException("failed to login");
         }
     }
 }

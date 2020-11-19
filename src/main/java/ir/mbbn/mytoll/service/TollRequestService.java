@@ -119,28 +119,34 @@ public class TollRequestService extends RestTemplate {
             SepandarResponseDto<PlateBillsResponseDto> sepandarResponseDto = response.getBody();
             if(sepandarResponseDto!= null && sepandarResponseDto.isSuccess()){
                 PlateBillsResponseDto result = sepandarResponseDto.getResult();
-                return result.getData().stream().map(billDto -> {
-                    Bill bill = new Bill();
-                    bill.setCategory(TaxCategory.SIDEPARK);
-                    BillTypeDto billType = billDto.getBillType();
-                    if(billType!= null){
-                        bill.setBillType(billType.getBillTypeabbrivation());
-                        bill.setBillTypeTitle(billType.getBillTypeTitle());
-                        bill.setCategory(TaxCategory.valueOf(billType.getCategoryName()));
+                List<Bill> results = new ArrayList<>();
+                for(BillDto billDto:result.getData()){
+                    Bill bill = billRepository.findOneByExternalNumber(billDto.getExternalNumber()).orElse(new Bill());
+                    if(bill.isPaid() == null){
+                        bill.setCategory(TaxCategory.SIDEPARK);
+                        BillTypeDto billType = billDto.getBillType();
+                        if(billType!= null){
+                            bill.setBillType(billType.getBillTypeabbrivation());
+                            bill.setBillTypeTitle(billType.getBillTypeTitle());
+                            bill.setCategory(TaxCategory.valueOf(billType.getCategoryName()));
+                        }
+                        ExtraInfoDto extraInfo = billDto.getExtraInfo();
+                        if(extraInfo!=null){
+                            bill.setStreet(extraInfo.getStreet());
+                            bill.setFromDate(extraInfo.getFrom());
+                            bill.setToDate(extraInfo.getTo());
+                        }
+                        bill.setPlate(String.valueOf(plate));
+                        bill.setBillId(billDto.get_id());
+                        bill.setAmount(billDto.getAmount());
+                        bill.setExternalNumber(billDto.getExternalNumber());
+                        bill.setBillDate(billDto.getBillDate());
+                        results.add(bill);
+                    } else if (!bill.isPaid()) {
+                        results.add(bill);
                     }
-                    ExtraInfoDto extraInfo = billDto.getExtraInfo();
-                    if(extraInfo!=null){
-                        bill.setStreet(extraInfo.getStreet());
-                        bill.setFromDate(extraInfo.getFrom());
-                        bill.setToDate(extraInfo.getTo());
-                    }
-                    bill.setPlate(String.valueOf(plate));
-                    bill.setBillId(billDto.get_id());
-                    bill.setAmount(billDto.getAmount());
-                    bill.setExternalNumber(billDto.getExternalNumber());
-                    bill.setBillDate(billDto.getBillDate());
-                    return bill;
-                }).collect(Collectors.toList());
+                }
+                return results;
             }else {
                 throw new RuntimeException("failed to login");
             }

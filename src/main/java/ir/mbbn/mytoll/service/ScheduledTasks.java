@@ -1,33 +1,35 @@
 package ir.mbbn.mytoll.service;
 
 import ir.mbbn.mytoll.config.SchedulerConfiguration;
-import ir.mbbn.mytoll.domain.PayRequest;
 import ir.mbbn.mytoll.repository.PayRequestRepository;
+import ir.mbbn.mytoll.service.dto.PaymentDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.time.ZonedDateTime;
-import java.util.Optional;
+import java.util.List;
 
 @Component("scheduledTasks")
 public class ScheduledTasks {
 
     private final Logger log = LoggerFactory.getLogger(ScheduledTasks.class);
     private final PayRequestRepository payRequestRepository;
+    private final PaymentService paymentService;
 
-    private ZonedDateTime lastInquiryTime;
+    private ZonedDateTime startDepositTime;
 
-    public ScheduledTasks(PayRequestRepository payRequestRepository) {
+    public ScheduledTasks(PayRequestRepository payRequestRepository, PaymentService paymentService) {
         this.payRequestRepository = payRequestRepository;
+        this.paymentService = paymentService;
     }
 
-    @Scheduled(fixedRate = SchedulerConfiguration.DURATION_TIME, initialDelay = 1000)
+    @Scheduled(fixedRate = SchedulerConfiguration.DURATION_TIME, initialDelay = 120000)
     public void depositBills(){
-        if(lastInquiryTime == null){
-            payRequestRepository.getFirstByDepositTimeIsNull().ifPresent(payRequest -> lastInquiryTime = payRequest.getRequestTime());
+        if(startDepositTime == null){
+            payRequestRepository.getFirstByDepositTimeIsNull().ifPresent(payRequest -> startDepositTime = payRequest.getRequestTime());
         }
-        log.info("asghar");
+        List<PaymentDto> paidList = paymentService.paid(startDepositTime, ZonedDateTime.now());
     }
 }

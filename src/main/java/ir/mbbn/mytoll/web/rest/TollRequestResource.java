@@ -56,6 +56,13 @@ public class TollRequestResource {
         return tollRequestService.pay(payRequest);
     }
 
+    @GetMapping("/getPayRequest")
+    public ResponseEntity<PayRequest> getPayRequest(@RequestParam String trackingId) throws URISyntaxException {
+        log.debug("REST request to Pay Bills");
+        Optional<PayRequest> optionalPayRequest = payRequestRepository.findOneByTrackingId(trackingId);
+        return ResponseUtil.wrapOrNotFound(optionalPayRequest);
+    }
+
     @GetMapping("/verifyPay")
     public ResponseEntity<PayRequest> verifyPay(@RequestParam String trackingId) throws URISyntaxException {
         log.debug("REST request to Pay Bills");

@@ -11,6 +11,7 @@ import {IPayRequest} from "app/shared/model/pay-request.model";
 export const ACTION_TYPES = {
   GET_BILLS: 'tollRequest/GET_BILLS',
   PAY: 'tollRequest/PAY',
+  GET_PAY_REQUEST: 'tollRequest/GET_PAY_REQUEST',
   VERIFY_PAY: 'tollRequest/VERIFY_PAY',
 };
 
@@ -43,6 +44,11 @@ const apiUrl = 'api/toll-requests';
 export const getBills: (plate: number) => IPayload<IBill> = plate => ({
   type: ACTION_TYPES.GET_BILLS,
   payload: axios.get(apiUrl+'/get-plate-bills?plate='+plate)
+});
+
+export const getPayRequest: (trackingId: string) => IPayload<IPayRequest> = (trackingId) => ({
+  type: ACTION_TYPES.GET_PAY_REQUEST,
+  payload: axios.get(apiUrl + '/getPayRequest?trackingId='+trackingId)
 });
 
 export const verifyPay: (trackingId: string) => IPayload<IPayRequest> = (trackingId) => ({

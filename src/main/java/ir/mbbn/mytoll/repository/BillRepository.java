@@ -15,5 +15,6 @@ import java.util.Set;
 @Repository
 public interface BillRepository extends JpaRepository<Bill, Long> {
 
+    Optional<Bill> findOneByExternalNumber(String externalNumber);
     Set<Bill> findAllByExternalNumberIn(Set<String> externalNumbers);
 }
