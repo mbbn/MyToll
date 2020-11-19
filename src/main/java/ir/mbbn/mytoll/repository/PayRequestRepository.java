@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,4 +29,6 @@ public interface PayRequestRepository extends JpaRepository<PayRequest, Long> {
     Optional<PayRequest> findOneWithEagerRelationships(@Param("id") Long id);
 
     Optional<PayRequest> findOneByTrackingId(@Param("trackingId") String trackingId);
+
+    Optional<PayRequest> findTopByDepositIsNull();
 }

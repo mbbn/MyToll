@@ -48,6 +48,7 @@ export const PayRequestUpdate = (props: IPayRequestUpdateProps) => {
 
   const saveEntity = (event, errors, values) => {
     values.expirationDate = convertDateTimeToServer(values.expirationDate);
+    values.depositTime = convertDateTimeToServer(values.depositTime);
 
     if (errors.length === 0) {
       const entity = {
@@ -174,6 +175,25 @@ export const PayRequestUpdate = (props: IPayRequestUpdateProps) => {
                   validate={{
                     required: { value: true, errorMessage: translate('entity.validation.required') },
                   }}
+                />
+              </AvGroup>
+              <AvGroup check>
+                <Label id="depositLabel">
+                  <AvInput id="pay-request-deposit" type="checkbox" className="form-check-input" name="deposit" />
+                  <Translate contentKey="myTollApp.payRequest.deposit">Deposit</Translate>
+                </Label>
+              </AvGroup>
+              <AvGroup>
+                <Label id="depositTimeLabel" for="pay-request-depositTime">
+                  <Translate contentKey="myTollApp.payRequest.depositTime">Deposit Time</Translate>
+                </Label>
+                <AvInput
+                  id="pay-request-depositTime"
+                  type="datetime-local"
+                  className="form-control"
+                  name="depositTime"
+                  placeholder={'YYYY-MM-DD HH:mm'}
+                  value={isNew ? displayDefaultDateTime() : convertDateTimeFromServer(props.payRequestEntity.depositTime)}
                 />
               </AvGroup>
               <AvGroup>

@@ -63,6 +63,12 @@ public class PayRequestResourceIT {
     private static final String DEFAULT_CALL_BACK_SERVICE = "AAAAAAAAAA";
     private static final String UPDATED_CALL_BACK_SERVICE = "BBBBBBBBBB";
 
+    private static final Boolean DEFAULT_DEPOSIT = false;
+    private static final Boolean UPDATED_DEPOSIT = true;
+
+    private static final ZonedDateTime DEFAULT_DEPOSIT_TIME = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
+    private static final ZonedDateTime UPDATED_DEPOSIT_TIME = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
+
     @Autowired
     private PayRequestRepository payRequestRepository;
 
@@ -91,7 +97,9 @@ public class PayRequestResourceIT {
             .expirationDate(DEFAULT_EXPIRATION_DATE)
             .sendSms(DEFAULT_SEND_SMS)
             .amount(DEFAULT_AMOUNT)
-            .callBackService(DEFAULT_CALL_BACK_SERVICE);
+            .callBackService(DEFAULT_CALL_BACK_SERVICE)
+            .deposit(DEFAULT_DEPOSIT)
+            .depositTime(DEFAULT_DEPOSIT_TIME);
         return payRequest;
     }
     /**
@@ -108,7 +116,9 @@ public class PayRequestResourceIT {
             .expirationDate(UPDATED_EXPIRATION_DATE)
             .sendSms(UPDATED_SEND_SMS)
             .amount(UPDATED_AMOUNT)
-            .callBackService(UPDATED_CALL_BACK_SERVICE);
+            .callBackService(UPDATED_CALL_BACK_SERVICE)
+            .deposit(UPDATED_DEPOSIT)
+            .depositTime(UPDATED_DEPOSIT_TIME);
         return payRequest;
     }
 
@@ -138,6 +148,8 @@ public class PayRequestResourceIT {
         assertThat(testPayRequest.isSendSms()).isEqualTo(DEFAULT_SEND_SMS);
         assertThat(testPayRequest.getAmount()).isEqualTo(DEFAULT_AMOUNT);
         assertThat(testPayRequest.getCallBackService()).isEqualTo(DEFAULT_CALL_BACK_SERVICE);
+        assertThat(testPayRequest.isDeposit()).isEqualTo(DEFAULT_DEPOSIT);
+        assertThat(testPayRequest.getDepositTime()).isEqualTo(DEFAULT_DEPOSIT_TIME);
     }
 
     @Test
@@ -310,7 +322,9 @@ public class PayRequestResourceIT {
             .andExpect(jsonPath("$.[*].expirationDate").value(hasItem(sameInstant(DEFAULT_EXPIRATION_DATE))))
             .andExpect(jsonPath("$.[*].sendSms").value(hasItem(DEFAULT_SEND_SMS.booleanValue())))
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT)))
-            .andExpect(jsonPath("$.[*].callBackService").value(hasItem(DEFAULT_CALL_BACK_SERVICE)));
+            .andExpect(jsonPath("$.[*].callBackService").value(hasItem(DEFAULT_CALL_BACK_SERVICE)))
+            .andExpect(jsonPath("$.[*].deposit").value(hasItem(DEFAULT_DEPOSIT.booleanValue())))
+            .andExpect(jsonPath("$.[*].depositTime").value(hasItem(sameInstant(DEFAULT_DEPOSIT_TIME))));
     }
     
     @SuppressWarnings({"unchecked"})
@@ -350,7 +364,9 @@ public class PayRequestResourceIT {
             .andExpect(jsonPath("$.expirationDate").value(sameInstant(DEFAULT_EXPIRATION_DATE)))
             .andExpect(jsonPath("$.sendSms").value(DEFAULT_SEND_SMS.booleanValue()))
             .andExpect(jsonPath("$.amount").value(DEFAULT_AMOUNT))
-            .andExpect(jsonPath("$.callBackService").value(DEFAULT_CALL_BACK_SERVICE));
+            .andExpect(jsonPath("$.callBackService").value(DEFAULT_CALL_BACK_SERVICE))
+            .andExpect(jsonPath("$.deposit").value(DEFAULT_DEPOSIT.booleanValue()))
+            .andExpect(jsonPath("$.depositTime").value(sameInstant(DEFAULT_DEPOSIT_TIME)));
     }
     @Test
     @Transactional
@@ -379,7 +395,9 @@ public class PayRequestResourceIT {
             .expirationDate(UPDATED_EXPIRATION_DATE)
             .sendSms(UPDATED_SEND_SMS)
             .amount(UPDATED_AMOUNT)
-            .callBackService(UPDATED_CALL_BACK_SERVICE);
+            .callBackService(UPDATED_CALL_BACK_SERVICE)
+            .deposit(UPDATED_DEPOSIT)
+            .depositTime(UPDATED_DEPOSIT_TIME);
 
         restPayRequestMockMvc.perform(put("/api/pay-requests")
             .contentType(MediaType.APPLICATION_JSON)
@@ -397,6 +415,8 @@ public class PayRequestResourceIT {
         assertThat(testPayRequest.isSendSms()).isEqualTo(UPDATED_SEND_SMS);
         assertThat(testPayRequest.getAmount()).isEqualTo(UPDATED_AMOUNT);
         assertThat(testPayRequest.getCallBackService()).isEqualTo(UPDATED_CALL_BACK_SERVICE);
+        assertThat(testPayRequest.isDeposit()).isEqualTo(UPDATED_DEPOSIT);
+        assertThat(testPayRequest.getDepositTime()).isEqualTo(UPDATED_DEPOSIT_TIME);
     }
 
     @Test

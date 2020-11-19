@@ -54,6 +54,12 @@ public class PayRequest implements Serializable {
     @Column(name = "call_back_service", nullable = false)
     private String callBackService;
 
+    @Column(name = "deposit")
+    private Boolean deposit;
+
+    @Column(name = "deposit_time")
+    private ZonedDateTime depositTime;
+
     @ManyToOne
     @JsonIgnoreProperties(value = "payRequests", allowSetters = true)
     private Customer customer;
@@ -165,6 +171,32 @@ public class PayRequest implements Serializable {
         this.callBackService = callBackService;
     }
 
+    public Boolean isDeposit() {
+        return deposit;
+    }
+
+    public PayRequest deposit(Boolean deposit) {
+        this.deposit = deposit;
+        return this;
+    }
+
+    public void setDeposit(Boolean deposit) {
+        this.deposit = deposit;
+    }
+
+    public ZonedDateTime getDepositTime() {
+        return depositTime;
+    }
+
+    public PayRequest depositTime(ZonedDateTime depositTime) {
+        this.depositTime = depositTime;
+        return this;
+    }
+
+    public void setDepositTime(ZonedDateTime depositTime) {
+        this.depositTime = depositTime;
+    }
+
     public Customer getCustomer() {
         return customer;
     }
@@ -232,6 +264,8 @@ public class PayRequest implements Serializable {
             ", sendSms='" + isSendSms() + "'" +
             ", amount=" + getAmount() +
             ", callBackService='" + getCallBackService() + "'" +
+            ", deposit='" + isDeposit() + "'" +
+            ", depositTime='" + getDepositTime() + "'" +
             "}";
     }
 }

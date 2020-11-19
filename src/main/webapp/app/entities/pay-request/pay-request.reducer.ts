@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {ICrudGetAction, ICrudGetAllAction, ICrudPutAction, ICrudDeleteAction, IPayload} from 'react-jhipster';
+import { ICrudGetAction, ICrudGetAllAction, ICrudPutAction, ICrudDeleteAction } from 'react-jhipster';
 
 import { cleanEntity } from 'app/shared/util/entity-utils';
 import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
@@ -9,7 +9,6 @@ import { IPayRequest, defaultValue } from 'app/shared/model/pay-request.model';
 export const ACTION_TYPES = {
   FETCH_PAYREQUEST_LIST: 'payRequest/FETCH_PAYREQUEST_LIST',
   FETCH_PAYREQUEST: 'payRequest/FETCH_PAYREQUEST',
-  FETCH_PAYREQUEST_BY_TRACKING_ID: 'payRequest/FETCH_PAYREQUEST_BY_TRACKING_ID',
   CREATE_PAYREQUEST: 'payRequest/CREATE_PAYREQUEST',
   UPDATE_PAYREQUEST: 'payRequest/UPDATE_PAYREQUEST',
   DELETE_PAYREQUEST: 'payRequest/DELETE_PAYREQUEST',
@@ -39,7 +38,6 @@ export default (state: PayRequestState = initialState, action): PayRequestState 
         updateSuccess: false,
         loading: true,
       };
-    case REQUEST(ACTION_TYPES.FETCH_PAYREQUEST_BY_TRACKING_ID):
     case REQUEST(ACTION_TYPES.CREATE_PAYREQUEST):
     case REQUEST(ACTION_TYPES.UPDATE_PAYREQUEST):
     case REQUEST(ACTION_TYPES.DELETE_PAYREQUEST):
@@ -112,14 +110,6 @@ export const getEntity: ICrudGetAction<IPayRequest> = id => {
     type: ACTION_TYPES.FETCH_PAYREQUEST,
     payload: axios.get<IPayRequest>(requestUrl),
   };
-};
-
-export const getEntityByTrackingId: (trackingId: string) => IPayload<IPayRequest> = trackingId => {
-  const requestUrl = `${apiUrl}/getPayRequestByTrackingId`;
-  return{
-    type: ACTION_TYPES.FETCH_PAYREQUEST_BY_TRACKING_ID,
-    payload: axios.get<IPayRequest>(requestUrl+'?trackingId='+trackingId)
-  }
 };
 
 export const createEntity: ICrudPutAction<IPayRequest> = entity => async dispatch => {

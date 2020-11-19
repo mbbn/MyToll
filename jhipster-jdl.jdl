@@ -62,6 +62,7 @@ entity TollRequest{
 }
 
 entity PayRequest{
+    requestTime ZonedDateTime required
     trackingId String required
     accountNo String required
     title String required
@@ -69,6 +70,8 @@ entity PayRequest{
     sendSms Boolean required
     amount Integer required
     callBackService String required
+    deposit Boolean
+    depositTime ZonedDateTime
 }
 
 relationship ManyToOne {

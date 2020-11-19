@@ -72,6 +72,20 @@ export const PayRequestDetail = (props: IPayRequestDetailProps) => {
           </dt>
           <dd>{payRequestEntity.callBackService}</dd>
           <dt>
+            <span id="deposit">
+              <Translate contentKey="myTollApp.payRequest.deposit">Deposit</Translate>
+            </span>
+          </dt>
+          <dd>{payRequestEntity.deposit ? 'true' : 'false'}</dd>
+          <dt>
+            <span id="depositTime">
+              <Translate contentKey="myTollApp.payRequest.depositTime">Deposit Time</Translate>
+            </span>
+          </dt>
+          <dd>
+            {payRequestEntity.depositTime ? <TextFormat value={payRequestEntity.depositTime} type="date" format={APP_DATE_FORMAT} /> : null}
+          </dd>
+          <dt>
             <Translate contentKey="myTollApp.payRequest.customer">Customer</Translate>
           </dt>
           <dd>{payRequestEntity.customer ? payRequestEntity.customer.id : ''}</dd>

@@ -23,6 +23,8 @@
       "sendSms": "Send Sms",
       "amount": "Amount",
       "callBackService": "Call Back Service",
+      "deposit": "Deposit",
+      "depositTime": "Deposit Time",
       "customer": "Customer",
       "bills": "Bills"
     }

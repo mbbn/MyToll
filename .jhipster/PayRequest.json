@@ -49,6 +49,14 @@
       "fieldValidateRules": [
         "required"
       ]
+    },
+    {
+      "fieldName": "deposit",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "depositTime",
+      "fieldType": "ZonedDateTime"
     }
   ],
   "relationships": [

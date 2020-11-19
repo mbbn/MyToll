@@ -105,13 +105,6 @@ public class PayRequestResource {
         return ResponseUtil.wrapOrNotFound(payRequest);
     }
 
-    @GetMapping("/pay-requests/getPayRequestByTrackingId")
-    public ResponseEntity<PayRequest> getPayRequestByTrackingId(@RequestParam String trackingId) {
-        log.debug("REST request to get PayRequest : {}", trackingId);
-        Optional<PayRequest> payRequest = payRequestRepository.findOneByTrackingId(trackingId);
-        return ResponseUtil.wrapOrNotFound(payRequest);
-    }
-
     /**
      * {@code DELETE  /pay-requests/:id} : delete the "id" payRequest.
      *

@@ -58,6 +58,12 @@ export const PayRequest = (props: IPayRequestProps) => {
                   <Translate contentKey="myTollApp.payRequest.callBackService">Call Back Service</Translate>
                 </th>
                 <th>
+                  <Translate contentKey="myTollApp.payRequest.deposit">Deposit</Translate>
+                </th>
+                <th>
+                  <Translate contentKey="myTollApp.payRequest.depositTime">Deposit Time</Translate>
+                </th>
+                <th>
                   <Translate contentKey="myTollApp.payRequest.customer">Customer</Translate>
                 </th>
                 <th>
@@ -85,6 +91,10 @@ export const PayRequest = (props: IPayRequestProps) => {
                   <td>{payRequest.sendSms ? 'true' : 'false'}</td>
                   <td>{payRequest.amount}</td>
                   <td>{payRequest.callBackService}</td>
+                  <td>{payRequest.deposit ? 'true' : 'false'}</td>
+                  <td>
+                    {payRequest.depositTime ? <TextFormat type="date" value={payRequest.depositTime} format={APP_DATE_FORMAT} /> : null}
+                  </td>
                   <td>{payRequest.customer ? <Link to={`customer/${payRequest.customer.id}`}>{payRequest.customer.id}</Link> : ''}</td>
                   <td>
                     {payRequest.bills
