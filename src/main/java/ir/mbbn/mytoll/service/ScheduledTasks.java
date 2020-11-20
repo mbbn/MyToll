@@ -38,7 +38,7 @@ public class ScheduledTasks {
             LocalDateTime startDepositTime = firstUnpaidRequest.getRequestTime().toLocalDateTime();
             List<PaymentDto> paidList = paymentService.paid(startDepositTime, LocalDateTime.now());
             for(PaymentDto paymentDto:paidList){
-                PayRequest payRequest = payRequestRepository.findOneByShortId(paymentDto.getShortId()).orElse(null);
+                PayRequest payRequest = payRequestRepository.findOneByShortIdAndPaidIsNull(paymentDto.getShortId()).orElse(null);
                 if (payRequest != null) {
                     payRequest.setPaid(true);
                     payRequest.setPaymentDate(paymentDto.getPaymentDate());

@@ -31,8 +31,8 @@ public interface PayRequestRepository extends JpaRepository<PayRequest, Long> {
     @Query("select payRequest from PayRequest payRequest left join fetch payRequest.bills where payRequest.trackingId =:trackingId")
     Optional<PayRequest> findOneByTrackingId(@Param("trackingId") String trackingId);
 
-    @Query("select payRequest from PayRequest payRequest left join fetch payRequest.bills where payRequest.shortId =:shortId")
-    Optional<PayRequest> findOneByShortId(@Param("shortId") String shortId);
+    @Query("select payRequest from PayRequest payRequest left join fetch payRequest.bills where payRequest.shortId =:shortId and payRequest.paid is null")
+    Optional<PayRequest> findOneByShortIdAndPaidIsNull(@Param("shortId") String shortId);
 
     Optional<PayRequest> getFirstByPaidIsNull();
 
