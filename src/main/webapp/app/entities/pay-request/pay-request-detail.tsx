@@ -106,6 +106,12 @@ export const PayRequestDetail = (props: IPayRequestDetailProps) => {
           </dt>
           <dd>{payRequestEntity.bankTrackingId}</dd>
           <dt>
+            <span id="paymentId">
+              <Translate contentKey="myTollApp.payRequest.paymentId">Payment Id</Translate>
+            </span>
+          </dt>
+          <dd>{payRequestEntity.paymentId}</dd>
+          <dt>
             <Translate contentKey="myTollApp.payRequest.customer">Customer</Translate>
           </dt>
           <dd>{payRequestEntity.customer ? payRequestEntity.customer.id : ''}</dd>

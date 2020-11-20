@@ -72,6 +72,9 @@ public class PayRequest implements Serializable {
     @Column(name = "bank_tracking_id")
     private String bankTrackingId;
 
+    @Column(name = "payment_id")
+    private String paymentId;
+
     @ManyToOne
     @JsonIgnoreProperties(value = "payRequests", allowSetters = true)
     private Customer customer;
@@ -248,6 +251,19 @@ public class PayRequest implements Serializable {
         this.bankTrackingId = bankTrackingId;
     }
 
+    public String getPaymentId() {
+        return paymentId;
+    }
+
+    public PayRequest paymentId(String paymentId) {
+        this.paymentId = paymentId;
+        return this;
+    }
+
+    public void setPaymentId(String paymentId) {
+        this.paymentId = paymentId;
+    }
+
     public Customer getCustomer() {
         return customer;
     }
@@ -320,6 +336,7 @@ public class PayRequest implements Serializable {
             ", paid='" + isPaid() + "'" +
             ", paymentDate='" + getPaymentDate() + "'" +
             ", bankTrackingId='" + getBankTrackingId() + "'" +
+            ", paymentId='" + getPaymentId() + "'" +
             "}";
     }
 }

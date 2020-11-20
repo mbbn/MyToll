@@ -73,6 +73,9 @@ export const PayRequest = (props: IPayRequestProps) => {
                   <Translate contentKey="myTollApp.payRequest.bankTrackingId">Bank Tracking Id</Translate>
                 </th>
                 <th>
+                  <Translate contentKey="myTollApp.payRequest.paymentId">Payment Id</Translate>
+                </th>
+                <th>
                   <Translate contentKey="myTollApp.payRequest.customer">Customer</Translate>
                 </th>
                 <th>
@@ -109,6 +112,7 @@ export const PayRequest = (props: IPayRequestProps) => {
                     {payRequest.paymentDate ? <TextFormat type="date" value={payRequest.paymentDate} format={APP_DATE_FORMAT} /> : null}
                   </td>
                   <td>{payRequest.bankTrackingId}</td>
+                  <td>{payRequest.paymentId}</td>
                   <td>{payRequest.customer ? <Link to={`customer/${payRequest.customer.id}`}>{payRequest.customer.id}</Link> : ''}</td>
                   <td>
                     {payRequest.bills

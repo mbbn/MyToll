@@ -79,6 +79,9 @@ public class PayRequestResourceIT {
     private static final String DEFAULT_BANK_TRACKING_ID = "AAAAAAAAAA";
     private static final String UPDATED_BANK_TRACKING_ID = "BBBBBBBBBB";
 
+    private static final String DEFAULT_PAYMENT_ID = "AAAAAAAAAA";
+    private static final String UPDATED_PAYMENT_ID = "BBBBBBBBBB";
+
     @Autowired
     private PayRequestRepository payRequestRepository;
 
@@ -112,7 +115,8 @@ public class PayRequestResourceIT {
             .callBackService(DEFAULT_CALL_BACK_SERVICE)
             .paid(DEFAULT_PAID)
             .paymentDate(DEFAULT_PAYMENT_DATE)
-            .bankTrackingId(DEFAULT_BANK_TRACKING_ID);
+            .bankTrackingId(DEFAULT_BANK_TRACKING_ID)
+            .paymentId(DEFAULT_PAYMENT_ID);
         return payRequest;
     }
     /**
@@ -134,7 +138,8 @@ public class PayRequestResourceIT {
             .callBackService(UPDATED_CALL_BACK_SERVICE)
             .paid(UPDATED_PAID)
             .paymentDate(UPDATED_PAYMENT_DATE)
-            .bankTrackingId(UPDATED_BANK_TRACKING_ID);
+            .bankTrackingId(UPDATED_BANK_TRACKING_ID)
+            .paymentId(UPDATED_PAYMENT_ID);
         return payRequest;
     }
 
@@ -169,6 +174,7 @@ public class PayRequestResourceIT {
         assertThat(testPayRequest.isPaid()).isEqualTo(DEFAULT_PAID);
         assertThat(testPayRequest.getPaymentDate()).isEqualTo(DEFAULT_PAYMENT_DATE);
         assertThat(testPayRequest.getBankTrackingId()).isEqualTo(DEFAULT_BANK_TRACKING_ID);
+        assertThat(testPayRequest.getPaymentId()).isEqualTo(DEFAULT_PAYMENT_ID);
     }
 
     @Test
@@ -384,7 +390,8 @@ public class PayRequestResourceIT {
             .andExpect(jsonPath("$.[*].callBackService").value(hasItem(DEFAULT_CALL_BACK_SERVICE)))
             .andExpect(jsonPath("$.[*].paid").value(hasItem(DEFAULT_PAID.booleanValue())))
             .andExpect(jsonPath("$.[*].paymentDate").value(hasItem(sameInstant(DEFAULT_PAYMENT_DATE))))
-            .andExpect(jsonPath("$.[*].bankTrackingId").value(hasItem(DEFAULT_BANK_TRACKING_ID)));
+            .andExpect(jsonPath("$.[*].bankTrackingId").value(hasItem(DEFAULT_BANK_TRACKING_ID)))
+            .andExpect(jsonPath("$.[*].paymentId").value(hasItem(DEFAULT_PAYMENT_ID)));
     }
     
     @SuppressWarnings({"unchecked"})
@@ -429,7 +436,8 @@ public class PayRequestResourceIT {
             .andExpect(jsonPath("$.callBackService").value(DEFAULT_CALL_BACK_SERVICE))
             .andExpect(jsonPath("$.paid").value(DEFAULT_PAID.booleanValue()))
             .andExpect(jsonPath("$.paymentDate").value(sameInstant(DEFAULT_PAYMENT_DATE)))
-            .andExpect(jsonPath("$.bankTrackingId").value(DEFAULT_BANK_TRACKING_ID));
+            .andExpect(jsonPath("$.bankTrackingId").value(DEFAULT_BANK_TRACKING_ID))
+            .andExpect(jsonPath("$.paymentId").value(DEFAULT_PAYMENT_ID));
     }
     @Test
     @Transactional
@@ -463,7 +471,8 @@ public class PayRequestResourceIT {
             .callBackService(UPDATED_CALL_BACK_SERVICE)
             .paid(UPDATED_PAID)
             .paymentDate(UPDATED_PAYMENT_DATE)
-            .bankTrackingId(UPDATED_BANK_TRACKING_ID);
+            .bankTrackingId(UPDATED_BANK_TRACKING_ID)
+            .paymentId(UPDATED_PAYMENT_ID);
 
         restPayRequestMockMvc.perform(put("/api/pay-requests")
             .contentType(MediaType.APPLICATION_JSON)
@@ -486,6 +495,7 @@ public class PayRequestResourceIT {
         assertThat(testPayRequest.isPaid()).isEqualTo(UPDATED_PAID);
         assertThat(testPayRequest.getPaymentDate()).isEqualTo(UPDATED_PAYMENT_DATE);
         assertThat(testPayRequest.getBankTrackingId()).isEqualTo(UPDATED_BANK_TRACKING_ID);
+        assertThat(testPayRequest.getPaymentId()).isEqualTo(UPDATED_PAYMENT_ID);
     }
 
     @Test

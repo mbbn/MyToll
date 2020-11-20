@@ -32,6 +32,7 @@
       "paid": "Paid",
       "paymentDate": "Payment Date",
       "bankTrackingId": "Bank Tracking Id",
+      "paymentId": "Payment Id",
       "customer": "Customer",
       "bills": "Bills"
     }

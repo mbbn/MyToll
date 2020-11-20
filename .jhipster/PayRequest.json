@@ -75,6 +75,10 @@
     {
       "fieldName": "bankTrackingId",
       "fieldType": "String"
+    },
+    {
+      "fieldName": "paymentId",
+      "fieldType": "String"
     }
   ],
   "relationships": [
@@ -94,7 +98,7 @@
       "ownerSide": true
     }
   ],
-  "changelogDate": "20201120051123",
+  "changelogDate": "20201120062529",
   "entityTableName": "pay_request",
   "dto": "no",
   "pagination": "no",

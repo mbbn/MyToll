@@ -230,6 +230,12 @@ export const PayRequestUpdate = (props: IPayRequestUpdateProps) => {
                 <AvField id="pay-request-bankTrackingId" type="text" name="bankTrackingId" />
               </AvGroup>
               <AvGroup>
+                <Label id="paymentIdLabel" for="pay-request-paymentId">
+                  <Translate contentKey="myTollApp.payRequest.paymentId">Payment Id</Translate>
+                </Label>
+                <AvField id="pay-request-paymentId" type="text" name="paymentId" />
+              </AvGroup>
+              <AvGroup>
                 <Label for="pay-request-customer">
                   <Translate contentKey="myTollApp.payRequest.customer">Customer</Translate>
                 </Label>

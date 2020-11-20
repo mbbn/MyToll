@@ -16,6 +16,7 @@ export interface IPayRequest {
   paid?: boolean;
   paymentDate?: string;
   bankTrackingId?: string;
+  paymentId?: string;
   customer?: ICustomer;
   bills?: IBill[];
 }
