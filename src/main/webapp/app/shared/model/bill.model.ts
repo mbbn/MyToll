@@ -17,6 +17,7 @@ export interface IBill {
   externalNumber?: string;
   billDate?: string;
   billStatus?: BillStatus;
+  cpayTaxId?: string;
   sepandarShare?: number;
   issuerShare?: number;
   payRequestLists?: IPayRequest[];

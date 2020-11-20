@@ -1,1 +1,1 @@
-id;category;plate;bill_type;bill_type_title;street;from_date;to_date;bill_id;amount;external_number;bill_date;bill_status;sepandar_share;issuer_share
+id;category;plate;bill_type;bill_type_title;street;from_date;to_date;bill_id;amount;external_number;bill_date;bill_status;cpay_tax_id;sepandar_share;issuer_share

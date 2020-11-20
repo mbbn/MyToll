@@ -73,6 +73,9 @@ export const Bill = (props: IBillProps) => {
                   <Translate contentKey="myTollApp.bill.billStatus">Bill Status</Translate>
                 </th>
                 <th>
+                  <Translate contentKey="myTollApp.bill.cpayTaxId">Cpay Tax Id</Translate>
+                </th>
+                <th>
                   <Translate contentKey="myTollApp.bill.sepandarShare">Sepandar Share</Translate>
                 </th>
                 <th>
@@ -105,6 +108,7 @@ export const Bill = (props: IBillProps) => {
                   <td>
                     <Translate contentKey={`myTollApp.BillStatus.${bill.billStatus}`} />
                   </td>
+                  <td>{bill.cpayTaxId}</td>
                   <td>{bill.sepandarShare}</td>
                   <td>{bill.issuerShare}</td>
                   <td className="text-right">

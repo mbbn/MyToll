@@ -98,6 +98,12 @@ export const BillDetail = (props: IBillDetailProps) => {
           </dt>
           <dd>{billEntity.billStatus}</dd>
           <dt>
+            <span id="cpayTaxId">
+              <Translate contentKey="myTollApp.bill.cpayTaxId">Cpay Tax Id</Translate>
+            </span>
+          </dt>
+          <dd>{billEntity.cpayTaxId}</dd>
+          <dt>
             <span id="sepandarShare">
               <Translate contentKey="myTollApp.bill.sepandarShare">Sepandar Share</Translate>
             </span>

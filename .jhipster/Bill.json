@@ -92,6 +92,10 @@
       ]
     },
     {
+      "fieldName": "cpayTaxId",
+      "fieldType": "String"
+    },
+    {
       "fieldName": "sepandarShare",
       "fieldType": "Integer"
     },

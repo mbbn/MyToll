@@ -28,6 +28,7 @@
       "externalNumber": "شناسه اصلی",
       "billDate": "تاریخ قبض",
       "billStatus": "وضعیت",
+      "cpayTaxId": "شناسه قبض در تکس",
       "sepandarShare": "سهم سپندار",
       "issuerShare": "سهم وصول کننده",
       "payRequestList": "لیست پرداخت ها"

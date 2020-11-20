@@ -81,6 +81,9 @@ public class Bill implements Serializable {
     @Column(name = "bill_status", nullable = false)
     private BillStatus billStatus;
 
+    @Column(name = "cpay_tax_id")
+    private String cpayTaxId;
+
     @Column(name = "sepandar_share")
     private Integer sepandarShare;
 
@@ -257,6 +260,19 @@ public class Bill implements Serializable {
         this.billStatus = billStatus;
     }
 
+    public String getCpayTaxId() {
+        return cpayTaxId;
+    }
+
+    public Bill cpayTaxId(String cpayTaxId) {
+        this.cpayTaxId = cpayTaxId;
+        return this;
+    }
+
+    public void setCpayTaxId(String cpayTaxId) {
+        this.cpayTaxId = cpayTaxId;
+    }
+
     public Integer getSepandarShare() {
         return sepandarShare;
     }
@@ -342,6 +358,7 @@ public class Bill implements Serializable {
             ", externalNumber='" + getExternalNumber() + "'" +
             ", billDate='" + getBillDate() + "'" +
             ", billStatus='" + getBillStatus() + "'" +
+            ", cpayTaxId='" + getCpayTaxId() + "'" +
             ", sepandarShare=" + getSepandarShare() +
             ", issuerShare=" + getIssuerShare() +
             "}";

@@ -28,6 +28,7 @@
       "externalNumber": "External Number",
       "billDate": "Bill Date",
       "billStatus": "Bill Status",
+      "cpayTaxId": "Cpay Tax Id",
       "sepandarShare": "Sepandar Share",
       "issuerShare": "Issuer Share",
       "payRequestList": "Pay Request List"

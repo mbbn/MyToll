@@ -261,6 +261,12 @@ export const BillUpdate = (props: IBillUpdateProps) => {
                 </AvInput>
               </AvGroup>
               <AvGroup>
+                <Label id="cpayTaxIdLabel" for="bill-cpayTaxId">
+                  <Translate contentKey="myTollApp.bill.cpayTaxId">Cpay Tax Id</Translate>
+                </Label>
+                <AvField id="bill-cpayTaxId" type="text" name="cpayTaxId" />
+              </AvGroup>
+              <AvGroup>
                 <Label id="sepandarShareLabel" for="bill-sepandarShare">
                   <Translate contentKey="myTollApp.bill.sepandarShare">Sepandar Share</Translate>
                 </Label>
