@@ -94,7 +94,7 @@ export const PayRequest = (props: IPayRequestProps) => {
                   <td>{payRequest.title}</td>
                   <td>
                     {payRequest.expirationDate ? (
-                      <TextFormat type="date" value={payRequest.expirationDate} format={APP_DATE_FORMAT} />
+                      <TextFormat type="date" value={payRequest.expirationDate} format={APP_LOCAL_DATE_FORMAT} />
                     ) : null}
                   </td>
                   <td>{payRequest.sendSms ? 'true' : 'false'}</td>

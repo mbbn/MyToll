@@ -58,7 +58,7 @@ export const PayRequestDetail = (props: IPayRequestDetailProps) => {
           </dt>
           <dd>
             {payRequestEntity.expirationDate ? (
-              <TextFormat value={payRequestEntity.expirationDate} type="date" format={APP_DATE_FORMAT} />
+              <TextFormat value={payRequestEntity.expirationDate} type="date" format={APP_LOCAL_DATE_FORMAT} />
             ) : null}
           </dd>
           <dt>

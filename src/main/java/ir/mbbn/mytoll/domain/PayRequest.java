@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -44,7 +45,7 @@ public class PayRequest implements Serializable {
 
     @NotNull
     @Column(name = "expiration_date", nullable = false)
-    private ZonedDateTime expirationDate;
+    private LocalDate expirationDate;
 
     @NotNull
     @Column(name = "send_sms", nullable = false)
@@ -139,16 +140,16 @@ public class PayRequest implements Serializable {
         this.title = title;
     }
 
-    public ZonedDateTime getExpirationDate() {
+    public LocalDate getExpirationDate() {
         return expirationDate;
     }
 
-    public PayRequest expirationDate(ZonedDateTime expirationDate) {
+    public PayRequest expirationDate(LocalDate expirationDate) {
         this.expirationDate = expirationDate;
         return this;
     }
 
-    public void setExpirationDate(ZonedDateTime expirationDate) {
+    public void setExpirationDate(LocalDate expirationDate) {
         this.expirationDate = expirationDate;
     }
 

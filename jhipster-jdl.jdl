@@ -72,7 +72,7 @@ entity PayRequest{
     trackingId String required
     accountNo String required
     title String required
-    expirationDate ZonedDateTime required
+    expirationDate LocalDate required
     sendSms Boolean required
     amount Integer required
     callBackService String required

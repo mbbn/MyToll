@@ -48,7 +48,6 @@ export const PayRequestUpdate = (props: IPayRequestUpdateProps) => {
 
   const saveEntity = (event, errors, values) => {
     values.requestTime = convertDateTimeToServer(values.requestTime);
-    values.expirationDate = convertDateTimeToServer(values.expirationDate);
     values.paymentDate = convertDateTimeToServer(values.paymentDate);
 
     if (errors.length === 0) {
@@ -148,13 +147,11 @@ export const PayRequestUpdate = (props: IPayRequestUpdateProps) => {
                 <Label id="expirationDateLabel" for="pay-request-expirationDate">
                   <Translate contentKey="myTollApp.payRequest.expirationDate">Expiration Date</Translate>
                 </Label>
-                <AvInput
+                <AvField
                   id="pay-request-expirationDate"
-                  type="datetime-local"
+                  type="date"
                   className="form-control"
                   name="expirationDate"
-                  placeholder={'YYYY-MM-DD HH:mm'}
-                  value={isNew ? displayDefaultDateTime() : convertDateTimeFromServer(props.payRequestEntity.expirationDate)}
                   validate={{
                     required: { value: true, errorMessage: translate('entity.validation.required') },
                   }}
