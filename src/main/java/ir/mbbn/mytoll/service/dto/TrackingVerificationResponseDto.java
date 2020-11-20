@@ -11,6 +11,7 @@ public class TrackingVerificationResponseDto implements Serializable {
     private ZonedDateTime payDate;
     private String billId;
 
+    @JsonProperty("isPaid")
     public Boolean getPaid() {
         return isPaid;
     }

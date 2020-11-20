@@ -220,6 +220,7 @@ public class TollRequestService extends RestTemplate {
                         }
                         b.setSepandarShare(payBillDto.getSepandarShare());
                         b.setIssuerShare(payBillDto.getIssuerShare());
+                        b.setCpayTaxId(payBillDto.getCpayTaxId());
                         resultBills.add(b);
                     }
                 }
@@ -234,7 +235,6 @@ public class TollRequestService extends RestTemplate {
     }
 
     public PayRequest trackingVerification(PayRequest payRequest) {
-        String trackingId = payRequest.getTrackingId();
         try {
             String token = login();
             String M_PAY_BILL_PATH = "api/bill/trackingVerification";
@@ -244,6 +244,7 @@ public class TollRequestService extends RestTemplate {
             headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
 
             TrackingVerificationRequestDto trackingVerificationRequestDto = new TrackingVerificationRequestDto();
+            String trackingId = payRequest.getTrackingId();
             trackingVerificationRequestDto.setExTrackingId(trackingId);
 
             HttpEntity<TrackingVerificationRequestDto> requestEntity = new HttpEntity<>(trackingVerificationRequestDto, headers);
@@ -255,7 +256,7 @@ public class TollRequestService extends RestTemplate {
                     Set<Bill> bills = payRequest.getBills();
                     Bill payedBill = bills.stream().filter(bill -> bill.getBillId().equals(responseDto.getBillId())).findFirst().orElse(null);
                     if(payedBill != null){
-                        /* payedBill.setPaid(responseDto.getPaid());*/
+                        payedBill.setBillStatus(BillStatus.VERIFIED);
                     }
                 }
                 return payRequestRepository.save(payRequest);
