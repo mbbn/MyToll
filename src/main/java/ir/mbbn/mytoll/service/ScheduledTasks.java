@@ -11,8 +11,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Component("scheduledTasks")
 public class ScheduledTasks {
@@ -22,8 +25,6 @@ public class ScheduledTasks {
     private final PaymentService paymentService;
     private final TollRequestService tollRequestService;
 
-    private ZonedDateTime startDepositTime;
-
     public ScheduledTasks(PayRequestRepository payRequestRepository, PaymentService paymentService, TollRequestService tollRequestService) {
         this.payRequestRepository = payRequestRepository;
         this.paymentService = paymentService;
@@ -32,19 +33,22 @@ public class ScheduledTasks {
 
     @Scheduled(fixedRate = SchedulerConfiguration.DURATION_TIME, initialDelay = 1000)
     public void depositBills(){
-        if(startDepositTime == null){
-            payRequestRepository.getFirstByPaidIsNull().ifPresent(payRequest -> startDepositTime = payRequest.getRequestTime().minusHours(1));
-        }
-        List<PaymentDto> paidList = paymentService.paid(startDepositTime, ZonedDateTime.now());
-        for(PaymentDto paymentDto:paidList){
-            PayRequest payRequest = payRequestRepository.findOneByTrackingId(paymentDto.getTrackingId()).orElse(null);
-            if(payRequest != null){
-                payRequest.setPaid(true);
-//                payRequest.setPaymentDate(paymentDto.getPaymentDate());
-//                payRequest.setBankTrackingId(paymentDto.getBankTrackingId());
-//                tollRequestService.mPayBill(payRequest);
+        Optional<PayRequest> optionalPayRequest = payRequestRepository.getFirstByPaidIsNull();
+        optionalPayRequest.ifPresent(firstUnpaidRequest -> {
+            LocalDateTime startDepositTime = firstUnpaidRequest.getRequestTime().toLocalDateTime();
+            List<PaymentDto> paidList = paymentService.paid(startDepositTime, LocalDateTime.now());
+            for(PaymentDto paymentDto:paidList){
+                PayRequest payRequest = payRequestRepository.findOneByShortId(paymentDto.getShortId()).orElse(null);
+                if (payRequest != null) {
+                    payRequest.setPaid(true);
+                    payRequest.setPaymentDate(paymentDto.getPaymentDate());
+                    payRequest.setBankTrackingId(paymentDto.getBankTrackingId());
+                    payRequest.setPaymentId(paymentDto.getPaymentId());
+                    payRequest = tollRequestService.mPayBill(payRequest);
+                    tollRequestService.trackingVerification(payRequest);
+                }
             }
-        }
+        });
     }
 
     @Scheduled(cron = "0 0 1/8 * * *")

@@ -5,24 +5,24 @@ import java.time.ZonedDateTime;
 
 public class PaidRequestDto implements Serializable {
 
-    private ZonedDateTime startTime;
-    private ZonedDateTime endTime;
+    private String startTime;
+    private String endTime;
     private Integer pageNum;
     private Integer count;
 
-    public ZonedDateTime getStartTime() {
+    public String getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(ZonedDateTime startTime) {
+    public void setStartTime(String startTime) {
         this.startTime = startTime;
     }
 
-    public ZonedDateTime getEndTime() {
+    public String getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(ZonedDateTime endTime) {
+    public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
 

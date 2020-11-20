@@ -20,6 +20,7 @@ import org.springframework.web.util.UriBuilder;
 
 import java.net.URI;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -148,7 +149,7 @@ public class PaymentService extends RestTemplate {
         }
     }
 
-    public List<PaymentDto> paid(ZonedDateTime startTime, ZonedDateTime endTime){
+    public List<PaymentDto> paid(LocalDateTime startTime, LocalDateTime endTime){
         try {
             String token = login();
             String PAYMENT_CREATE_PATH = "api/payment/getall/paid";
@@ -158,8 +159,12 @@ public class PaymentService extends RestTemplate {
             headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
 
             PaidRequestDto paidRequestDto = new PaidRequestDto();
-//            paidRequestDto.setStartTime(startTime);
-//            paidRequestDto.setEndTime(endTime);
+            if(startTime != null){
+                paidRequestDto.setStartTime(startTime.atZone(ZoneId.of("UTC")).format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'hh:mm:ss.SSSZ")));
+            };
+            if(endTime != null){
+                paidRequestDto.setEndTime(endTime.atZone(ZoneId.of("UTC")).format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'hh:mm:ss.SSSZ")));
+            };
 
             HttpEntity<PaidRequestDto> requestEntity = new HttpEntity<>(paidRequestDto, headers);
             ResponseEntity<SepandarResponseDto<PaidResponseDto>> response = exchange(uri, HttpMethod.POST, requestEntity, new ParameterizedTypeReference<SepandarResponseDto<PaidResponseDto>>() {});

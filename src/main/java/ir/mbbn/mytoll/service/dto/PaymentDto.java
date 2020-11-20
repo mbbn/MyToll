@@ -14,7 +14,7 @@ public class PaymentDto implements Serializable {
     private String mobileNumber;
     private ZonedDateTime paymentDate;
     private String bankTrackingId;
-    private String trackingId;
+    private String paymentId;
     private String shortId;
 
     public List<String> getExternalId() {
@@ -66,12 +66,12 @@ public class PaymentDto implements Serializable {
     }
 
     @JsonProperty("_id")
-    public String getTrackingId() {
-        return trackingId;
+    public String getPaymentId() {
+        return paymentId;
     }
 
-    public void setTrackingId(String trackingId) {
-        this.trackingId = trackingId;
+    public void setPaymentId(String paymentId) {
+        this.paymentId = paymentId;
     }
 
     public String getShortId() {
