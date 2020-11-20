@@ -12,14 +12,16 @@
       "fieldName": "trackingId",
       "fieldType": "String",
       "fieldValidateRules": [
-        "required"
+        "required",
+        "unique"
       ]
     },
     {
       "fieldName": "shortId",
       "fieldType": "String",
       "fieldValidateRules": [
-        "required"
+        "required",
+        "unique"
       ]
     },
     {
@@ -98,7 +100,7 @@
       "ownerSide": true
     }
   ],
-  "changelogDate": "20201120073451",
+  "changelogDate": "20201120090737",
   "entityTableName": "pay_request",
   "dto": "no",
   "pagination": "no",

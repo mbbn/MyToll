@@ -59,7 +59,8 @@
       "fieldName": "billId",
       "fieldType": "String",
       "fieldValidateRules": [
-        "required"
+        "required",
+        "unique"
       ]
     },
     {
@@ -73,7 +74,8 @@
       "fieldName": "externalNumber",
       "fieldType": "String",
       "fieldValidateRules": [
-        "required"
+        "required",
+        "unique"
       ]
     },
     {
@@ -93,7 +95,10 @@
     },
     {
       "fieldName": "cpayTaxId",
-      "fieldType": "String"
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "unique"
+      ]
     },
     {
       "fieldName": "sepandarShare",
@@ -114,7 +119,7 @@
       "ownerSide": false
     }
   ],
-  "changelogDate": "20201120073251",
+  "changelogDate": "20201120090537",
   "entityTableName": "bill",
   "dto": "no",
   "pagination": "no",

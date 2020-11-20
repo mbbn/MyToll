@@ -36,12 +36,12 @@ entity Bill {
 	street String required
     fromDate ZonedDateTime required
     toDate ZonedDateTime required
-    billId String required
+    billId String required unique
     amount Integer required
-    externalNumber String required
+    externalNumber String required unique
     billDate ZonedDateTime required
     billStatus BillStatus required
-    cpayTaxId String
+    cpayTaxId String unique
     sepandarShare Integer
     issuerShare Integer
 }
@@ -71,8 +71,8 @@ entity TollRequest{
 
 entity PayRequest{
     requestTime ZonedDateTime required
-    trackingId String required
-    shortId String required
+    trackingId String required unique
+    shortId String required unique
     accountNo String required
     title String required
     expirationDate LocalDate required

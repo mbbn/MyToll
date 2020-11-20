@@ -11,7 +11,7 @@
     <!--
         Added the entity PayRequest.
     -->
-    <changeSet id="20201120073451-1" author="jhipster">
+    <changeSet id="20201120090737-1" author="jhipster">
         <createTable tableName="pay_request">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
@@ -20,10 +20,10 @@
                 <constraints nullable="false" />
             </column>
             <column name="tracking_id" type="varchar(255)">
-                <constraints nullable="false" />
+                <constraints nullable="false" unique="true" uniqueConstraintName="ux_pay_request_tracking_id" />
             </column>
             <column name="short_id" type="varchar(255)">
-                <constraints nullable="false" />
+                <constraints nullable="false" unique="true" uniqueConstraintName="ux_pay_request_short_id" />
             </column>
             <column name="account_no" type="varchar(255)">
                 <constraints nullable="false" />
@@ -64,7 +64,7 @@
         <dropDefaultValue tableName="pay_request" columnName="payment_date" columnDataType="datetime"/>
     </changeSet>
 
-    <changeSet id="20201120073451-1-relations" author="jhipster">
+    <changeSet id="20201120090737-1-relations" author="jhipster">
 
         <createTable tableName="pay_request_bills">
             <column name="bills_id" type="bigint">
@@ -88,7 +88,7 @@
           This can be customized by adding or removing 'faker' in the 'spring.liquibase.contexts'
           Spring Boot configuration key.
     -->
-    <changeSet id="20201120073451-1-data" author="jhipster" context="faker">
+    <changeSet id="20201120090737-1-data" author="jhipster" context="faker">
         <loadData
                   file="config/liquibase/fake-data/pay_request.csv"
                   separator=";"

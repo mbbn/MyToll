@@ -17,7 +17,7 @@ import java.util.Set;
  * A PayRequest.
  */
 @Entity
-@Table(name = "pay_request", indexes = {@Index(name = "pay_request_uk", columnList = "tracking_id", unique = true)})
+@Table(name = "pay_request")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class PayRequest implements Serializable {
 
@@ -32,11 +32,11 @@ public class PayRequest implements Serializable {
     private ZonedDateTime requestTime;
 
     @NotNull
-    @Column(name = "tracking_id", nullable = false)
+    @Column(name = "tracking_id", nullable = false, unique = true)
     private String trackingId;
 
     @NotNull
-    @Column(name = "short_id", nullable = false)
+    @Column(name = "short_id", nullable = false, unique = true)
     private String shortId;
 
     @NotNull
@@ -79,7 +79,7 @@ public class PayRequest implements Serializable {
     @JsonIgnoreProperties(value = "payRequests", allowSetters = true)
     private Customer customer;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JoinTable(name = "pay_request_bills",
                joinColumns = @JoinColumn(name = "pay_request_id", referencedColumnName = "id"),

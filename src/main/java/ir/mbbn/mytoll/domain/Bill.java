@@ -20,7 +20,7 @@ import ir.mbbn.mytoll.domain.enumeration.BillStatus;
  * A Bill.
  */
 @Entity
-@Table(name = "bill", indexes = {@Index(name = "BILL_UK", columnList = "bill_id", unique = true)})
+@Table(name = "bill")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Bill implements Serializable {
 
@@ -61,7 +61,7 @@ public class Bill implements Serializable {
     private ZonedDateTime toDate;
 
     @NotNull
-    @Column(name = "bill_id", nullable = false)
+    @Column(name = "bill_id", nullable = false, unique = true)
     private String billId;
 
     @NotNull
@@ -69,7 +69,7 @@ public class Bill implements Serializable {
     private Integer amount;
 
     @NotNull
-    @Column(name = "external_number", nullable = false)
+    @Column(name = "external_number", nullable = false, unique = true)
     private String externalNumber;
 
     @NotNull
@@ -81,7 +81,8 @@ public class Bill implements Serializable {
     @Column(name = "bill_status", nullable = false)
     private BillStatus billStatus;
 
-    @Column(name = "cpay_tax_id")
+    
+    @Column(name = "cpay_tax_id", unique = true)
     private String cpayTaxId;
 
     @Column(name = "sepandar_share")
