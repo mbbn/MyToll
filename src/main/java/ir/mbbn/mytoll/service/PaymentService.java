@@ -19,6 +19,7 @@ import org.springframework.web.util.DefaultUriBuilderFactory;
 import org.springframework.web.util.UriBuilder;
 
 import java.net.URI;
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -106,7 +107,7 @@ public class PaymentService extends RestTemplate {
             String[] externalId = payRequest.getBills().stream().map(Bill::getExternalNumber).toArray(String[]::new);
             payRequestDto.setExternalId(externalId);
 
-            ZonedDateTime expirationDate = ZonedDateTime.now().plusDays(1);
+            ZonedDateTime expirationDate = ZonedDateTime.now().plusDays(1).withHour(0).withMinute(0).withSecond(0).withNano(0);
             payRequestDto.setExpirationDate(expirationDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'hh:mm:ss.SSSZ")));
             payRequest.setExpirationDate(expirationDate);
 
