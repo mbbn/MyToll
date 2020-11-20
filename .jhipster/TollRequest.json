@@ -25,7 +25,7 @@
     }
   ],
   "relationships": [],
-  "changelogDate": "20201120062429",
+  "changelogDate": "20201120073351",
   "entityTableName": "toll_request",
   "dto": true,
   "pagination": "no",
