@@ -36,6 +36,10 @@ public class PayRequest implements Serializable {
     private String trackingId;
 
     @NotNull
+    @Column(name = "short_id", nullable = false)
+    private String shortId;
+
+    @NotNull
     @Column(name = "account_no", nullable = false)
     private String accountNo;
 
@@ -72,7 +76,7 @@ public class PayRequest implements Serializable {
     @JsonIgnoreProperties(value = "payRequests", allowSetters = true)
     private Customer customer;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JoinTable(name = "pay_request_bills",
                joinColumns = @JoinColumn(name = "pay_request_id", referencedColumnName = "id"),
@@ -112,6 +116,19 @@ public class PayRequest implements Serializable {
 
     public void setTrackingId(String trackingId) {
         this.trackingId = trackingId;
+    }
+
+    public String getShortId() {
+        return shortId;
+    }
+
+    public PayRequest shortId(String shortId) {
+        this.shortId = shortId;
+        return this;
+    }
+
+    public void setShortId(String shortId) {
+        this.shortId = shortId;
     }
 
     public String getAccountNo() {
@@ -293,6 +310,7 @@ public class PayRequest implements Serializable {
             "id=" + getId() +
             ", requestTime='" + getRequestTime() + "'" +
             ", trackingId='" + getTrackingId() + "'" +
+            ", shortId='" + getShortId() + "'" +
             ", accountNo='" + getAccountNo() + "'" +
             ", title='" + getTitle() + "'" +
             ", expirationDate='" + getExpirationDate() + "'" +

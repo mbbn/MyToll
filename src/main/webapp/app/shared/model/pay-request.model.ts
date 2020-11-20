@@ -6,6 +6,7 @@ export interface IPayRequest {
   id?: number;
   requestTime?: string;
   trackingId?: string;
+  shortId?: string;
   accountNo?: string;
   title?: string;
   expirationDate?: string;
@@ -20,5 +21,6 @@ export interface IPayRequest {
 }
 
 export const defaultValue: Readonly<IPayRequest> = {
-  sendSms: false
+  sendSms: false,
+  paid: false,
 };

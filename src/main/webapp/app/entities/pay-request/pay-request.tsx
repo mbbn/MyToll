@@ -43,6 +43,9 @@ export const PayRequest = (props: IPayRequestProps) => {
                   <Translate contentKey="myTollApp.payRequest.trackingId">Tracking Id</Translate>
                 </th>
                 <th>
+                  <Translate contentKey="myTollApp.payRequest.shortId">Short Id</Translate>
+                </th>
+                <th>
                   <Translate contentKey="myTollApp.payRequest.accountNo">Account No</Translate>
                 </th>
                 <th>
@@ -90,6 +93,7 @@ export const PayRequest = (props: IPayRequestProps) => {
                     {payRequest.requestTime ? <TextFormat type="date" value={payRequest.requestTime} format={APP_DATE_FORMAT} /> : null}
                   </td>
                   <td>{payRequest.trackingId}</td>
+                  <td>{payRequest.shortId}</td>
                   <td>{payRequest.accountNo}</td>
                   <td>{payRequest.title}</td>
                   <td>

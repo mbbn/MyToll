@@ -22,6 +22,7 @@
       },
       "requestTime": "Request Time",
       "trackingId": "Tracking Id",
+      "shortId": "Short Id",
       "accountNo": "Account No",
       "title": "Title",
       "expirationDate": "Expiration Date",

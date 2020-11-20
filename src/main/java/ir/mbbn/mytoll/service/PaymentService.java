@@ -136,7 +136,7 @@ public class PaymentService extends RestTemplate {
             SepandarResponseDto<PayResponseDto> sepandarResponseDto = response.getBody();
             if(sepandarResponseDto!= null && sepandarResponseDto.isSuccess()){
                 PayResponseDto result = sepandarResponseDto.getResult();
-                result.getShortId();
+                payRequest.setShortId(result.getShortId());
                 return result.getUrl();
             }else {
                 throw new RuntimeException("failed to login");

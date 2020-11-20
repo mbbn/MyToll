@@ -49,6 +49,9 @@ public class PayRequestResourceIT {
     private static final String DEFAULT_TRACKING_ID = "AAAAAAAAAA";
     private static final String UPDATED_TRACKING_ID = "BBBBBBBBBB";
 
+    private static final String DEFAULT_SHORT_ID = "AAAAAAAAAA";
+    private static final String UPDATED_SHORT_ID = "BBBBBBBBBB";
+
     private static final String DEFAULT_ACCOUNT_NO = "AAAAAAAAAA";
     private static final String UPDATED_ACCOUNT_NO = "BBBBBBBBBB";
 
@@ -100,6 +103,7 @@ public class PayRequestResourceIT {
         PayRequest payRequest = new PayRequest()
             .requestTime(DEFAULT_REQUEST_TIME)
             .trackingId(DEFAULT_TRACKING_ID)
+            .shortId(DEFAULT_SHORT_ID)
             .accountNo(DEFAULT_ACCOUNT_NO)
             .title(DEFAULT_TITLE)
             .expirationDate(DEFAULT_EXPIRATION_DATE)
@@ -121,6 +125,7 @@ public class PayRequestResourceIT {
         PayRequest payRequest = new PayRequest()
             .requestTime(UPDATED_REQUEST_TIME)
             .trackingId(UPDATED_TRACKING_ID)
+            .shortId(UPDATED_SHORT_ID)
             .accountNo(UPDATED_ACCOUNT_NO)
             .title(UPDATED_TITLE)
             .expirationDate(UPDATED_EXPIRATION_DATE)
@@ -154,6 +159,7 @@ public class PayRequestResourceIT {
         PayRequest testPayRequest = payRequestList.get(payRequestList.size() - 1);
         assertThat(testPayRequest.getRequestTime()).isEqualTo(DEFAULT_REQUEST_TIME);
         assertThat(testPayRequest.getTrackingId()).isEqualTo(DEFAULT_TRACKING_ID);
+        assertThat(testPayRequest.getShortId()).isEqualTo(DEFAULT_SHORT_ID);
         assertThat(testPayRequest.getAccountNo()).isEqualTo(DEFAULT_ACCOUNT_NO);
         assertThat(testPayRequest.getTitle()).isEqualTo(DEFAULT_TITLE);
         assertThat(testPayRequest.getExpirationDate()).isEqualTo(DEFAULT_EXPIRATION_DATE);
@@ -210,6 +216,25 @@ public class PayRequestResourceIT {
         int databaseSizeBeforeTest = payRequestRepository.findAll().size();
         // set the field null
         payRequest.setTrackingId(null);
+
+        // Create the PayRequest, which fails.
+
+
+        restPayRequestMockMvc.perform(post("/api/pay-requests")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(payRequest)))
+            .andExpect(status().isBadRequest());
+
+        List<PayRequest> payRequestList = payRequestRepository.findAll();
+        assertThat(payRequestList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkShortIdIsRequired() throws Exception {
+        int databaseSizeBeforeTest = payRequestRepository.findAll().size();
+        // set the field null
+        payRequest.setShortId(null);
 
         // Create the PayRequest, which fails.
 
@@ -350,6 +375,7 @@ public class PayRequestResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(payRequest.getId().intValue())))
             .andExpect(jsonPath("$.[*].requestTime").value(hasItem(sameInstant(DEFAULT_REQUEST_TIME))))
             .andExpect(jsonPath("$.[*].trackingId").value(hasItem(DEFAULT_TRACKING_ID)))
+            .andExpect(jsonPath("$.[*].shortId").value(hasItem(DEFAULT_SHORT_ID)))
             .andExpect(jsonPath("$.[*].accountNo").value(hasItem(DEFAULT_ACCOUNT_NO)))
             .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE)))
             .andExpect(jsonPath("$.[*].expirationDate").value(hasItem(DEFAULT_EXPIRATION_DATE.toString())))
@@ -394,6 +420,7 @@ public class PayRequestResourceIT {
             .andExpect(jsonPath("$.id").value(payRequest.getId().intValue()))
             .andExpect(jsonPath("$.requestTime").value(sameInstant(DEFAULT_REQUEST_TIME)))
             .andExpect(jsonPath("$.trackingId").value(DEFAULT_TRACKING_ID))
+            .andExpect(jsonPath("$.shortId").value(DEFAULT_SHORT_ID))
             .andExpect(jsonPath("$.accountNo").value(DEFAULT_ACCOUNT_NO))
             .andExpect(jsonPath("$.title").value(DEFAULT_TITLE))
             .andExpect(jsonPath("$.expirationDate").value(DEFAULT_EXPIRATION_DATE.toString()))
@@ -427,6 +454,7 @@ public class PayRequestResourceIT {
         updatedPayRequest
             .requestTime(UPDATED_REQUEST_TIME)
             .trackingId(UPDATED_TRACKING_ID)
+            .shortId(UPDATED_SHORT_ID)
             .accountNo(UPDATED_ACCOUNT_NO)
             .title(UPDATED_TITLE)
             .expirationDate(UPDATED_EXPIRATION_DATE)
@@ -448,6 +476,7 @@ public class PayRequestResourceIT {
         PayRequest testPayRequest = payRequestList.get(payRequestList.size() - 1);
         assertThat(testPayRequest.getRequestTime()).isEqualTo(UPDATED_REQUEST_TIME);
         assertThat(testPayRequest.getTrackingId()).isEqualTo(UPDATED_TRACKING_ID);
+        assertThat(testPayRequest.getShortId()).isEqualTo(UPDATED_SHORT_ID);
         assertThat(testPayRequest.getAccountNo()).isEqualTo(UPDATED_ACCOUNT_NO);
         assertThat(testPayRequest.getTitle()).isEqualTo(UPDATED_TITLE);
         assertThat(testPayRequest.getExpirationDate()).isEqualTo(UPDATED_EXPIRATION_DATE);

@@ -80,6 +80,7 @@ entity PayRequest{
     paid Boolean
     paymentDate ZonedDateTime
     bankTrackingId String
+    paymentId String
 }
 
 relationship ManyToOne {

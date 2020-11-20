@@ -16,6 +16,13 @@
       ]
     },
     {
+      "fieldName": "shortId",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
       "fieldName": "accountNo",
       "fieldType": "String",
       "fieldValidateRules": [
