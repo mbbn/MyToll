@@ -27,7 +27,7 @@
       "amount": "Amount",
       "externalNumber": "External Number",
       "billDate": "Bill Date",
-      "paid": "Paid",
+      "billStatus": "Bill Status",
       "sepandarShare": "Sepandar Share",
       "issuerShare": "Issuer Share",
       "payRequestList": "Pay Request List"

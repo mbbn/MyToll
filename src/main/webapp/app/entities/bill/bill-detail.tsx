@@ -92,11 +92,11 @@ export const BillDetail = (props: IBillDetailProps) => {
           </dt>
           <dd>{billEntity.billDate ? <TextFormat value={billEntity.billDate} type="date" format={APP_DATE_FORMAT} /> : null}</dd>
           <dt>
-            <span id="paid">
-              <Translate contentKey="myTollApp.bill.paid">Paid</Translate>
+            <span id="billStatus">
+              <Translate contentKey="myTollApp.bill.billStatus">Bill Status</Translate>
             </span>
           </dt>
-          <dd>{billEntity.paid ? 'true' : 'false'}</dd>
+          <dd>{billEntity.billStatus}</dd>
           <dt>
             <span id="sepandarShare">
               <Translate contentKey="myTollApp.bill.sepandarShare">Sepandar Share</Translate>

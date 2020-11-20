@@ -1,7 +1,9 @@
 package ir.mbbn.mytoll.service;
 
 import ir.mbbn.mytoll.config.SchedulerConfiguration;
+import ir.mbbn.mytoll.domain.Bill;
 import ir.mbbn.mytoll.domain.PayRequest;
+import ir.mbbn.mytoll.domain.enumeration.BillStatus;
 import ir.mbbn.mytoll.repository.PayRequestRepository;
 import ir.mbbn.mytoll.service.dto.PaymentDto;
 import org.slf4j.Logger;
@@ -27,7 +29,7 @@ public class ScheduledTasks {
         this.paymentService = paymentService;
     }
 
-    @Scheduled(fixedRate = SchedulerConfiguration.DURATION_TIME, initialDelay = 120000)
+//    @Scheduled(fixedRate = SchedulerConfiguration.DURATION_TIME, initialDelay = 120000)
     public void depositBills(){
         if(startDepositTime == null){
             payRequestRepository.getFirstByPaidIsNull().ifPresent(payRequest -> startDepositTime = payRequest.getRequestTime());
@@ -36,7 +38,6 @@ public class ScheduledTasks {
         for(PaymentDto paymentDto:paidList){
             PayRequest payRequest = payRequestRepository.findOneByTrackingId(paymentDto.getTrackingId()).orElse(null);
             if(payRequest != null){
-
                 payRequest.setPaid(true);
                 payRequest.setPaymentDate(paymentDto.getPaymentDate());
                 payRequest.setBankTrackingId(paymentDto.getBankTrackingId());
@@ -45,8 +46,17 @@ public class ScheduledTasks {
         }
     }
 
-    @Scheduled(fixedRate = SchedulerConfiguration.DURATION_TIME, initialDelay = 120000)
+//    @Scheduled(cron = "0 0 1/8 * * *", initialDelay = 120000)
+    @Scheduled(fixedRate = SchedulerConfiguration.DURATION_TIME, initialDelay = 1000)
     public void expirePayRequest(){
-
+        for (PayRequest payRequest : payRequestRepository.findAllExpireRequest()) {
+            payRequest.setPaid(false);
+            for(Bill bill:payRequest.getBills()){
+                if(!BillStatus.DEPOSIT.equals(bill.getBillStatus())){
+                    bill.setBillStatus(BillStatus.UNPAID);
+                }
+            }
+            payRequestRepository.save(payRequest);
+        }
     }
 }

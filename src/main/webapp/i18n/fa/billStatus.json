@@ -1,0 +1,10 @@
+{
+  "myTollApp": {
+    "BillStatus": {
+      "null": "",
+      "UNPAID": "پرداخت نشده",
+      "PAID": "پرداخت شده",
+      "DEPOSIT": "تایید شده"
+    }
+  }
+}

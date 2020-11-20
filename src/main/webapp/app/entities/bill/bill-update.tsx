@@ -244,11 +244,21 @@ export const BillUpdate = (props: IBillUpdateProps) => {
                   }}
                 />
               </AvGroup>
-              <AvGroup check>
-                <Label id="paidLabel">
-                  <AvInput id="bill-paid" type="checkbox" className="form-check-input" name="paid" />
-                  <Translate contentKey="myTollApp.bill.paid">Paid</Translate>
+              <AvGroup>
+                <Label id="billStatusLabel" for="bill-billStatus">
+                  <Translate contentKey="myTollApp.bill.billStatus">Bill Status</Translate>
                 </Label>
+                <AvInput
+                  id="bill-billStatus"
+                  type="select"
+                  className="form-control"
+                  name="billStatus"
+                  value={(!isNew && billEntity.billStatus) || 'UNPAID'}
+                >
+                  <option value="UNPAID">{translate('myTollApp.BillStatus.UNPAID')}</option>
+                  <option value="PAID">{translate('myTollApp.BillStatus.PAID')}</option>
+                  <option value="DEPOSIT">{translate('myTollApp.BillStatus.DEPOSIT')}</option>
+                </AvInput>
               </AvGroup>
               <AvGroup>
                 <Label id="sepandarShareLabel" for="bill-sepandarShare">

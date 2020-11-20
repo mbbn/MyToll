@@ -1,6 +1,5 @@
 import React from 'react';
 import {Grid} from '@material-ui/core'
-import myTollTheme from "app/ContextManager";
 import {IBill} from "app/shared/model/bill.model";
 import {translate} from 'react-jhipster';
 import {makeStyles, createStyles, Theme} from '@material-ui/core/styles';
@@ -8,12 +7,13 @@ import {grey, common, green, red} from '@material-ui/core/colors';
 import {dateStrToJalali, dateStrToJalaliWithFormat} from "app/component/datePicker";
 import {convertEnglishNumberToPersian} from "app/shared/util/persian-utils";
 import {convertDateTimeToServer} from "app/shared/util/date-utils";
+import {BillStatus} from "app/shared/model/enumerations/bill-status.model";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root:{
       borderStyle: "solid",
-      borderColor: myTollTheme.palette.primary.main,
+      borderColor: theme.palette.primary.main,
       borderRadius: 5,
       padding: 5,
       marginLeft: 3,
@@ -53,9 +53,9 @@ const BillDisplay = (props: IBillDisplayProps) => {
           {dateStrToJalaliWithFormat(bill.billDate, 'hh:mm:ss')}
         </Grid>
         <Grid item xs={12}>
-          {bill.paid ?
-            <div style={{color: green["500"]}}>{translate('myTollApp.tollRequest.billDisplay.paid')}</div> :
-            <div style={{color: red["500"]}}>{translate('myTollApp.tollRequest.billDisplay.unpaid')}</div>}
+          {BillStatus.UNPAID === bill.billStatus ?
+            <div style={{color: red["500"]}}>{translate('myTollApp.tollRequest.billDisplay.unpaid')}</div>
+            : <div style={{color: green["500"]}}>{translate('myTollApp.tollRequest.billDisplay.paid')}</div>}
         </Grid>
       </Grid>
     </Grid>

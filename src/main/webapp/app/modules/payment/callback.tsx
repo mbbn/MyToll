@@ -5,8 +5,7 @@ import {connect} from 'react-redux';
 import {RouteComponentProps} from 'react-router-dom';
 import {getPayRequest, verifyPay} from 'app/entities/toll-request/toll-request.reducer';
 import {IRootState} from "app/shared/reducers";
-import {Grid, Card, CardContent, CardHeader, Checkbox, Button} from '@material-ui/core'
-import {Close, Check} from '@material-ui/icons'
+import {Grid, Card, CardContent} from '@material-ui/core'
 import {Alert} from '@material-ui/lab';
 import {Translate} from 'react-jhipster';
 import Plate from "app/component/plate";
@@ -15,7 +14,6 @@ import {translate} from 'react-jhipster';
 import {Backdrop, CircularProgress} from '@material-ui/core'
 import {makeStyles, createStyles, Theme} from '@material-ui/core/styles';
 import BillDisplay from "app/component/billDisplay";
-import {convertEnglishNumberToPersian} from "app/shared/util/persian-utils";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -35,7 +33,6 @@ export const Callback = (props: ICallbackProps) => {
   const [plate, setPlate] = useState(null);
   const [bills, setBills] = useState([]);
   const [open, setOpen] = React.useState(false);
-  const [selectedBills, setSelectedBills] = useState([]);
   useEffect(() => {
     const trackingId = props.match.params.trackingId;
     setOpen(true);
@@ -68,8 +65,7 @@ export const Callback = (props: ICallbackProps) => {
                         {bills && bills.length > 0 ? (<>
                           {bills.map(bill => <Grid container key={"row-" + bill.billId} spacing={1} direction={"row"} alignContent={"flex-start"} alignItems={"flex-start"} justify={"flex-start"}>
                             <Grid item xs={12} key={"bill-" + bill.billId}>
-                              <BillDisplay key={bill.billId} bill={bill}
-                                           selected={selectedBills.findIndex(selectedBill => bill.billId === selectedBill.billId) > -1}/>
+                              <BillDisplay key={bill.billId} bill={bill} selected={true}/>
                             </Grid>
                           </Grid>)}
                         </>) : (<Alert color={'warning'}>

@@ -70,7 +70,7 @@ export const Bill = (props: IBillProps) => {
                   <Translate contentKey="myTollApp.bill.billDate">Bill Date</Translate>
                 </th>
                 <th>
-                  <Translate contentKey="myTollApp.bill.paid">Paid</Translate>
+                  <Translate contentKey="myTollApp.bill.billStatus">Bill Status</Translate>
                 </th>
                 <th>
                   <Translate contentKey="myTollApp.bill.sepandarShare">Sepandar Share</Translate>
@@ -102,7 +102,9 @@ export const Bill = (props: IBillProps) => {
                   <td>{bill.amount}</td>
                   <td>{bill.externalNumber}</td>
                   <td>{bill.billDate ? <TextFormat type="date" value={bill.billDate} format={APP_DATE_FORMAT} /> : null}</td>
-                  <td>{bill.paid ? 'true' : 'false'}</td>
+                  <td>
+                    <Translate contentKey={`myTollApp.BillStatus.${bill.billStatus}`} />
+                  </td>
                   <td>{bill.sepandarShare}</td>
                   <td>{bill.issuerShare}</td>
                   <td className="text-right">

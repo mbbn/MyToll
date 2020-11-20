@@ -1,6 +1,7 @@
 import { Moment } from 'moment';
 import { IPayRequest } from 'app/shared/model/pay-request.model';
 import { TaxCategory } from 'app/shared/model/enumerations/tax-category.model';
+import { BillStatus } from 'app/shared/model/enumerations/bill-status.model';
 
 export interface IBill {
   id?: number;
@@ -15,12 +16,10 @@ export interface IBill {
   amount?: number;
   externalNumber?: string;
   billDate?: string;
-  paid?: boolean;
+  billStatus?: BillStatus;
   sepandarShare?: number;
   issuerShare?: number;
   payRequestLists?: IPayRequest[];
 }
 
-export const defaultValue: Readonly<IBill> = {
-  paid: false,
-};
+export const defaultValue: Readonly<IBill> = {};

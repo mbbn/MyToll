@@ -5,6 +5,7 @@ import ir.mbbn.mytoll.domain.Bill;
 import ir.mbbn.mytoll.domain.Customer;
 import ir.mbbn.mytoll.domain.PayRequest;
 import ir.mbbn.mytoll.domain.TollRequest;
+import ir.mbbn.mytoll.domain.enumeration.BillStatus;
 import ir.mbbn.mytoll.domain.enumeration.TaxCategory;
 import ir.mbbn.mytoll.repository.BillRepository;
 import ir.mbbn.mytoll.repository.CustomerRepository;
@@ -122,7 +123,8 @@ public class TollRequestService extends RestTemplate {
                 List<Bill> results = new ArrayList<>();
                 for(BillDto billDto:result.getData()){
                     Bill bill = billRepository.findOneByExternalNumber(billDto.getExternalNumber()).orElse(new Bill());
-                    if(bill.isPaid() == null){
+                    if(bill.getBillStatus() == null){
+                        bill.setBillStatus(BillStatus.UNPAID);
                         bill.setCategory(TaxCategory.SIDEPARK);
                         BillTypeDto billType = billDto.getBillType();
                         if(billType!= null){
@@ -142,7 +144,7 @@ public class TollRequestService extends RestTemplate {
                         bill.setExternalNumber(billDto.getExternalNumber());
                         bill.setBillDate(billDto.getBillDate());
                         results.add(bill);
-                    } else if (!bill.isPaid()) {
+                    } else if (BillStatus.UNPAID.equals(bill.getBillStatus())) {
                         results.add(bill);
                     }
                 }
@@ -175,18 +177,10 @@ public class TollRequestService extends RestTemplate {
         payRequest.setTrackingId(trackId);
 
         Integer totalAmount = 0;
-        Set<String> externalNumbers = payRequest.getBills().stream().map(Bill::getExternalNumber).collect(Collectors.toSet());
-        Set<Bill> tryBills = billRepository.findAllByExternalNumberIn(externalNumbers);
         for (Bill payBill : payRequest.getBills()) {
-            if (tryBills.stream().noneMatch(bill -> payBill.getExternalNumber().equals(bill.getExternalNumber()))) {
-                payBill.setPaid(false);
-                tryBills.add(payBill);
-            }
             totalAmount += payBill.getAmount();
         }
         payRequest.setAmount(totalAmount);
-        payRequest.setBills(tryBills);
-
         return paymentService.pay(payRequest);
     }
 
@@ -214,7 +208,9 @@ public class TollRequestService extends RestTemplate {
                     for(PayBillDto payBillDto:result.getData()){
                         Bill b = payRequest.getBills().stream().filter(bill -> payBillDto.getExTrackingId().equals(trackingId) &&  payBillDto.getExternalNumber().equals(bill.getExternalNumber())).findFirst().orElse(null);
                         if(b!=null){
-                            b.setPaid("Paid".equalsIgnoreCase(payBillDto.getStatus()));
+                            if("Paid".equalsIgnoreCase(payBillDto.getStatus())){
+                                b.setBillStatus(BillStatus.DEPOSIT);
+                            }
                             b.setSepandarShare(payBillDto.getSepandarShare());
                             b.setIssuerShare(payBillDto.getIssuerShare());
                             resultBills.add(b);
@@ -256,7 +252,7 @@ public class TollRequestService extends RestTemplate {
                         Set<Bill> bills = payRequest.getBills();
                         Bill payedBill = bills.stream().filter(bill -> bill.getBillId().equals(responseDto.getBillId())).findFirst().orElse(null);
                         if(payedBill != null){
-                            payedBill.setPaid(responseDto.getPaid());
+                            /* payedBill.setPaid(responseDto.getPaid());*/
                         }
                     }
                     payRequest = payRequestRepository.save(payRequest);

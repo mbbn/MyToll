@@ -14,6 +14,8 @@ import java.util.Set;
 
 import ir.mbbn.mytoll.domain.enumeration.TaxCategory;
 
+import ir.mbbn.mytoll.domain.enumeration.BillStatus;
+
 /**
  * A Bill.
  */
@@ -75,8 +77,9 @@ public class Bill implements Serializable {
     private ZonedDateTime billDate;
 
     @NotNull
-    @Column(name = "paid", nullable = false)
-    private Boolean paid;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "bill_status", nullable = false)
+    private BillStatus billStatus;
 
     @Column(name = "sepandar_share")
     private Integer sepandarShare;
@@ -241,17 +244,17 @@ public class Bill implements Serializable {
         this.billDate = billDate;
     }
 
-    public Boolean isPaid() {
-        return paid;
+    public BillStatus getBillStatus() {
+        return billStatus;
     }
 
-    public Bill paid(Boolean paid) {
-        this.paid = paid;
+    public Bill billStatus(BillStatus billStatus) {
+        this.billStatus = billStatus;
         return this;
     }
 
-    public void setPaid(Boolean paid) {
-        this.paid = paid;
+    public void setBillStatus(BillStatus billStatus) {
+        this.billStatus = billStatus;
     }
 
     public Integer getSepandarShare() {
@@ -338,7 +341,7 @@ public class Bill implements Serializable {
             ", amount=" + getAmount() +
             ", externalNumber='" + getExternalNumber() + "'" +
             ", billDate='" + getBillDate() + "'" +
-            ", paid='" + isPaid() + "'" +
+            ", billStatus='" + getBillStatus() + "'" +
             ", sepandarShare=" + getSepandarShare() +
             ", issuerShare=" + getIssuerShare() +
             "}";

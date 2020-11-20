@@ -4,6 +4,7 @@ import io.github.jhipster.web.util.ResponseUtil;
 import ir.mbbn.mytoll.domain.Bill;
 import ir.mbbn.mytoll.domain.PayRequest;
 
+import ir.mbbn.mytoll.domain.enumeration.BillStatus;
 import ir.mbbn.mytoll.repository.PayRequestRepository;
 import ir.mbbn.mytoll.service.TollRequestService;
 import org.slf4j.Logger;
@@ -70,7 +71,7 @@ public class TollRequestResource {
         if(optionalPayRequest.isPresent()){
             PayRequest payRequest = optionalPayRequest.get();
             for(Bill bill: payRequest.getBills()){
-                bill.setPaid(true);
+                bill.setBillStatus(BillStatus.PAID);
             }
             payRequestRepository.save(payRequest);
         }
