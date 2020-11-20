@@ -4,7 +4,8 @@
       "null": "",
       "UNPAID": "UNPAID",
       "PAID": "PAID",
-      "DEPOSIT": "DEPOSIT"
+      "DEPOSIT": "DEPOSIT",
+      "VERIFIED": "VERIFIED"
     }
   }
 }

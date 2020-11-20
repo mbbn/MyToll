@@ -258,6 +258,7 @@ export const BillUpdate = (props: IBillUpdateProps) => {
                   <option value="UNPAID">{translate('myTollApp.BillStatus.UNPAID')}</option>
                   <option value="PAID">{translate('myTollApp.BillStatus.PAID')}</option>
                   <option value="DEPOSIT">{translate('myTollApp.BillStatus.DEPOSIT')}</option>
+                  <option value="VERIFIED">{translate('myTollApp.BillStatus.VERIFIED')}</option>
                 </AvInput>
               </AvGroup>
               <AvGroup>

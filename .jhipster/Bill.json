@@ -86,7 +86,7 @@
     {
       "fieldName": "billStatus",
       "fieldType": "BillStatus",
-      "fieldValues": "UNPAID,PAID,DEPOSIT",
+      "fieldValues": "UNPAID,PAID,DEPOSIT,VERIFIED",
       "fieldValidateRules": [
         "required"
       ]

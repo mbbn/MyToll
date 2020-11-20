@@ -4,4 +4,6 @@ export const enum BillStatus {
   PAID = 'PAID',
 
   DEPOSIT = 'DEPOSIT',
+
+  VERIFIED = 'VERIFIED',
 }
