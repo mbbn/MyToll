@@ -31,7 +31,7 @@ public class ScheduledTasks {
         this.tollRequestService = tollRequestService;
     }
 
-    @Scheduled(fixedRate = SchedulerConfiguration.DURATION_TIME, initialDelay = 1000)
+    @Scheduled(fixedRate = SchedulerConfiguration.DURATION_TIME, initialDelay = 120000)
     public void depositBills(){
         Optional<PayRequest> optionalPayRequest = payRequestRepository.getFirstByPaidIsNull();
         optionalPayRequest.ifPresent(firstUnpaidRequest -> {
