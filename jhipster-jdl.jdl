@@ -70,6 +70,7 @@ entity TollRequest{
 entity PayRequest{
     requestTime ZonedDateTime required
     trackingId String required
+    shortId String required
     accountNo String required
     title String required
     expirationDate LocalDate required

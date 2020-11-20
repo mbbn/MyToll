@@ -33,6 +33,6 @@ public interface PayRequestRepository extends JpaRepository<PayRequest, Long> {
 
     Optional<PayRequest> getFirstByPaidIsNull();
 
-    @Query("select payRequest from PayRequest payRequest left join fetch payRequest.bills where payRequest.paid is null and payRequest.expirationDate > current_time")
+    @Query("select payRequest from PayRequest payRequest left join fetch payRequest.bills where payRequest.paid is null and payRequest.expirationDate <= current_date ")
     List<PayRequest> findAllExpireRequest();
 }

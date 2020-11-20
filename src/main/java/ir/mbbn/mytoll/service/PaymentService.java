@@ -20,6 +20,7 @@ import org.springframework.web.util.UriBuilder;
 
 import java.net.URI;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -107,8 +108,9 @@ public class PaymentService extends RestTemplate {
             String[] externalId = payRequest.getBills().stream().map(Bill::getExternalNumber).toArray(String[]::new);
             payRequestDto.setExternalId(externalId);
 
-            ZonedDateTime expirationDate = ZonedDateTime.now().plusDays(1).withHour(0).withMinute(0).withSecond(0).withNano(0);
-            payRequestDto.setExpirationDate(expirationDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'hh:mm:ss.SSSZ")));
+            LocalDate expirationDate = LocalDate.now().plusDays(1);
+            String expireDateStr = expirationDate.atStartOfDay().atZone(ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'hh:mm:ss.SSSZ"));
+            payRequestDto.setExpirationDate(expireDateStr);
             payRequest.setExpirationDate(expirationDate);
 
             Customer customer = payRequest.getCustomer();
@@ -134,6 +136,7 @@ public class PaymentService extends RestTemplate {
             SepandarResponseDto<PayResponseDto> sepandarResponseDto = response.getBody();
             if(sepandarResponseDto!= null && sepandarResponseDto.isSuccess()){
                 PayResponseDto result = sepandarResponseDto.getResult();
+                result.getShortId();
                 return result.getUrl();
             }else {
                 throw new RuntimeException("failed to login");
@@ -155,8 +158,8 @@ public class PaymentService extends RestTemplate {
             headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
 
             PaidRequestDto paidRequestDto = new PaidRequestDto();
-            paidRequestDto.setStartTime(startTime);
-            paidRequestDto.setEndTime(endTime);
+//            paidRequestDto.setStartTime(startTime);
+//            paidRequestDto.setEndTime(endTime);
 
             HttpEntity<PaidRequestDto> requestEntity = new HttpEntity<>(paidRequestDto, headers);
             ResponseEntity<SepandarResponseDto<PaidResponseDto>> response = exchange(uri, HttpMethod.POST, requestEntity, new ParameterizedTypeReference<SepandarResponseDto<PaidResponseDto>>() {});

@@ -1,0 +1,39 @@
+{
+  "name": "TollRequest",
+  "fields": [
+    {
+      "fieldName": "plate",
+      "fieldType": "Integer",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "mobile",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "fromDate",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "toDate",
+      "fieldType": "ZonedDateTime"
+    }
+  ],
+  "relationships": [],
+  "changelogDate": "20201120051023",
+  "entityTableName": "toll_request",
+  "dto": true,
+  "pagination": "no",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

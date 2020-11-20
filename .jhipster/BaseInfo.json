@@ -1,0 +1,75 @@
+{
+  "name": "BaseInfo",
+  "fields": [
+    {
+      "fieldName": "title",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "code",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "category",
+      "fieldType": "BaseInfoCategory",
+      "fieldValues": "PLATE_MAP",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "creationTime",
+      "fieldType": "ZonedDateTime",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "creationBy",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "lastUpdateTime",
+      "fieldType": "ZonedDateTime",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "lastUpdatedBy",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "required"
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "baseInfo",
+      "otherEntityRelationshipName": "baseInfo",
+      "relationshipName": "group",
+      "otherEntityField": "id"
+    }
+  ],
+  "changelogDate": "20201120050723",
+  "entityTableName": "base_info",
+  "dto": "no",
+  "pagination": "pagination",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

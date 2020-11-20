@@ -20,6 +20,5 @@ export interface IPayRequest {
 }
 
 export const defaultValue: Readonly<IPayRequest> = {
-  sendSms: false,
-  paid: false,
+  sendSms: false
 };

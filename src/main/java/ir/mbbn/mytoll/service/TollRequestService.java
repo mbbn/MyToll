@@ -29,7 +29,6 @@ import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Service Implementation for managing {@link TollRequest}.
@@ -177,56 +176,60 @@ public class TollRequestService extends RestTemplate {
         payRequest.setTrackingId(trackId);
 
         Integer totalAmount = 0;
+        Set<Bill> bills = new HashSet<>();
         for (Bill payBill : payRequest.getBills()) {
+            if(payBill.getId() != null){
+                Bill bill = billRepository.getOne(payBill.getId());
+                bills.add(bill);
+            }else {
+                bills.add(payBill);
+            }
             totalAmount += payBill.getAmount();
         }
+        payRequest.setBills(bills);
         payRequest.setAmount(totalAmount);
         return paymentService.pay(payRequest);
     }
 
-    public PayRequest mPayBill(String trackingId) {
-        PayRequest payRequest = payRequestRepository.findOneByTrackingId(trackingId).orElse(null);
-        if(payRequest != null){
-            try {
-                String token = login();
-                String M_PAY_BILL_PATH = "api/bill/mPayBill";
-                URI uri = getUrlBuilder().path(M_PAY_BILL_PATH).build();
-                HttpHeaders headers = new HttpHeaders();
-                headers.add(HttpHeaders.AUTHORIZATION, token);
-                headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+    public void mPayBill(PayRequest payRequest) {
+        String trackingId = payRequest.getTrackingId();
+        try {
+            String token = login();
+            String M_PAY_BILL_PATH = "api/bill/mPayBill";
+            URI uri = getUrlBuilder().path(M_PAY_BILL_PATH).build();
+            HttpHeaders headers = new HttpHeaders();
+            headers.add(HttpHeaders.AUTHORIZATION, token);
+            headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
 
-                MPayBillRequestDto mPayBillRequestDto = new MPayBillRequestDto();
-                mPayBillRequestDto.setBills(payRequest.getBills().stream().map(Bill::getBillId).toArray(String[]::new));
-                mPayBillRequestDto.setExTrackingId(trackingId);
+            MPayBillRequestDto mPayBillRequestDto = new MPayBillRequestDto();
+            mPayBillRequestDto.setBills(payRequest.getBills().stream().map(Bill::getBillId).toArray(String[]::new));
+            mPayBillRequestDto.setExTrackingId(trackingId);
 
-                HttpEntity<MPayBillRequestDto> requestEntity = new HttpEntity<>(mPayBillRequestDto, headers);
-                ResponseEntity<SepandarResponseDto<MPayBillResponseDto>> response = exchange(uri, HttpMethod.POST, requestEntity, new ParameterizedTypeReference<SepandarResponseDto<MPayBillResponseDto>>() {});
-                SepandarResponseDto<MPayBillResponseDto> sepandarResponseDto = response.getBody();
-                if(sepandarResponseDto!= null && sepandarResponseDto.isSuccess()){
-                    MPayBillResponseDto result = sepandarResponseDto.getResult();
-                    Set<Bill> resultBills = new HashSet<>();
-                    for(PayBillDto payBillDto:result.getData()){
-                        Bill b = payRequest.getBills().stream().filter(bill -> payBillDto.getExTrackingId().equals(trackingId) &&  payBillDto.getExternalNumber().equals(bill.getExternalNumber())).findFirst().orElse(null);
-                        if(b!=null){
-                            if("Paid".equalsIgnoreCase(payBillDto.getStatus())){
-                                b.setBillStatus(BillStatus.DEPOSIT);
-                            }
-                            b.setSepandarShare(payBillDto.getSepandarShare());
-                            b.setIssuerShare(payBillDto.getIssuerShare());
-                            resultBills.add(b);
+            HttpEntity<MPayBillRequestDto> requestEntity = new HttpEntity<>(mPayBillRequestDto, headers);
+            ResponseEntity<SepandarResponseDto<MPayBillResponseDto>> response = exchange(uri, HttpMethod.POST, requestEntity, new ParameterizedTypeReference<SepandarResponseDto<MPayBillResponseDto>>() {});
+            SepandarResponseDto<MPayBillResponseDto> sepandarResponseDto = response.getBody();
+            if(sepandarResponseDto!= null && sepandarResponseDto.isSuccess()){
+                MPayBillResponseDto result = sepandarResponseDto.getResult();
+                Set<Bill> resultBills = new HashSet<>();
+                for(PayBillDto payBillDto:result.getData()){
+                    Bill b = payRequest.getBills().stream().filter(bill -> payBillDto.getExTrackingId().equals(trackingId) &&  payBillDto.getExternalNumber().equals(bill.getExternalNumber())).findFirst().orElse(null);
+                    if(b!=null){
+                        if("Paid".equalsIgnoreCase(payBillDto.getStatus())){
+                            b.setBillStatus(BillStatus.DEPOSIT);
                         }
+                        b.setSepandarShare(payBillDto.getSepandarShare());
+                        b.setIssuerShare(payBillDto.getIssuerShare());
+                        resultBills.add(b);
                     }
-                    payRequest.setBills(resultBills);
-                    payRequest = payRequestRepository.save(payRequest);
-                    return payRequest;
-                }else {
-                    throw new RuntimeException("failed to login");
                 }
-            } catch (RestClientException e) {
+                payRequest.setBills(resultBills);
+                payRequestRepository.save(payRequest);
+            }else {
                 throw new RuntimeException("failed to login");
             }
+        } catch (RestClientException e) {
+            throw new RuntimeException("failed to login");
         }
-        return payRequest;
     }
 
     public PayRequest trackingVerification(String trackingId) {
