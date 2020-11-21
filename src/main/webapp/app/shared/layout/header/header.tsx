@@ -4,7 +4,6 @@ import React, {useState, useEffect} from 'react';
 import {Translate, Storage} from 'react-jhipster';
 import {AppBar, Toolbar, Link} from '@material-ui/core';
 import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
-import MenuIcon from '@material-ui/icons/Menu';
 import LoadingBar from 'react-redux-loading-bar';
 import {isRTL} from 'app/config/translation';
 import {Home, Brand} from './header-components';
@@ -65,12 +64,12 @@ const Header = (props: IHeaderProps) => {
       <LoadingBar className="loading-bar" />
       <AppBar position={"fixed"}>
         <Toolbar variant={"dense"} disableGutters={true}>
-          {/* <Home />
+          <Home/>
           {props.isAuthenticated && <EntitiesMenu />}
-          {props.isAuthenticated && props.isAdmin && (
+          {/* {props.isAuthenticated && props.isAdmin && (
             <AdminMenu showSwagger={props.isSwaggerEnabled} showDatabase={!props.isInProduction} />
-          )}
-          <AccountMenu isAuthenticated={props.isAuthenticated} />*/}
+          )}*/}
+          <AccountMenu isAuthenticated={props.isAuthenticated} />
           <Brand/>
         </Toolbar>
       </AppBar>

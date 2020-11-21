@@ -34,6 +34,7 @@ public interface PayRequestRepository extends JpaRepository<PayRequest, Long> {
     @Query("select payRequest from PayRequest payRequest left join fetch payRequest.bills where payRequest.shortId =:shortId and payRequest.paid is null")
     Optional<PayRequest> findOneByShortIdAndPaidIsNull(@Param("shortId") String shortId);
 
+    @Query("select payRequest from PayRequest payRequest left join fetch payRequest.bills where payRequest.paid is null and payRequest.expirationDate > current_date ")
     Optional<PayRequest> getFirstByPaidIsNull();
 
     @Query("select payRequest from PayRequest payRequest left join fetch payRequest.bills where payRequest.paid is null and payRequest.expirationDate <= current_date ")

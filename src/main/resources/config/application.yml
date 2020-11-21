@@ -183,5 +183,5 @@ application:
     accountNo: 179
     callBackUrl: http://mytoll.ir/callback
     failureCallBackUrl: http://mytoll.ir/callback
-    callBackUrlService: transaction.charge
-#    callBackUrlService: bill.chargePayBill
+#    callBackUrlService: transaction.charge
+    callBackUrlService: bill.chargePayBill

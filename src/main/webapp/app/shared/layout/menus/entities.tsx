@@ -1,43 +1,18 @@
-import React from 'react';
-import { MenuList, MenuItem } from '@material-ui/core';
-import { IconButton, Link } from '@material-ui/core';
-import { List } from '@material-ui/icons';
-import { Translate, translate } from 'react-jhipster';
+import React, {useState} from 'react';
+import {MenuItem, ListItemIcon, ListItemText} from '@material-ui/core';
+import {common} from '@material-ui/core/colors';
+import {KeyboardArrowDown, KeyboardArrowLeft} from '@material-ui/icons';
+import {translate} from 'react-jhipster';
 
-export const EntitiesMenu = props => (
-  <IconButton>
-    <List />
-    <span>
-      <Translate contentKey="global.menu.home">global.menu.entities.main</Translate>
-    </span>
-  </IconButton>
-  /* <NavDropdown
-    icon="th-list"
-    name={translate('global.menu.entities.main')}
-    id="entity-menu"
-    style={{ maxHeight: '80vh', overflow: 'auto' }}
-  >
-    <MenuItem icon="asterisk" to="/base-info">
-      <Translate contentKey="global.menu.entities.baseInfo" />
-    </MenuItem>
-    <MenuItem icon="asterisk" to="/customer">
-      <Translate contentKey="global.menu.entities.customer" />
-    </MenuItem>
-    <MenuItem icon="asterisk" to="/plate">
-      <Translate contentKey="global.menu.entities.plate" />
-    </MenuItem>
-    <MenuItem icon="asterisk" to="/plate-bill">
-      <Translate contentKey="global.menu.entities.plateBill" />
-    </MenuItem>
-    <MenuItem icon="asterisk" to="/toll-request">
-      <Translate contentKey="global.menu.entities.tollRequest" />
-    </MenuItem>
-    <MenuItem icon="asterisk" to="/bill">
-      <Translate contentKey="global.menu.entities.bill" />
-    </MenuItem>
-    <MenuItem icon="asterisk" to="/pay-request">
-      <Translate contentKey="global.menu.entities.payRequest" />
-    </MenuItem>
-    {/!* jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here *!/}
-  </NavDropdown>*/
-);
+export const EntitiesMenu = props => {
+  const [entityMenu, setEntityMenu] = useState(null);
+  return (
+    <div style={{width: 135}}>
+      <MenuItem onClick={(event)=>{setEntityMenu(event.currentTarget)}} style={{color: common.white}}>
+        <ListItemText>{translate('global.menu.entities.main')}</ListItemText>
+        <ListItemIcon aria-controls="account-menu" aria-haspopup="true" style={{color: common.white}}>
+          {entityMenu ? <KeyboardArrowDown/>:<KeyboardArrowLeft/>}
+        </ListItemIcon>
+      </MenuItem>
+    </div>);
+};

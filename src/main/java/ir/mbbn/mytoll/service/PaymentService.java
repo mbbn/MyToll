@@ -106,7 +106,7 @@ public class PaymentService extends RestTemplate {
             payRequest.setTitle(payTitle);
             payRequestDto.setTitle(payTitle);
 
-            String[] externalId = payRequest.getBills().stream().map(Bill::getExternalNumber).toArray(String[]::new);
+            String[] externalId = payRequest.getBills().stream().map(Bill::getBillId).toArray(String[]::new);
             payRequestDto.setExternalId(externalId);
 
             LocalDate expirationDate = LocalDate.now().plusDays(1);
