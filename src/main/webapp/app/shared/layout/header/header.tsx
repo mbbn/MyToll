@@ -61,12 +61,12 @@ const Header = (props: IHeaderProps) => {
   return (
     <div id="app-header" className={classes.root}>
       {renderDevRibbon()}
-      <LoadingBar className="loading-bar" />
-      <AppBar position={"fixed"}>
-        <Toolbar variant={"dense"} disableGutters={true}>
+      <LoadingBar className="loading-bar"/>
+      <AppBar position={"fixed"} variant={"elevation"}>
+        <Toolbar variant={"dense"}>
           <Home/>
           {props.isAuthenticated && <EntitiesMenu />}
-          {/* {props.isAuthenticated && props.isAdmin && (
+           {/*{props.isAuthenticated && props.isAdmin && (
             <AdminMenu showSwagger={props.isSwaggerEnabled} showDatabase={!props.isInProduction} />
           )}*/}
           <AccountMenu isAuthenticated={props.isAuthenticated} />

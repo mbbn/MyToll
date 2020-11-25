@@ -11,6 +11,11 @@ const myTollTheme = createMuiTheme({
         },
       }
     },
+    MuiPaper:{
+      root: {
+        padding: 10
+      }
+    },
     MuiTypography: {
       root:{
         fontFamily: 'IRANSansWeb'
@@ -71,7 +76,13 @@ const myTollTheme = createMuiTheme({
       head:{
         color: common.white,
       }
-    }
+    },
+    MuiList: {
+      padding:{
+        paddingTop: 0,
+        paddingBottom: 0
+      }
+    },
   },
   props: {
     MuiOutlinedInput: {

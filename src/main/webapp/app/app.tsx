@@ -17,7 +17,7 @@ import {hasAnyAuthority} from 'app/shared/auth/private-route';
 import ErrorBoundary from 'app/shared/error/error-boundary';
 import {AUTHORITIES} from 'app/config/constants';
 import {StylesProvider, jssPreset, ThemeProvider} from "@material-ui/core/styles";
-import {CssBaseline} from '@material-ui/core';
+import {CssBaseline, Grid} from '@material-ui/core';
 import myTollTheme from "app/ContextManager";
 import AppRoutes from 'app/routes';
 import {create} from "jss";
@@ -38,32 +38,32 @@ export const App = (props: IAppProps) => {
     props.getProfile();
   }, []);
 
-  const paddingTop = '80px';
+  const paddingTop = '70px';
   return (
     <StylesProvider jss={jss}>
       <ThemeProvider theme={myTollTheme}>
         <CssBaseline/>
         <Router basename={baseHref}>
-          <div className="app-container" style={{paddingTop}}>
-            <ToastContainer position={toast.POSITION.TOP_LEFT} className="toastify-container"
-                            toastClassName="toastify-toast"/>
-            <ErrorBoundary>
-              <Header
-                isAuthenticated={props.isAuthenticated}
-                isAdmin={props.isAdmin}
-                currentLocale={props.currentLocale}
-                onLocaleChange={props.setLocale}
-                ribbonEnv={props.ribbonEnv}
-                isInProduction={props.isInProduction}
-                isSwaggerEnabled={props.isSwaggerEnabled}
-              />
-            </ErrorBoundary>
-            <div className="container-fluid view-container" id="app-view-container">
+          <ToastContainer position={toast.POSITION.BOTTOM_LEFT} className="toastify-container"
+                          toastClassName="toastify-toast"/>
+          <ErrorBoundary>
+            <Header
+              isAuthenticated={props.isAuthenticated}
+              isAdmin={props.isAdmin}
+              currentLocale={props.currentLocale}
+              onLocaleChange={props.setLocale}
+              ribbonEnv={props.ribbonEnv}
+              isInProduction={props.isInProduction}
+              isSwaggerEnabled={props.isSwaggerEnabled}
+            />
+          </ErrorBoundary>
+          <Grid container spacing={2} style={{paddingTop}}>
+            <Grid item style={{padding: 15}}>
               <ErrorBoundary>
                 <AppRoutes/>
               </ErrorBoundary>
-            </div>
-          </div>
+            </Grid>
+          </Grid>
           <Footer/>
         </Router>
       </ThemeProvider>

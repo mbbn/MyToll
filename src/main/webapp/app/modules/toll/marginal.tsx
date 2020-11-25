@@ -1,7 +1,6 @@
 import React from 'react';
 import {useHistory} from 'react-router';
-import {Button} from '@material-ui/core'
-import Grid from '@material-ui/core/Grid';
+import {Grid, Divider, Button} from '@material-ui/core'
 import {Formik} from 'formik';
 import {translate} from 'react-jhipster';
 import Plate from "app/component/plate";
@@ -37,11 +36,11 @@ export const Marginal = (props: IMarginalProps) => {
   return (<>
     <Formik initialValues={{}} validate={values => isValid(values)} onSubmit={save}>{({handleSubmit, errors, values, handleChange, handleBlur, setFieldValue}) => (
       <form onSubmit={handleSubmit}>
-        <Grid container>
+        <Grid container justify={"center"}>
           <Plate name={'plate'} error={errors['plate'] !== undefined}
                  helperText={errors['plate'] ? String(errors['plate']) : ''}
                  onBlurPlate={handleBlur} onChangePlate={plateCode => setFieldValue('plate', plateCode)}/>
-          <TextField name={'mobile'} onBlur={handleBlur} maxLength={11} required
+          <TextField name={'mobile'} onBlur={handleBlur} maxLength={11} required autoComplete={'off'}
                      error={errors['mobile'] !== undefined} helperText={errors['mobile']}
                      label={translate('myTollApp.customer.mobile')} onChange={event => {
             const reg = /^\d+$/;
@@ -50,8 +49,7 @@ export const Marginal = (props: IMarginalProps) => {
             }
             handleChange(event);
           }}/>
-        </Grid>
-        <Grid container justify={"center"}>
+          <Divider variant={"fullWidth"} component={'div'}/>
           <Button type={'submit'} color={"primary"} variant={"contained"} fullWidth={true} style={{minHeight: 50, fontSize: 20}}>
             {translate('entity.action.inquiry')}
           </Button>

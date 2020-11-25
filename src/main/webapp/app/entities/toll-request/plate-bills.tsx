@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {RouteComponentProps} from 'react-router-dom';
-import {Grid, Card, CardContent, CardActions, Checkbox, Button} from '@material-ui/core'
+import {Grid, Paper, Divider, Checkbox, Button} from '@material-ui/core'
 import {connect} from 'react-redux';
 import {translate} from 'react-jhipster';
 import {IRootState} from "app/shared/reducers";
@@ -66,61 +66,58 @@ export const PlateBills = (props: IPlateBillsProps) => {
   return (<>
     <Grid container spacing={1}>
       <Grid xs={12} sm={6} md={4} item>
-        <Card>
-          <CardContent>
-            <Plate editable={false} plateCode={String(plate)}/>
-            {bills && bills.length > 0 ? (<>
-              <Grid container alignItems={"flex-start"} spacing={1}>
-                <Grid item xs={12} sm={6} md={4}>
-                  <Checkbox size={"medium"} checked={selectedBills.length === bills.length}
-                            onChange={(event, checked) => {
-                              if (checked) {
-                                setSelectedBills(Object.assign([], bills));
-                              } else {
-                                setSelectedBills([]);
-                              }
-                            }}/>
-                  {translate('myTollApp.tollRequest.plateBills.selectAll')}
-                </Grid>
+        <Paper elevation={5}>
+          <Plate editable={false} plateCode={String(plate)}/>
+          {bills && bills.length > 0 ? (<>
+            <Grid container alignItems={"flex-start"} spacing={1}>
+              <Grid item xs={12} sm={6} md={4}>
+                <Checkbox size={"medium"} checked={selectedBills.length === bills.length}
+                          onChange={(event, checked) => {
+                            if (checked) {
+                              setSelectedBills(Object.assign([], bills));
+                            } else {
+                              setSelectedBills([]);
+                            }
+                          }}/>
+                {translate('myTollApp.tollRequest.plateBills.selectAll')}
               </Grid>
-              {bills.map(bill => <Grid container key={"row-" + bill.billId} spacing={1} direction={"row"} alignContent={"flex-start"} alignItems={"flex-start"} justify={"flex-start"}>
-                <Grid item xs={1} sm={2} md={1} key={"check-" + bill.billId}>
-                  <Checkbox size={"medium"}
-                            checked={selectedBills.findIndex(selectedBill => bill.billId === selectedBill.billId) > -1}
-                            onChange={(event, checked) => {
-                              if (checked) {
-                                const list = Object.assign([], selectedBills);
-                                list.push(bill);
-                                setSelectedBills(list);
-                              } else {
-                                setSelectedBills(selectedBills.filter(selectedBill => bill.billId !== selectedBill.billId));
-                              }
-                            }}/>
-                </Grid>
-                <Grid item xs={11} sm={10} md={11} key={"bill-" + bill.billId}>
-                  <BillDisplay key={bill.billId} bill={bill}
-                               selected={selectedBills.findIndex(selectedBill => bill.billId === selectedBill.billId) > -1}/>
-                </Grid>
-              </Grid>)}
-            </>) : (<Alert color={'warning'}>
-              <Translate contentKey="myTollApp.tollRequest.home.notFound">No Plates found</Translate>
-            </Alert>)}
-            {selectedBills ?
-              <Translate contentKey={'home.payNotify'}
-                         interpolate={{
-                           billCount: convertEnglishNumberToPersian(selectedBills.length),
-                           totalAmount: convertEnglishNumberToPersian(totalAmount)
-                         }}/> : null}
-          </CardContent>
-          <CardActions>
-            <Grid container justify={"center"}>
-              <Button type={'submit'} color={"primary"} variant={"contained"} fullWidth={true}
-                      style={{minHeight: 50, fontSize: 20}} onClick={handlePay}>
-                {translate('entity.action.pay')}
-              </Button>
             </Grid>
-          </CardActions>
-        </Card>
+            {bills.map(bill => <Grid container key={"row-" + bill.billId} spacing={1} direction={"row"} alignContent={"flex-start"} alignItems={"flex-start"} justify={"flex-start"}>
+              <Grid item xs={1} sm={2} md={1} key={"check-" + bill.billId}>
+                <Checkbox size={"medium"}
+                          checked={selectedBills.findIndex(selectedBill => bill.billId === selectedBill.billId) > -1}
+                          onChange={(event, checked) => {
+                            if (checked) {
+                              const list = Object.assign([], selectedBills);
+                              list.push(bill);
+                              setSelectedBills(list);
+                            } else {
+                              setSelectedBills(selectedBills.filter(selectedBill => bill.billId !== selectedBill.billId));
+                            }
+                          }}/>
+              </Grid>
+              <Grid item xs={11} sm={10} md={11} key={"bill-" + bill.billId}>
+                <BillDisplay key={bill.billId} bill={bill}
+                             selected={selectedBills.findIndex(selectedBill => bill.billId === selectedBill.billId) > -1}/>
+              </Grid>
+            </Grid>)}
+          </>) : (<Alert color={'warning'}>
+            <Translate contentKey="myTollApp.tollRequest.home.notFound">No Plates found</Translate>
+          </Alert>)}
+          <Divider style={{marginTop: 5, marginBottom: 5}}/>
+          {selectedBills ?
+            <Translate contentKey={'home.payNotify'}
+                       interpolate={{
+                         billCount: convertEnglishNumberToPersian(selectedBills.length),
+                         totalAmount: convertEnglishNumberToPersian(totalAmount)
+                       }}/> : null}
+          <Grid container justify={"center"}>
+            <Button type={'submit'} color={"primary"} variant={"contained"} fullWidth={true}
+                    style={{minHeight: 50, fontSize: 20}} onClick={handlePay}>
+              {translate('entity.action.pay')}
+            </Button>
+          </Grid>
+        </Paper>
       </Grid>
     </Grid>
     <Backdrop open={open} className={classes.backdrop}>

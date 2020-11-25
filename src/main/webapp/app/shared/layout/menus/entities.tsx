@@ -7,10 +7,10 @@ import {translate} from 'react-jhipster';
 export const EntitiesMenu = props => {
   const [entityMenu, setEntityMenu] = useState(null);
   return (
-    <div style={{width: 135}}>
+    <div>
       <MenuItem onClick={(event)=>{setEntityMenu(event.currentTarget)}} style={{color: common.white}}>
         <ListItemText>{translate('global.menu.entities.main')}</ListItemText>
-        <ListItemIcon aria-controls="account-menu" aria-haspopup="true" style={{color: common.white}}>
+        <ListItemIcon aria-controls="account-menu" aria-haspopup="true" style={{color: common.white, minWidth: 'auto'}}>
           {entityMenu ? <KeyboardArrowDown/>:<KeyboardArrowLeft/>}
         </ListItemIcon>
       </MenuItem>

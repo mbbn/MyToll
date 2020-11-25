@@ -2,11 +2,10 @@ import './home.scss';
 
 import React, {useState} from 'react';
 import {connect} from 'react-redux';
-import {Alert} from '@material-ui/lab';
 import {Freeway} from "app/modules/toll/freeway";
 import Marginal from "app/modules/toll/marginal";
-import {Translate, translate} from 'react-jhipster';
-import {AppBar, Tabs, Tab, Card, CardHeader, CardContent, Grid, Link} from '@material-ui/core';
+import {translate} from 'react-jhipster';
+import {Tabs, Tab, Paper, Divider, Grid} from '@material-ui/core';
 
 export type IHomeProp = StateProps;
 
@@ -17,32 +16,29 @@ export const Home = (props: IHomeProp) => {
   return (
     <Grid container spacing={2}>
       <Grid sm={4} item>
-        <Card>
-          <AppBar position="static" color="default">
-            <Tabs aria-label="simple tabs example" value={activeTab} onChange={(event, value) => {setActiveTab(value)}}>
-              <Tab id={'toll-0'} label={translate('home.tabs.marginalTolls')} icon={<img alt={translate('home.tabs.marginalTolls')} src="./content/images/park.png"/>}/>
-              <Tab disabled={true} id={'toll-1'} label={translate('home.tabs.freeWayTolls')} icon={<img alt={translate('home.tabs.freeWayTolls')} src="./content/images/Freeway.png"/>}/>
-            </Tabs>
-          </AppBar>
-          <CardContent>
-            <div
-              role="tabpanel"
-              hidden={activeTab !== 0}
-              id={`toll-0`}
-              aria-labelledby={`simple-tab-0`}
-            >
-              <Marginal/>
-            </div>
-            <div
-              role="tabpanel"
-              hidden={activeTab !== 1}
-              id={`toll-1`}
-              aria-labelledby={`simple-tab-1`}
-            >
-              <Freeway/>
-            </div>
-          </CardContent>
-        </Card>
+        <Paper elevation={2} square={true}>
+          <Tabs aria-label="simple tabs example" value={activeTab} onChange={(event, value) => {setActiveTab(value)}}>
+            <Tab id={'toll-0'} label={translate('home.tabs.marginalTolls')} icon={<img alt={translate('home.tabs.marginalTolls')} src="./content/images/park.png"/>}/>
+            <Tab disabled={true} id={'toll-1'} label={translate('home.tabs.freeWayTolls')} icon={<img alt={translate('home.tabs.freeWayTolls')} src="./content/images/Freeway.png"/>}/>
+          </Tabs>
+          <Divider style={{marginBottom:10}}/>
+          <div
+            role="tabpanel"
+            hidden={activeTab !== 0}
+            id={`toll-0`}
+            aria-labelledby={`simple-tab-0`}
+          >
+            <Marginal/>
+          </div>
+          <div
+            role="tabpanel"
+            hidden={activeTab !== 1}
+            id={`toll-1`}
+            aria-labelledby={`simple-tab-1`}
+          >
+            <Freeway/>
+          </div>
+        </Paper>
       </Grid>
       <Grid sm={8} item>
         {/* <Card>

@@ -1,26 +1,30 @@
 import React, {useState} from 'react';
 import {useHistory} from 'react-router';
 import {withStyles} from '@material-ui/core/styles';
-import {Paper, Menu, MenuProps, MenuItem, ListItemIcon, ListItemText} from '@material-ui/core';
+import {Divider, Menu, MenuProps, MenuItem, ListItemIcon, ListItemText} from '@material-ui/core';
 import {common} from '@material-ui/core/colors';
-import {KeyboardArrowDown, KeyboardArrowLeft, Input, PersonAdd, Lock, ExitToApp} from '@material-ui/icons';
+import {KeyboardArrowDown, KeyboardArrowLeft, Input, Settings, Lock, ExitToApp} from '@material-ui/icons';
 import {translate} from 'react-jhipster';
 
 const StyledMenu = withStyles({
   paper: {
+    marginTop: 10,
     border: '1px solid #d3d4d5',
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: 0,
+    padding: 0
   },
 })((props: MenuProps) => (
   <Menu
-    elevation={0}
+    elevation={1}
     getContentAnchorEl={null}
     anchorOrigin={{
       vertical: 'bottom',
-      horizontal: 'center',
+      horizontal: 'right',
     }}
     transformOrigin={{
       vertical: 'top',
-      horizontal: 'center',
+      horizontal: 'right',
     }}
     {...props}
   />
@@ -29,10 +33,10 @@ const StyledMenu = withStyles({
 export const AccountMenu = ({ isAuthenticated = false }) => {
   const [adminMenu, setAdminMenu] = useState(null);
   const history = useHistory();
-  return <div style={{width: 120}}>
+  return <div>
     <MenuItem onClick={(event)=>{setAdminMenu(event.currentTarget)}} style={{color: common.white}}>
       <ListItemText>{translate('global.menu.account.main')}</ListItemText>
-      <ListItemIcon aria-controls="account-menu" aria-haspopup="true" style={{color: common.white}}>
+      <ListItemIcon aria-controls="account-menu" aria-haspopup="true" style={{color: common.white, minWidth:'auto'}}>
         {adminMenu ? <KeyboardArrowDown/>:<KeyboardArrowLeft/>}
       </ListItemIcon>
     </MenuItem>
@@ -42,18 +46,20 @@ export const AccountMenu = ({ isAuthenticated = false }) => {
           onClose={() => setAdminMenu(false)}
           open={Boolean(adminMenu)}>
       {isAuthenticated ? <>
-        {/* <MenuItem onClick={()=>{history.push('./account/settings');setAdminMenu(false);}}>
+         <MenuItem onClick={()=>{history.push('./account/settings');setAdminMenu(false);}}>
           <ListItemIcon>
-            <AccountCircle/>
+            <Settings/>
           </ListItemIcon>
           <ListItemText>{translate('global.menu.account.settings')}</ListItemText>
         </MenuItem>
+        <Divider/>
         <MenuItem onClick={()=>{history.push('./account/password');setAdminMenu(false);}}>
           <ListItemIcon>
             <Lock/>
           </ListItemIcon>
           <ListItemText>{translate('global.menu.account.password')}</ListItemText>
-        </MenuItem>*/}
+        </MenuItem>
+        <Divider/>
         <MenuItem onClick={()=>{history.push('./logout');setAdminMenu(false);}}>
           <ListItemIcon>
             <ExitToApp/>
