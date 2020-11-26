@@ -141,7 +141,7 @@ jhipster:
   #     allow-credentials: true
   #     max-age: 1800
   mail:
-    from: MyToll@localhost
+    from: info@danyar.ir
   swagger:
     default-include-pattern: /api/.*
     title: MyToll API

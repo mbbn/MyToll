@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import {Select as MuiSelect, SelectProps, FormControl, FormHelperText} from '@material-ui/core'
-import MenuItem from '@material-ui/core/MenuItem';
+import {Select as MuiSelect, SelectProps, FormControl, FormLabel, FormHelperText} from '@material-ui/core'
 
 export interface ISelectProps {
   name: string;
+  error?: boolean;
+  helperText?: any;
 }
 
 const Select = (props: ISelectProps & SelectProps) => {
-  const {name, style, variant, children} = props;
+  const {name, error, helperText, style, variant, children, label} = props;
   return (
-    <FormControl style={style}>
-      <MuiSelect fullWidth={true} name={name} variant={variant ? variant : "outlined"} {...props}>
+    <FormControl style={style} fullWidth={true} size={"small"}>
+      <FormLabel>{label}</FormLabel>
+      <MuiSelect name={name} variant={variant ? variant : "outlined"} {...props}>
         {children}
       </MuiSelect>
+      <FormHelperText error={error}>{helperText}</FormHelperText>
     </FormControl>);
 };
 

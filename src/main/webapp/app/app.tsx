@@ -44,7 +44,7 @@ export const App = (props: IAppProps) => {
       <ThemeProvider theme={myTollTheme}>
         <CssBaseline/>
         <Router basename={baseHref}>
-          <ToastContainer position={toast.POSITION.BOTTOM_LEFT} className="toastify-container"
+          <ToastContainer position={toast.POSITION.TOP_LEFT} className="toastify-container"
                           toastClassName="toastify-toast"/>
           <ErrorBoundary>
             <Header
@@ -57,8 +57,8 @@ export const App = (props: IAppProps) => {
               isSwaggerEnabled={props.isSwaggerEnabled}
             />
           </ErrorBoundary>
-          <Grid container spacing={2} style={{paddingTop}}>
-            <Grid item style={{padding: 15}}>
+          <Grid container spacing={2} style={{paddingTop, minHeight: '90vh'}}>
+            <Grid item xs={12} style={{padding: 15}}>
               <ErrorBoundary>
                 <AppRoutes/>
               </ErrorBoundary>

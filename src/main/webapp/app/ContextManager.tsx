@@ -23,7 +23,6 @@ const myTollTheme = createMuiTheme({
     },
     MuiToolbar: {
       root:{
-        color: common.white,
         fontFamily: 'IRANSansWeb'
       }
     },
@@ -63,18 +62,18 @@ const myTollTheme = createMuiTheme({
     },
     MuiTable:{
       stickyHeader:{
-        backgroundColor: red["500"]
+        // backgroundColor: red["500"]
       }
     },
     MuiTableRow: {
       head: {
-        color: common.white,
-        backgroundColor: grey["900"]
+        // color: common.white,
+        // backgroundColor: grey["900"]
       },
     },
     MuiTableCell: {
       head:{
-        color: common.white,
+        // color: common.white,
       }
     },
     MuiList: {
@@ -82,7 +81,7 @@ const myTollTheme = createMuiTheme({
         paddingTop: 0,
         paddingBottom: 0
       }
-    },
+    }
   },
   props: {
     MuiOutlinedInput: {
@@ -106,7 +105,7 @@ const myTollTheme = createMuiTheme({
     type: "light",
     primary: {
       main: grey["900"],
-      contrastText: common.white
+      // contrastText: common.white
     },
     text:{
 

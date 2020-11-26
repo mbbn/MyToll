@@ -66,9 +66,9 @@ const Header = (props: IHeaderProps) => {
         <Toolbar variant={"dense"}>
           <Home/>
           {props.isAuthenticated && <EntitiesMenu />}
-           {/*{props.isAuthenticated && props.isAdmin && (
+           {props.isAuthenticated && props.isAdmin && (
             <AdminMenu showSwagger={props.isSwaggerEnabled} showDatabase={!props.isInProduction} />
-          )}*/}
+          )}
           <AccountMenu isAuthenticated={props.isAuthenticated} />
           <Brand/>
         </Toolbar>

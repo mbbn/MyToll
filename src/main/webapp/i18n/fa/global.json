@@ -94,6 +94,7 @@
     "ribbon": {
       "dev": "در حال توسعه"
     },
+    "rows-per-page": "سطر در صفحه",
     "item-count": "نمایش {{first}} - {{second}} از {{total}} مورد."
   },
   "entity": {

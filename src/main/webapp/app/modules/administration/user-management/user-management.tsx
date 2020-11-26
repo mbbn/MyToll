@@ -1,15 +1,59 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Link, RouteComponentProps } from 'react-router-dom';
-import { Button, Table, Row, Badge, Card, CardHeader, CardBody, CardFooter } from 'reactstrap';
-import { Translate, TextFormat, JhiPagination, JhiItemCount, getSortState } from 'react-jhipster';
+import {RouteComponentProps } from 'react-router-dom';
+import { Translate, getSortState } from 'react-jhipster';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  Paper,
+  TableContainer,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  TableSortLabel,
+  Link,
+  Button,
+  Badge,
+  TableFooter,
+  TablePagination
+} from '@material-ui/core';
+import { translate } from 'react-jhipster';
 
 import { APP_DATE_FORMAT } from 'app/config/constants';
 import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
 import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
 import { getUsers, updateUser } from './user-management.reducer';
 import { IRootState } from 'app/shared/reducers';
+import {dateToJalaliStrWithFormat} from "app/component/datePicker";
+import {green, red, blueGrey} from '@material-ui/core/colors';
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      width: '100%',
+    },
+    paper: {
+      width: '100%',
+      marginBottom: theme.spacing(2),
+    },
+    table: {
+      minWidth: 750,
+    },
+    visuallyHidden: {
+      border: 0,
+      clip: 'rect(0 0 0 0)',
+      height: 1,
+      margin: -1,
+      overflow: 'hidden',
+      padding: 0,
+      position: 'absolute',
+      top: 20,
+      width: 1,
+    },
+  }),
+);
 
 export interface IUserManagementProps extends StateProps, DispatchProps, RouteComponentProps<{}> {}
 
@@ -61,149 +105,164 @@ export const UserManagement = (props: IUserManagementProps) => {
     });
 
   const { users, account, match, totalItems } = props;
+  const classes = useStyles();
   return (
-    <Card>
-      <CardHeader>
-        <h2 id="user-management-page-heading">
-          <Translate contentKey="userManagement.home.title">Users</Translate>
-          <Link to={`${match.url}/new`} className="btn btn-primary float-right jh-create-entity">
-            <FontAwesomeIcon icon="plus" /> <Translate contentKey="userManagement.home.createLabel">Create a new user</Translate>
-          </Link>
-        </h2>
-      </CardHeader>
-      <CardBody>
-        <Table responsive striped>
-          <thead className="thead-dark">
-          <tr>
-            <th className="hand" onClick={sort('id')}>
-              <Translate contentKey="global.field.id">ID</Translate>
-              <FontAwesomeIcon icon="sort" />
-            </th>
-            <th className="hand" onClick={sort('login')}>
-              <Translate contentKey="userManagement.login">Login</Translate>
-              <FontAwesomeIcon icon="sort" />
-            </th>
-            <th className="hand" onClick={sort('email')}>
-              <Translate contentKey="userManagement.email">Email</Translate>
-              <FontAwesomeIcon icon="sort" />
-            </th>
-            <th />
-            <th className="hand" onClick={sort('langKey')}>
-              <Translate contentKey="userManagement.langKey">Lang Key</Translate>
-              <FontAwesomeIcon icon="sort" />
-            </th>
-            <th>
-              <Translate contentKey="userManagement.profiles">Profiles</Translate>
-            </th>
-            <th className="hand" onClick={sort('createdDate')}>
-              <Translate contentKey="userManagement.createdDate">Created Date</Translate>
-              <FontAwesomeIcon icon="sort" />
-            </th>
-            <th className="hand" onClick={sort('lastModifiedBy')}>
-              <Translate contentKey="userManagement.lastModifiedBy">Last Modified By</Translate>
-              <FontAwesomeIcon icon="sort" />
-            </th>
-            <th id="modified-date-sort" className="hand" onClick={sort('lastModifiedDate')}>
-              <Translate contentKey="userManagement.lastModifiedDate">Last Modified Date</Translate>
-              <FontAwesomeIcon icon="sort" />
-            </th>
-            <th />
-          </tr>
-          </thead>
-          <tbody>
-          {users.map((user, i) => (
-            <tr id={user.login} key={`user-${i}`}>
-              <td>
-                <Button tag={Link} to={`${match.url}/${user.login}`} color="link" size="sm">
-                  {user.id}
-                </Button>
-              </td>
-              <td>{user.login}</td>
-              <td>{user.email}</td>
-              <td>
-                {user.activated ? (
-                  <Button color="success" onClick={toggleActive(user)}>
-                    <Translate contentKey="userManagement.activated">Activated</Translate>
+    <Paper elevation={2}>
+      <h2 id="user-management-page-heading">
+        <Translate contentKey="userManagement.home.title">Users</Translate>
+        <Link href={`${match.url}/new`} className={'btn btn-primary float-right jh-create-entity'}>
+          <FontAwesomeIcon icon="plus" /> <Translate contentKey="userManagement.home.createLabel">Create a new user</Translate>
+        </Link>
+      </h2>
+      <TableContainer component={Paper}>
+        <Table size={"small"}>
+          <TableHead>
+            <TableRow>
+              <TableCell onClick={() => sort('id')}>
+                <TableSortLabel>
+                  <Translate contentKey="global.field.id">ID</Translate>
+                  {pagination.sort === 'id' ? (
+                    <span className={classes.visuallyHidden}>
+                    {pagination.order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                </span>
+                  ) : null}
+                </TableSortLabel>
+              </TableCell>
+              <TableCell onClick={() => sort('login')}>
+                <TableSortLabel>
+                  <Translate contentKey="userManagement.login">Login</Translate>
+                  {pagination.sort === 'login' ? (
+                    <span className={classes.visuallyHidden}>
+                    {pagination.order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                </span>
+                  ) : null}
+                </TableSortLabel>
+              </TableCell>
+              <TableCell onClick={() => sort('email')}>
+                <TableSortLabel>
+                  <Translate contentKey="userManagement.email">Email</Translate>
+                  {pagination.sort === 'email' ? (
+                    <span className={classes.visuallyHidden}>
+                    {pagination.order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                </span>
+                  ) : null}
+                </TableSortLabel>
+              </TableCell>
+              <TableCell onClick={() => sort('profiles')}>
+                <TableSortLabel>
+                  <Translate contentKey="userManagement.profiles">Profiles</Translate>
+                  {pagination.sort === 'profiles' ? (
+                    <span className={classes.visuallyHidden}>
+                    {pagination.order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                </span>
+                  ) : null}
+                </TableSortLabel>
+              </TableCell>
+              <TableCell/>
+              <TableCell onClick={() => sort('createdDate')}>
+                <TableSortLabel>
+                  <Translate contentKey="userManagement.createdDate">Created Date</Translate>
+                  {pagination.sort === 'createdDate' ? (
+                    <span className={classes.visuallyHidden}>
+                    {pagination.order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                </span>
+                  ) : null}
+                </TableSortLabel>
+              </TableCell>
+              <TableCell onClick={() => sort('lastModifiedBy')}>
+                <TableSortLabel>
+                  <Translate contentKey="userManagement.lastModifiedBy">Last Modified By</Translate>
+                  {pagination.sort === 'lastModifiedBy' ? (
+                    <span className={classes.visuallyHidden}>
+                    {pagination.order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                </span>
+                  ) : null}
+                </TableSortLabel>
+              </TableCell>
+              <TableCell onClick={() => sort('lastModifiedDate')}>
+                <TableSortLabel>
+                  <Translate contentKey="userManagement.lastModifiedDate">Last Modified Date</Translate>
+                  {pagination.sort === 'lastModifiedDate' ? (
+                    <span className={classes.visuallyHidden}>
+                    {pagination.order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                </span>
+                  ) : null}
+                </TableSortLabel>
+              </TableCell>
+              <TableCell/>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {users.map((user, i) => (
+              <TableRow key={'user_'+i}>
+                <TableCell>
+                  <Link href={`${match.url}/${user.login}`}>{user.id}</Link>
+                </TableCell>
+                <TableCell>{user.login}</TableCell>
+                <TableCell>{user.email}</TableCell>
+                <TableCell>
+                  {user.authorities
+                    ? user.authorities.map((authority, j) => (
+                      <div key={`user-auth-${i}-${j}`}>
+                        <Badge>{authority}</Badge>
+                      </div>
+                    ))
+                    : null}
+                </TableCell>
+                <TableCell>
+                  {user.activated ? (
+                    <Button color={"primary"} style={{color: green["500"]}} onClick={toggleActive(user)}>
+                      <Translate contentKey="userManagement.activated">Activated</Translate>
+                    </Button>
+                  ) : (
+                    <Button color={"primary"} style={{color: red["500"]}} onClick={toggleActive(user)}>
+                      <Translate contentKey="userManagement.deactivated">Deactivated</Translate>
+                    </Button>
+                  )}
+                </TableCell>
+                <TableCell>
+                  {user.createdDate ? dateToJalaliStrWithFormat(user.createdDate, APP_DATE_FORMAT) : null}
+                </TableCell>
+                <TableCell>{user.lastModifiedBy}</TableCell>
+                <TableCell>
+                  {user.lastModifiedDate ? dateToJalaliStrWithFormat(user.lastModifiedDate, APP_DATE_FORMAT) : null}
+                </TableCell>
+                <TableCell>
+                  <Button href={`${match.url}/${user.login}`} size={"small"} style={{color: blueGrey["500"]}} startIcon={<FontAwesomeIcon icon="eye" />}>
+                    <Translate contentKey="entity.action.view">View</Translate>
                   </Button>
-                ) : (
-                  <Button color="danger" onClick={toggleActive(user)}>
-                    <Translate contentKey="userManagement.deactivated">Deactivated</Translate>
+                  <Button href={`${match.url}/${user.login}/edit`} size={"small"} style={{color: green["500"]}} startIcon={<FontAwesomeIcon icon="pencil-alt" />}>
+                    <Translate contentKey="entity.action.edit">Edit</Translate>
                   </Button>
-                )}
-              </td>
-              <td>{user.langKey}</td>
-              <td>
-                {user.authorities
-                  ? user.authorities.map((authority, j) => (
-                    <div key={`user-auth-${i}-${j}`}>
-                      <Badge color="info">{authority}</Badge>
-                    </div>
-                  ))
-                  : null}
-              </td>
-              <td>
-                {user.createdDate ? <TextFormat value={user.createdDate} type="date" format={APP_DATE_FORMAT} blankOnInvalid /> : null}
-              </td>
-              <td>{user.lastModifiedBy}</td>
-              <td>
-                {user.lastModifiedDate ? (
-                  <TextFormat value={user.lastModifiedDate} type="date" format={APP_DATE_FORMAT} blankOnInvalid />
-                ) : null}
-              </td>
-              <td className="text-right">
-                <div className="btn-group flex-btn-group-container">
-                  <Button tag={Link} to={`${match.url}/${user.login}`} color="info" size="sm">
-                    <FontAwesomeIcon icon="eye" />{' '}
-                    <span className="d-none d-md-inline">
-                      <Translate contentKey="entity.action.view">View</Translate>
-                    </span>
+                  <Button href={`${match.url}/${user.login}/delete`} size={"small"} style={{color: red["500"]}} startIcon={<FontAwesomeIcon icon="trash" />}>
+                    <Translate contentKey="entity.action.delete">Delete</Translate>
                   </Button>
-                  <Button tag={Link} to={`${match.url}/${user.login}/edit`} color="primary" size="sm">
-                    <FontAwesomeIcon icon="pencil-alt" />{' '}
-                    <span className="d-none d-md-inline">
-                      <Translate contentKey="entity.action.edit">Edit</Translate>
-                    </span>
-                  </Button>
-                  <Button
-                    tag={Link}
-                    to={`${match.url}/${user.login}/delete`}
-                    color="danger"
-                    size="sm"
-                    disabled={account.login === user.login}
-                  >
-                    <FontAwesomeIcon icon="trash" />{' '}
-                    <span className="d-none d-md-inline">
-                      <Translate contentKey="entity.action.delete">Delete</Translate>
-                    </span>
-                  </Button>
-                </div>
-              </td>
-            </tr>
-          ))}
-          </tbody>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+          <TableFooter>
+            <TableRow>
+              <TablePagination rowsPerPageOptions={[5, 10, 20, 50]} variant={"footer"}
+                               labelDisplayedRows={paginationInfo => translate('global.item-count', {
+                                 'first': paginationInfo.from,
+                                 'second': paginationInfo.to,
+                                 'total': paginationInfo.count
+                               })}
+                               labelRowsPerPage={translate('global.rows-per-page')} count={props.totalItems}
+                               rowsPerPage={pagination.itemsPerPage}
+                               page={pagination.activePage} onChangePage={(event, page) => handlePagination(page)}
+                               onChangeRowsPerPage={event => {
+                                 setPagination({
+                                   ...pagination,
+                                   itemsPerPage: Number(event.target.value)
+                                 });
+                               }}/>
+            </TableRow>
+          </TableFooter>
         </Table>
-      </CardBody>
-      <CardFooter>
-        {props.totalItems ? (
-          <div className={users && users.length > 0 ? '' : 'd-none'}>
-            <Row className="justify-content-center">
-              <JhiItemCount page={pagination.activePage} total={totalItems} itemsPerPage={pagination.itemsPerPage} i18nEnabled />
-            </Row>
-            <Row className="justify-content-center">
-              <JhiPagination
-                activePage={pagination.activePage}
-                onSelect={handlePagination}
-                maxButtons={5}
-                itemsPerPage={pagination.itemsPerPage}
-                totalItems={props.totalItems}
-              />
-            </Row>
-          </div>
-        ) : (
-          ''
-        )}
-      </CardFooter>
-    </Card>
+      </TableContainer>
+    </Paper>
   );
 };
 

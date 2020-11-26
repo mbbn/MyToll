@@ -3,7 +3,7 @@ import {useHistory} from 'react-router';
 import {withStyles} from '@material-ui/core/styles';
 import {Divider, Menu, MenuProps, MenuItem, ListItemIcon, ListItemText} from '@material-ui/core';
 import {common} from '@material-ui/core/colors';
-import {KeyboardArrowDown, KeyboardArrowLeft, Input, Settings, Lock, ExitToApp} from '@material-ui/icons';
+import {KeyboardArrowDown, KeyboardArrowLeft, Input, Settings, Lock, PersonAdd, ExitToApp} from '@material-ui/icons';
 import {translate} from 'react-jhipster';
 
 const StyledMenu = withStyles({
@@ -31,54 +31,54 @@ const StyledMenu = withStyles({
 ));
 
 export const AccountMenu = ({ isAuthenticated = false }) => {
-  const [adminMenu, setAdminMenu] = useState(null);
+  const [accountMenu, setAccountMenu] = useState(null);
   const history = useHistory();
   return <div>
-    <MenuItem onClick={(event)=>{setAdminMenu(event.currentTarget)}} style={{color: common.white}}>
+    <MenuItem onClick={(event)=>{setAccountMenu(event.currentTarget)}} style={{color: common.white}}>
       <ListItemText>{translate('global.menu.account.main')}</ListItemText>
       <ListItemIcon aria-controls="account-menu" aria-haspopup="true" style={{color: common.white, minWidth:'auto'}}>
-        {adminMenu ? <KeyboardArrowDown/>:<KeyboardArrowLeft/>}
+        {accountMenu ? <KeyboardArrowDown/>:<KeyboardArrowLeft/>}
       </ListItemIcon>
     </MenuItem>
     <StyledMenu id="account-menu"
-          anchorEl={adminMenu}
+          anchorEl={accountMenu}
           keepMounted
-          onClose={() => setAdminMenu(false)}
-          open={Boolean(adminMenu)}>
+          onClose={() => setAccountMenu(false)}
+          open={Boolean(accountMenu)}>
       {isAuthenticated ? <>
-         <MenuItem onClick={()=>{history.push('./account/settings');setAdminMenu(false);}}>
+         <MenuItem onClick={()=>{history.push('/account/settings');setAccountMenu(false);}}>
           <ListItemIcon>
             <Settings/>
           </ListItemIcon>
           <ListItemText>{translate('global.menu.account.settings')}</ListItemText>
         </MenuItem>
         <Divider/>
-        <MenuItem onClick={()=>{history.push('./account/password');setAdminMenu(false);}}>
+        <MenuItem onClick={()=>{history.push('/account/password');setAccountMenu(false);}}>
           <ListItemIcon>
             <Lock/>
           </ListItemIcon>
           <ListItemText>{translate('global.menu.account.password')}</ListItemText>
         </MenuItem>
         <Divider/>
-        <MenuItem onClick={()=>{history.push('./logout');setAdminMenu(false);}}>
+        <MenuItem onClick={()=>{history.push('/logout');setAccountMenu(false);}}>
           <ListItemIcon>
             <ExitToApp/>
           </ListItemIcon>
           <ListItemText>{translate('global.menu.account.logout')}</ListItemText>
         </MenuItem>
       </> : <>
-        <MenuItem onClick={()=>{history.push('./login');setAdminMenu(false);}}>
+        <MenuItem onClick={()=>{history.push('/login');setAccountMenu(false);}}>
           <ListItemIcon>
             <Input/>
           </ListItemIcon>
           <ListItemText>{translate('global.menu.account.login')}</ListItemText>
         </MenuItem>
-        {/* <MenuItem onClick={()=>{history.push('./account/register');setAdminMenu(false);}}>
+        <MenuItem onClick={()=>{history.push('/account/register');setAccountMenu(false);}}>
           <ListItemIcon>
             <PersonAdd/>
           </ListItemIcon>
           <ListItemText>{translate('global.menu.account.register')}</ListItemText>
-        </MenuItem>*/}
+        </MenuItem>
           </>}
     </StyledMenu>
   </div>;

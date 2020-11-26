@@ -1,7 +1,7 @@
 import React from 'react';
-import { Translate, translate } from 'react-jhipster';
+import {Translate, translate} from 'react-jhipster';
 import {Formik} from 'formik';
-import {Dialog, DialogTitle, DialogContent, DialogActions} from '@material-ui/core';
+import {Dialog, DialogTitle, DialogContent, DialogActions, Link} from '@material-ui/core';
 import {FormControlLabel, Checkbox, Button} from '@material-ui/core';
 import {Alert} from '@material-ui/lab';
 import TextField from "app/component/textField";
@@ -33,7 +33,7 @@ export const LoginModal = (props: ILoginModalProps) => {
   };
 
   return (<>
-    <Formik initialValues={{}} validate={values => isValid(values)} onSubmit={values => login(values)}>{({handleSubmit, errors, values, handleChange, handleBlur, setFieldValue}) => (
+    <Formik initialValues={{}} validate={values => isValid(values)} onSubmit={values => login(values)}>{({handleSubmit, errors, handleChange, handleBlur}) => (
       <form>
         <Dialog id="login-page" open={props.showModal} maxWidth={"xs"} onClose={() => {handleClose()}}>
           <DialogTitle>
@@ -59,19 +59,19 @@ export const LoginModal = (props: ILoginModalProps) => {
                        label={translate('login.form.password')} onChange={event => {handleChange(event);}}/>
             <FormControlLabel label={translate('login.form.rememberme')}
                               control={<Checkbox name={'rememberMe'} onChange={handleChange}/>}/>
-            {/* <Alert color="warning">
-                <Link to="/account/reset/request">
-                  <Translate contentKey="login.password.forgot">Did you forget your password?</Translate>
-                </Link>
-              </Alert>*/}
-            {/* <Alert color="warning">
+            <Alert color={"warning"}>
+              <Link href={"/account/reset/request"}>
+                {translate('login.password.forgot')}
+              </Link>
+            </Alert>
+            <Alert color={"warning"}>
               <span>
                 <Translate contentKey="global.messages.info.register.noaccount">You don&apos;t have an account yet?</Translate>
               </span>{' '}
-                <Link to="/account/register">
-                  <Translate contentKey="global.messages.info.register.link">Register a new account</Translate>
-                </Link>
-              </Alert>*/}
+              <Link href={"/account/register"}>
+                <Translate contentKey="global.messages.info.register.link">Register a new account</Translate>
+              </Link>
+            </Alert>
           </DialogContent>
           <DialogActions>
             <Button color="default" variant={"contained"} onClick={() => handleClose()}>

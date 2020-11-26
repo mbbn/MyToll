@@ -4,9 +4,11 @@ import moment from "moment";
 import jMoment from "moment-jalaali";
 import JalaliUtils from "@date-io/jalaali";
 import {DatePicker as MuiDatePicker, DatePickerProps, MuiPickersUtilsProvider} from "@material-ui/pickers";
+import {convertDateTimeFromServer} from "app/shared/util/date-utils";
 
 jMoment.loadPersian({ dialect: "persian-modern", usePersianDigits: true });
 export const JALALI_DATE_FORMAT = 'jYYYY/jMM/jDD';
+export const JALALI_DATE_TIME_FORMAT = 'jYYYY/jMM/jDD HH:mm';
 
 export interface IDatePickerProps {
   name: string;
@@ -60,6 +62,16 @@ export const dateStrToJalaliWithFormat:(dateStr: string, dateFormat: string)=>st
 
 export const dateStrToJalali:(dateStr: string)=>string = (dateStr) => {
   return dateStrToJalaliWithFormat(dateStr, JALALI_DATE_FORMAT);
+};
+
+export const dateToJalaliStr: (date: Date) => string = (date) => {
+  const dateStr = convertDateTimeFromServer(date);
+  return dateStrToJalaliWithFormat(dateStr, JALALI_DATE_FORMAT);
+};
+
+export const dateToJalaliStrWithFormat: (date: Date, dateFormat: string) => string = (date, dateFormat) => {
+  const dateStr = convertDateTimeFromServer(date);
+  return dateStrToJalaliWithFormat(dateStr, dateFormat);
 };
 
 export default DatePicker;

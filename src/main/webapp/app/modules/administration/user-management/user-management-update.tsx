@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Link, RouteComponentProps } from 'react-router-dom';
-import { Button, Label, Row, Col, Card } from 'reactstrap';
-import { AvForm, AvGroup, AvInput, AvField, AvFeedback } from 'availity-reactstrap-validation';
+import {RouteComponentProps } from 'react-router-dom';
+import {Paper, Grid, Switch, MenuItem, Divider, Button} from '@material-ui/core';
 import { Translate, translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {Formik} from 'formik';
+import * as Yup from 'yup';
 
-import { locales, languages } from 'app/config/translation';
 import { getUser, getRoles, updateUser, createUser, reset } from './user-management.reducer';
 import { IRootState } from 'app/shared/reducers';
+import TextField from "app/component/textField";
+import Select from "app/component/select";
 
 export interface IUserManagementUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ login: string }> {}
 
 export const UserManagementUpdate = (props: IUserManagementUpdateProps) => {
   const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.login);
-
   useEffect(() => {
     if (isNew) {
       props.reset();
@@ -31,7 +32,24 @@ export const UserManagementUpdate = (props: IUserManagementUpdateProps) => {
     props.history.push('/admin/user-management');
   };
 
-  const saveUser = (event, values) => {
+  const UserSchema = Yup.object().shape({
+    login: Yup.string()
+      .matches('^09[0-9]{9}',translate('register.messages.validate.login.pattern'))
+      .min(11, translate('register.messages.validate.login.minlength'))
+      .max(11, translate('register.messages.validate.login.maxlength'))
+      .required(translate('register.messages.validate.login.required')),
+    firstName: Yup.string()
+      .max(50, translate('settings.messages.validate.firstname.maxlength')),
+    lastName: Yup.string()
+      .max(50, translate('settings.messages.validate.lastname.maxlength')),
+    email: Yup.string()
+      .email(translate('global.messages.validate.email.invalid'))
+      .min(5, translate('global.messages.validate.email.minlength'))
+      .max(254,translate('global.messages.validate.email.maxlength'))
+      .required(translate('global.messages.validate.email.required'))
+  });
+
+  const saveUser = (values) => {
     if (isNew) {
       props.createUser(values);
     } else {
@@ -42,165 +60,80 @@ export const UserManagementUpdate = (props: IUserManagementUpdateProps) => {
 
   const isInvalid = false;
   const { user, loading, updating, roles } = props;
+  if(!isNew && !user.id){
+    return null;
+  }
 
   return (
     <div>
-      <Row className="justify-content-center">
-        <Col md="4">
-          <Card>
-            <h1>
-              <Translate contentKey="userManagement.home.createOrEditLabel">Create or edit a User</Translate>
-            </h1>
-            {loading ? (
-              <p>Loading...</p>
-            ) : (
-              <AvForm onValidSubmit={saveUser}>
-                {user.id ? (
-                  <AvGroup>
-                    <Label for="id">
-                      <Translate contentKey="global.field.id">ID</Translate>
-                    </Label>
-                    <AvField type="text" className="form-control" name="id" required readOnly value={user.id} />
-                  </AvGroup>
-                ) : null}
-                <AvGroup>
-                  <Label for="login">
-                    <Translate contentKey="userManagement.login">Login</Translate>
-                  </Label>
-                  <AvField
-                    type="text"
-                    className="form-control"
-                    name="login"
-                    validate={{
-                      required: {
-                        value: true,
-                        errorMessage: translate('register.messages.validate.login.required'),
-                      },
-                      pattern: {
-                        value: '^[a-zA-Z0-9!$&*+=?^_`{|}~.-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$|^[_.@A-Za-z0-9-]+$',
-                        errorMessage: translate('register.messages.validate.login.pattern'),
-                      },
-                      minLength: {
-                        value: 1,
-                        errorMessage: translate('register.messages.validate.login.minlength'),
-                      },
-                      maxLength: {
-                        value: 50,
-                        errorMessage: translate('register.messages.validate.login.maxlength'),
-                      },
-                    }}
-                    value={user.login}
-                  />
-                </AvGroup>
-                <AvGroup>
-                  <Label for="firstName">
-                    <Translate contentKey="userManagement.firstName">First Name</Translate>
-                  </Label>
-                  <AvField
-                    type="text"
-                    className="form-control"
-                    name="firstName"
-                    validate={{
-                      maxLength: {
-                        value: 50,
-                        errorMessage: translate('entity.validation.maxlength', { max: 50 }),
-                      },
-                    }}
-                    value={user.firstName}
-                  />
-                </AvGroup>
-                <AvGroup>
-                  <Label for="lastName">
-                    <Translate contentKey="userManagement.lastName">Last Name</Translate>
-                  </Label>
-                  <AvField
-                    type="text"
-                    className="form-control"
-                    name="lastName"
-                    validate={{
-                      maxLength: {
-                        value: 50,
-                        errorMessage: translate('entity.validation.maxlength', { max: 50 }),
-                      },
-                    }}
-                    value={user.lastName}
-                  />
-                  <AvFeedback>This field cannot be longer than 50 characters.</AvFeedback>
-                </AvGroup>
-                <AvGroup>
-                  <AvField
-                    name="email"
-                    label={translate('global.form.email.label')}
-                    placeholder={translate('global.form.email.placeholder')}
-                    type="email"
-                    validate={{
-                      required: {
-                        value: true,
-                        errorMessage: translate('global.messages.validate.email.required'),
-                      },
-                      email: {
-                        errorMessage: translate('global.messages.validate.email.invalid'),
-                      },
-                      minLength: {
-                        value: 5,
-                        errorMessage: translate('global.messages.validate.email.minlength'),
-                      },
-                      maxLength: {
-                        value: 254,
-                        errorMessage: translate('global.messages.validate.email.maxlength'),
-                      },
-                    }}
-                    value={user.email}
-                  />
-                </AvGroup>
-                <AvGroup check>
-                  <Label>
-                    <AvInput type="checkbox" name="activated" value={user.activated} checked={user.activated} disabled={!user.id} />{' '}
-                    <Translate contentKey="userManagement.activated">Activated</Translate>
-                  </Label>
-                </AvGroup>
-                <AvGroup>
-                  <Label for="langKey">
-                    <Translate contentKey="userManagement.langKey">Language Key</Translate>
-                  </Label>
-                  <AvField type="select" className="form-control" name="langKey" value={user.langKey || locales[0]}>
-                    {locales.map(locale => (
-                      <option value={locale} key={locale}>
-                        {languages[locale].name}
-                      </option>
-                    ))}
-                  </AvField>
-                </AvGroup>
-                <AvGroup>
-                  <Label for="authorities">
-                    <Translate contentKey="userManagement.profiles">Profiles</Translate>
-                  </Label>
-                  <AvInput type="select" className="form-control" name="authorities" value={user.authorities} multiple>
-                    {roles.map(role => (
-                      <option value={role} key={role}>
-                        {role}
-                      </option>
-                    ))}
-                  </AvInput>
-                </AvGroup>
-                <Button tag={Link} to="/admin/user-management" replace color="info">
-                  <FontAwesomeIcon icon="arrow-left" />
-                  &nbsp;
-                  <span className="d-none d-md-inline">
-                  <Translate contentKey="entity.action.back">Back</Translate>
-                </span>
-                </Button>
-                &nbsp;
-                <Button color="primary" type="submit" disabled={isInvalid || updating}>
-                  <FontAwesomeIcon icon="save" />
-                  &nbsp;
-                  <Translate contentKey="entity.action.save">Save</Translate>
-                </Button>
-              </AvForm>
-            )}
-          </Card>
-        </Col>
-      </Row>
+      <Grid container justify={"center"}>
+        <Grid item md={4}>
+          <Formik initialValues={user} validationSchema={UserSchema} onSubmit={values => saveUser(values)}>{({handleSubmit, errors, values, handleChange, handleBlur}) => (
+            <form onSubmit={handleSubmit}>
+              <Paper elevation={2} square={true}>
+                <h1>
+                  <Translate contentKey="userManagement.home.createOrEditLabel">Create or edit a User</Translate>
+                </h1>
+                {loading ? (
+                  <p>Loading...</p>
+                ) : (<Grid container spacing={2} justify={"center"}>
+                  <Grid item xs={12}>
+                    {values['id'] ? (<TextField id={'id'} name={'id'} disabled value={user.id} label={translate('global.field.id')}/>) : null}
+                    <TextField id={'login'} name={'login'} onBlur={handleBlur} maxLength={11} required
+                               autoComplete={'off'} value={values['login']}
+                               error={errors['login'] !== undefined} helperText={errors['login']}
+                               label={translate('userManagement.login')} onChange={event => {
+                      const reg = /^\d+$/;
+                      if(!reg.test(event.target.value) && event.target.value.length > 0){
+                        event.target.value = values['login'] ? values['login'] :'';
+                      }
+                      handleChange(event);
+                    }} placeholder={'09123456789'}/>
+                    <TextField id={'firstName'} name={'firstName'} onBlur={handleBlur} maxLength={50}
+                               autoComplete={'off'} value={values['firstName']}
+                               error={errors['firstName'] !== undefined} helperText={errors['firstName']}
+                               label={translate('userManagement.firstName')} onChange={handleChange}/>
+                    <TextField id={'lastName'} name={'lastName'} onBlur={handleBlur} maxLength={50}
+                               autoComplete={'off'} value={values['lastName']}
+                               error={errors['lastName'] !== undefined} helperText={errors['firstName']}
+                               label={translate('userManagement.lastName')} onChange={handleChange}/>
+                    <TextField id={'email'} name={'email'} onBlur={handleBlur} maxLength={50}
+                               autoComplete={'off'} value={values['email']}
+                               error={errors['email'] !== undefined} helperText={errors['email']}
+                               label={translate('global.form.email.label')} onChange={handleChange}
+                               placeholder={translate('global.form.email.placeholder')}/>
+                    <>
+                      <Translate contentKey="userManagement.activated">Activated</Translate>
+                      <Switch id={'activated'} name={'activated'} onBlur={handleBlur} checked={values['activated']}
+                              size={"small"} onChange={handleChange} disabled={!user.id}/>
+                    </>
+                    <Select id={'authorities'} name={'authorities'} onBlur={handleBlur} value={values['authorities']}
+                            error={errors['authorities'] !== undefined} helperText={errors['authorities']} multiple={true}
+                            label={translate('userManagement.profiles')} onChange={handleChange}>
+                      {roles.map(role => (
+                          <MenuItem value={role} key={role}>{role}</MenuItem>
+                      ))}
+                    </Select>
+                  </Grid>
+                  <Divider variant={"fullWidth"} component={'div'}/>
+                  <Grid item xs={6}>
+                    <Button href={'/admin/user-management'} color={"default"} variant={"contained"} fullWidth={true}
+                            style={{minHeight: 50, fontSize: 20}} startIcon={<FontAwesomeIcon icon="arrow-left" />}>
+                      {translate('entity.action.back')}
+                    </Button>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Button type={'submit'} color={"primary"} variant={"contained"} fullWidth={true}
+                            style={{minHeight: 50, fontSize: 20}} startIcon={<FontAwesomeIcon icon="save" />}>
+                      {translate('entity.action.save')}
+                    </Button>
+                  </Grid>
+                </Grid>)}
+              </Paper>
+            </form>
+          )}</Formik>
+        </Grid>
+      </Grid>
     </div>
   );
 };
