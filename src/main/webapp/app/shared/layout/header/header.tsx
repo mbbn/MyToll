@@ -63,7 +63,7 @@ const Header = (props: IHeaderProps) => {
       {renderDevRibbon()}
       <LoadingBar className="loading-bar"/>
       <AppBar position={"fixed"} variant={"elevation"}>
-        <Toolbar variant={"dense"}>
+        <Toolbar variant={"dense"} disableGutters={true}>
           <Home/>
           {props.isAuthenticated && <EntitiesMenu />}
            {props.isAuthenticated && props.isAdmin && (

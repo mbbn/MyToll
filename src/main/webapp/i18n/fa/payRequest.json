@@ -2,7 +2,7 @@
   "myTollApp": {
     "payRequest": {
       "home": {
-        "title": "Pay Requests",
+        "title": "لیست پرداخت ها",
         "createLabel": "Create a new Pay Request",
         "createOrEditLabel": "Create or edit a Pay Request",
         "notFound": "No Pay Requests found"

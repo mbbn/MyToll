@@ -1,9 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Link, RouteComponentProps } from 'react-router-dom';
-import { Button, Col, Row, Table } from 'reactstrap';
+import { RouteComponentProps } from 'react-router-dom';
 import { Translate, ICrudGetAllAction, TextFormat } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  Grid, Paper, Divider, TableContainer,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  TableSortLabel,
+  Link,
+  Button,
+  Badge,
+  TableFooter,
+  TablePagination
+} from '@material-ui/core';
 
 import { IRootState } from 'app/shared/reducers';
 import { getEntities } from './pay-request.reducer';
@@ -20,15 +33,36 @@ export const PayRequest = (props: IPayRequestProps) => {
   const { payRequestList, match, loading } = props;
   return (
     <div>
-      <h2 id="pay-request-heading">
-        <Translate contentKey="myTollApp.payRequest.home.title">Pay Requests</Translate>
-        <Link to={`${match.url}/new`} className="btn btn-primary float-right jh-create-entity" id="jh-create-entity">
-          <FontAwesomeIcon icon="plus" />
-          &nbsp;
-          <Translate contentKey="myTollApp.payRequest.home.createLabel">Create new Pay Request</Translate>
-        </Link>
-      </h2>
-      <div className="table-responsive">
+      <Grid container justify={"center"}>
+        <Grid item xs={12}>
+          <Paper elevation={2}>
+            <h2 id="pay-request-heading">
+              <Translate contentKey="myTollApp.payRequest.home.title">Pay Requests</Translate>
+            </h2>
+            <Divider/>
+            <TableContainer component={Paper}>
+              <Table size={"small"}>
+                <TableHead>
+                  <TableRow>
+                    <TableCell onClick={() => sort('id')}>
+                      <TableSortLabel>
+                        <Translate contentKey="global.field.id">ID</Translate>
+                        {pagination.sort === 'id' ? (
+                          <span className={classes.visuallyHidden}>
+                    {pagination.order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                </span>
+                        ) : null}
+                      </TableSortLabel>
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+              </Table>
+            </TableContainer>
+          </Paper>
+        </Grid>
+      </Grid>
+
+      {/*<div className="table-responsive">
         {payRequestList && payRequestList.length > 0 ? (
           <Table responsive>
             <thead>
@@ -157,7 +191,7 @@ export const PayRequest = (props: IPayRequestProps) => {
             </div>
           )
         )}
-      </div>
+      </div>*/}
     </div>
   );
 };

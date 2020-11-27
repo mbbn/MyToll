@@ -1,18 +1,11 @@
-import React, {useState} from 'react';
-import {MenuItem, ListItemIcon, ListItemText} from '@material-ui/core';
-import {common} from '@material-ui/core/colors';
-import {KeyboardArrowDown, KeyboardArrowLeft} from '@material-ui/icons';
+import React from 'react';
 import {translate} from 'react-jhipster';
+import {NavDropdown} from "app/shared/layout/menus/menu-components";
+import {faTags, faMoneyBill} from '@fortawesome/free-solid-svg-icons'
+import MenuItem from "app/shared/layout/menus/menu-item";
 
-export const EntitiesMenu = props => {
-  const [entityMenu, setEntityMenu] = useState(null);
-  return (
-    <div>
-      <MenuItem onClick={(event)=>{setEntityMenu(event.currentTarget)}} style={{color: common.white}}>
-        <ListItemText>{translate('global.menu.entities.main')}</ListItemText>
-        <ListItemIcon aria-controls="account-menu" aria-haspopup="true" style={{color: common.white, minWidth: 'auto'}}>
-          {entityMenu ? <KeyboardArrowDown/>:<KeyboardArrowLeft/>}
-        </ListItemIcon>
-      </MenuItem>
-    </div>);
+export const EntitiesMenu = () => {
+  return (<NavDropdown title={translate('global.menu.entities.main')} icon={faTags}>
+    <MenuItem title={translate('global.menu.entities.payRequest')} to={'/pay-request'} icon={faMoneyBill}/>
+    </NavDropdown>);
 };

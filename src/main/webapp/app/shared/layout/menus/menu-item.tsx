@@ -1,23 +1,25 @@
 import React from 'react';
-import { DropdownItem } from 'reactstrap';
-import { NavLink as Link } from 'react-router-dom';
+
+import {MenuItem as MuiMenuItem, ListItemIcon, ListItemText} from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 export interface IMenuItem {
-  icon: IconProp;
+  title: string;
+  icon?: IconProp;
   to: string;
   id?: string;
 }
 
 export default class MenuItem extends React.Component<IMenuItem> {
   render() {
-    const { to, icon, id, children } = this.props;
+    const {title, to, icon, id} = this.props;
 
     return (
-      <DropdownItem tag={Link} to={to} id={id}>
-        <FontAwesomeIcon icon={icon} fixedWidth /> {children}
-      </DropdownItem>
+      <MuiMenuItem component={'a'} href={to} id={id} dense={true} divider={true}>
+        <FontAwesomeIcon icon={icon} fixedWidth style={{marginLeft: 5}}/>
+        <ListItemText>{title}</ListItemText>
+      </MuiMenuItem>
     );
   }
 }
