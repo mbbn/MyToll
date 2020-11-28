@@ -1,8 +1,10 @@
 package ir.mbbn.mytoll.web.rest;
 
 import ir.mbbn.mytoll.domain.PayRequest;
-import ir.mbbn.mytoll.repository.PayRequestRepository;
+import ir.mbbn.mytoll.service.PayRequestService;
 import ir.mbbn.mytoll.web.rest.errors.BadRequestAlertException;
+import ir.mbbn.mytoll.service.dto.PayRequestCriteria;
+import ir.mbbn.mytoll.service.PayRequestQueryService;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
@@ -16,7 +18,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -30,7 +31,6 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping("/api")
-@Transactional
 public class PayRequestResource {
 
     private final Logger log = LoggerFactory.getLogger(PayRequestResource.class);
@@ -40,10 +40,13 @@ public class PayRequestResource {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
-    private final PayRequestRepository payRequestRepository;
+    private final PayRequestService payRequestService;
 
-    public PayRequestResource(PayRequestRepository payRequestRepository) {
-        this.payRequestRepository = payRequestRepository;
+    private final PayRequestQueryService payRequestQueryService;
+
+    public PayRequestResource(PayRequestService payRequestService, PayRequestQueryService payRequestQueryService) {
+        this.payRequestService = payRequestService;
+        this.payRequestQueryService = payRequestQueryService;
     }
 
     /**
@@ -59,7 +62,7 @@ public class PayRequestResource {
         if (payRequest.getId() != null) {
             throw new BadRequestAlertException("A new payRequest cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        PayRequest result = payRequestRepository.save(payRequest);
+        PayRequest result = payRequestService.save(payRequest);
         return ResponseEntity.created(new URI("/api/pay-requests/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -80,7 +83,7 @@ public class PayRequestResource {
         if (payRequest.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        PayRequest result = payRequestRepository.save(payRequest);
+        PayRequest result = payRequestService.save(payRequest);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, payRequest.getId().toString()))
             .body(result);
@@ -90,20 +93,27 @@ public class PayRequestResource {
      * {@code GET  /pay-requests} : get all the payRequests.
      *
      * @param pageable the pagination information.
-     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of payRequests in body.
      */
     @GetMapping("/pay-requests")
-    public ResponseEntity<List<PayRequest>> getAllPayRequests(Pageable pageable, @RequestParam(required = false, defaultValue = "false") boolean eagerload) {
-        log.debug("REST request to get a page of PayRequests");
-        Page<PayRequest> page;
-        if (eagerload) {
-            page = payRequestRepository.findAllWithEagerRelationships(pageable);
-        } else {
-            page = payRequestRepository.findAll(pageable);
-        }
+    public ResponseEntity<List<PayRequest>> getAllPayRequests(PayRequestCriteria criteria, Pageable pageable) {
+        log.debug("REST request to get PayRequests by criteria: {}", criteria);
+        Page<PayRequest> page = payRequestQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /pay-requests/count} : count all the payRequests.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     */
+    @GetMapping("/pay-requests/count")
+    public ResponseEntity<Long> countPayRequests(PayRequestCriteria criteria) {
+        log.debug("REST request to count PayRequests by criteria: {}", criteria);
+        return ResponseEntity.ok().body(payRequestQueryService.countByCriteria(criteria));
     }
 
     /**
@@ -115,7 +125,7 @@ public class PayRequestResource {
     @GetMapping("/pay-requests/{id}")
     public ResponseEntity<PayRequest> getPayRequest(@PathVariable Long id) {
         log.debug("REST request to get PayRequest : {}", id);
-        Optional<PayRequest> payRequest = payRequestRepository.findOneWithEagerRelationships(id);
+        Optional<PayRequest> payRequest = payRequestService.findOne(id);
         return ResponseUtil.wrapOrNotFound(payRequest);
     }
 
@@ -128,7 +138,7 @@ public class PayRequestResource {
     @DeleteMapping("/pay-requests/{id}")
     public ResponseEntity<Void> deletePayRequest(@PathVariable Long id) {
         log.debug("REST request to delete PayRequest : {}", id);
-        payRequestRepository.deleteById(id);
+        payRequestService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }
 }

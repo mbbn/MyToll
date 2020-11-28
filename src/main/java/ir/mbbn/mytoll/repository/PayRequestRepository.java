@@ -16,7 +16,7 @@ import java.util.Optional;
  * Spring Data  repository for the PayRequest entity.
  */
 @Repository
-public interface PayRequestRepository extends JpaRepository<PayRequest, Long> {
+public interface PayRequestRepository extends JpaRepository<PayRequest, Long>, JpaSpecificationExecutor<PayRequest> {
 
     @Query(value = "select distinct payRequest from PayRequest payRequest left join fetch payRequest.bills",
         countQuery = "select count(distinct payRequest) from PayRequest payRequest")
