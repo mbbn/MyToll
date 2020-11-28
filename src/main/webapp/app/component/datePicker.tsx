@@ -8,7 +8,7 @@ import {convertDateTimeFromServer} from "app/shared/util/date-utils";
 
 jMoment.loadPersian({ dialect: "persian-modern", usePersianDigits: true });
 export const JALALI_DATE_FORMAT = 'jYYYY/jMM/jDD';
-export const JALALI_DATE_TIME_FORMAT = 'jYYYY/jMM/jDD HH:mm';
+export const JALALI_DATE_TIME_FORMAT = 'jYYYY/jMM/jDD-HH:mm';
 
 export interface IDatePickerProps {
   name: string;

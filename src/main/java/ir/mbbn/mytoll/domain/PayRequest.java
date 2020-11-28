@@ -321,7 +321,6 @@ public class PayRequest implements Serializable {
 
     // prettier-ignore
     @Override
-
     public String toString() {
         return "PayRequest{" +
             "id=" + getId() +

@@ -5,7 +5,7 @@
         "title": "لیست پرداخت ها",
         "createLabel": "Create a new Pay Request",
         "createOrEditLabel": "Create or edit a Pay Request",
-        "notFound": "No Pay Requests found"
+        "notFound": "هیچ پرداختی یافت نشد"
       },
       "created": "A new Pay Request is created with identifier {{ param }}",
       "updated": "A Pay Request is updated with identifier {{ param }}",
@@ -20,21 +20,21 @@
         "paid": "پرداخت با موفقیت انجام شد.",
         "fail": "پرداخت ناموفق بود"
       },
-      "requestTime": "Request Time",
-      "trackingId": "Tracking Id",
+      "requestTime": "زمان درخواست",
+      "trackingId": "شماره درخواست",
       "shortId": "Short Id",
-      "accountNo": "Account No",
-      "title": "Title",
-      "expirationDate": "Expiration Date",
-      "sendSms": "Send Sms",
-      "amount": "Amount",
+      "accountNo": "شماره حساب",
+      "title": "عنوان",
+      "expirationDate": "تاریخ انقضا",
+      "sendSms": "ارسال پیامک",
+      "amount": "مبلغ",
       "callBackService": "Call Back Service",
-      "paid": "Paid",
-      "paymentDate": "Payment Date",
-      "bankTrackingId": "Bank Tracking Id",
-      "paymentId": "Payment Id",
-      "customer": "Customer",
-      "bills": "Bills"
+      "paid": "پرداخت شده",
+      "paymentDate": "تاریخ پرداخت",
+      "bankTrackingId": "شناسه درخواست بانک",
+      "paymentId": "شناسه پرداخت",
+      "customer": "مشتری",
+      "bills": "قبض ها"
     }
   }
 }

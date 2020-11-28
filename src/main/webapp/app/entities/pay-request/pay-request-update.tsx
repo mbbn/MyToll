@@ -26,7 +26,7 @@ export const PayRequestUpdate = (props: IPayRequestUpdateProps) => {
   const { payRequestEntity, customers, bills, loading, updating } = props;
 
   const handleClose = () => {
-    props.history.push('/pay-request');
+    props.history.push('/pay-request' + props.location.search);
   };
 
   useEffect(() => {

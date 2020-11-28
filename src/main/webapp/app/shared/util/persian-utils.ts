@@ -6,3 +6,10 @@ export const convertEnglishNumberToPersian = (input: number) => {
     .map(x => farsiDigits[x])
     .join('');
 };
+
+export const convertBooleanToYesNo = (value: boolean) => {
+  if(!value){
+    return undefined;
+  }
+  return value ? 'بلی':'خیر';
+};

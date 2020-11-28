@@ -1,5 +1,5 @@
 import {createMuiTheme} from "@material-ui/core/styles";
-import {grey, red, lightBlue, common} from "@material-ui/core/colors";
+import {grey, red, blueGrey, common} from "@material-ui/core/colors";
 
 const myTollTheme = createMuiTheme({
   overrides:{
@@ -61,19 +61,33 @@ const myTollTheme = createMuiTheme({
       }
     },
     MuiTable:{
-      stickyHeader:{
-        // backgroundColor: red["500"]
+      root:{
+        // backgroundColor:blueGrey["50"]
       }
     },
     MuiTableRow: {
+      root:{
+        '&:nth-child(even)':{
+          backgroundColor: blueGrey["100"]
+        }
+      },
       head: {
-        // color: common.white,
-        // backgroundColor: grey["900"]
+        backgroundColor: blueGrey["900"]
       },
     },
     MuiTableCell: {
       head:{
-        // color: common.white,
+        color: blueGrey["100"],
+      }
+    },
+    MuiTableSortLabel:{
+      root:{
+        '&:hover':{
+          color: common.white
+        }
+      },
+      active:{
+        color: common.white
       }
     },
     MuiList: {
@@ -99,7 +113,7 @@ const myTollTheme = createMuiTheme({
         // fontSize: 'large',
         textAlign: 'center'
       },
-    },
+    }
   },
   palette: {
     type: "light",

@@ -17,7 +17,7 @@ export const PayRequestDeleteDialog = (props: IPayRequestDeleteDialogProps) => {
   }, []);
 
   const handleClose = () => {
-    props.history.push('/pay-request');
+    props.history.push('/pay-request' + props.location.search);
   };
 
   useEffect(() => {

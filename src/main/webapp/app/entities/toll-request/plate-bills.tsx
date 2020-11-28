@@ -112,7 +112,7 @@ export const PlateBills = (props: IPlateBillsProps) => {
                          totalAmount: convertEnglishNumberToPersian(totalAmount)
                        }}/> : null}
           <Grid container justify={"center"}>
-            <Button type={'submit'} color={"primary"} variant={"contained"} fullWidth={true}
+            <Button disabled={selectedBills.length === 0} type={'submit'} color={"primary"} variant={"contained"} fullWidth={true}
                     style={{minHeight: 50, fontSize: 20}} onClick={handlePay}>
               {translate('entity.action.pay')}
             </Button>

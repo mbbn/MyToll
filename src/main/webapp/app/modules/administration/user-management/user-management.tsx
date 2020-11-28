@@ -31,16 +31,6 @@ import {green, red, blueGrey} from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      width: '100%',
-    },
-    paper: {
-      width: '100%',
-      marginBottom: theme.spacing(2),
-    },
-    table: {
-      minWidth: 750,
-    },
     visuallyHidden: {
       border: 0,
       clip: 'rect(0 0 0 0)',
@@ -114,12 +104,12 @@ export const UserManagement = (props: IUserManagementProps) => {
           <FontAwesomeIcon icon="plus" /> <Translate contentKey="userManagement.home.createLabel">Create a new user</Translate>
         </Link>
       </h2>
-      <TableContainer component={Paper}>
+      <TableContainer>
         <Table size={"small"}>
           <TableHead>
             <TableRow>
               <TableCell onClick={() => sort('id')}>
-                <TableSortLabel>
+                <TableSortLabel active={pagination.sort === 'id'} direction={pagination.order === 'asc' ? 'asc':'desc'}>
                   <Translate contentKey="global.field.id">ID</Translate>
                   {pagination.sort === 'id' ? (
                     <span className={classes.visuallyHidden}>
@@ -129,7 +119,7 @@ export const UserManagement = (props: IUserManagementProps) => {
                 </TableSortLabel>
               </TableCell>
               <TableCell onClick={() => sort('login')}>
-                <TableSortLabel>
+                <TableSortLabel active={pagination.sort === 'login'} direction={pagination.order === 'asc' ? 'asc':'desc'}>
                   <Translate contentKey="userManagement.login">Login</Translate>
                   {pagination.sort === 'login' ? (
                     <span className={classes.visuallyHidden}>
@@ -139,7 +129,7 @@ export const UserManagement = (props: IUserManagementProps) => {
                 </TableSortLabel>
               </TableCell>
               <TableCell onClick={() => sort('email')}>
-                <TableSortLabel>
+                <TableSortLabel active={pagination.sort === 'email'} direction={pagination.order === 'asc' ? 'asc':'desc'}>
                   <Translate contentKey="userManagement.email">Email</Translate>
                   {pagination.sort === 'email' ? (
                     <span className={classes.visuallyHidden}>
@@ -149,7 +139,7 @@ export const UserManagement = (props: IUserManagementProps) => {
                 </TableSortLabel>
               </TableCell>
               <TableCell onClick={() => sort('profiles')}>
-                <TableSortLabel>
+                <TableSortLabel active={pagination.sort === 'profile'} direction={pagination.order === 'asc' ? 'asc':'desc'}>
                   <Translate contentKey="userManagement.profiles">Profiles</Translate>
                   {pagination.sort === 'profiles' ? (
                     <span className={classes.visuallyHidden}>
@@ -160,7 +150,7 @@ export const UserManagement = (props: IUserManagementProps) => {
               </TableCell>
               <TableCell/>
               <TableCell onClick={() => sort('createdDate')}>
-                <TableSortLabel>
+                <TableSortLabel active={pagination.sort === 'createDate'} direction={pagination.order === 'asc' ? 'asc':'desc'}>
                   <Translate contentKey="userManagement.createdDate">Created Date</Translate>
                   {pagination.sort === 'createdDate' ? (
                     <span className={classes.visuallyHidden}>
@@ -170,7 +160,7 @@ export const UserManagement = (props: IUserManagementProps) => {
                 </TableSortLabel>
               </TableCell>
               <TableCell onClick={() => sort('lastModifiedBy')}>
-                <TableSortLabel>
+                <TableSortLabel active={pagination.sort === 'lastModifiedBy'} direction={pagination.order === 'asc' ? 'asc':'desc'}>
                   <Translate contentKey="userManagement.lastModifiedBy">Last Modified By</Translate>
                   {pagination.sort === 'lastModifiedBy' ? (
                     <span className={classes.visuallyHidden}>
@@ -180,7 +170,7 @@ export const UserManagement = (props: IUserManagementProps) => {
                 </TableSortLabel>
               </TableCell>
               <TableCell onClick={() => sort('lastModifiedDate')}>
-                <TableSortLabel>
+                <TableSortLabel active={pagination.sort === 'lastModifiedDate'} direction={pagination.order === 'asc' ? 'asc':'desc'}>
                   <Translate contentKey="userManagement.lastModifiedDate">Last Modified Date</Translate>
                   {pagination.sort === 'lastModifiedDate' ? (
                     <span className={classes.visuallyHidden}>

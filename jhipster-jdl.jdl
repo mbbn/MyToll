@@ -98,3 +98,4 @@ dto TollRequest with mapstruct
 service TollRequest with serviceClass
 paginate BaseInfo with pagination
 paginate Customer with pagination
+paginate PayRequest with pagination
