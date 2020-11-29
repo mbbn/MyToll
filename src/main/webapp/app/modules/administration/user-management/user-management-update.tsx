@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import {RouteComponentProps } from 'react-router-dom';
 import {Paper, Grid, Switch, MenuItem, Divider, Button} from '@material-ui/core';
 import { Translate, translate } from 'react-jhipster';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 

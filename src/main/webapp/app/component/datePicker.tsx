@@ -35,6 +35,7 @@ const DatePicker = (props: IDatePickerProps & DatePickerProps) => {
     <FormControl>
       <MuiPickersUtilsProvider utils={JalaliUtils} locale="fa">
         <MuiDatePicker
+          size={'small'}
           clearable
           okLabel="تأیید"
           cancelLabel="لغو"

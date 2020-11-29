@@ -54,6 +54,8 @@ public class PayRequestCriteria implements Serializable, Criteria {
 
     private StringFilter paymentId;
 
+    private StringFilter customer;
+
     private LongFilter customerId;
 
     private LongFilter billsId;
@@ -76,6 +78,7 @@ public class PayRequestCriteria implements Serializable, Criteria {
         this.paymentDate = other.paymentDate == null ? null : other.paymentDate.copy();
         this.bankTrackingId = other.bankTrackingId == null ? null : other.bankTrackingId.copy();
         this.paymentId = other.paymentId == null ? null : other.paymentId.copy();
+        this.customer = other.customer == null ? null : other.customer.copy();
         this.customerId = other.customerId == null ? null : other.customerId.copy();
         this.billsId = other.billsId == null ? null : other.billsId.copy();
     }
@@ -197,6 +200,14 @@ public class PayRequestCriteria implements Serializable, Criteria {
         this.paymentId = paymentId;
     }
 
+    public StringFilter getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(StringFilter customer) {
+        this.customer = customer;
+    }
+
     public LongFilter getCustomerId() {
         return customerId;
     }
@@ -238,6 +249,7 @@ public class PayRequestCriteria implements Serializable, Criteria {
             Objects.equals(paymentDate, that.paymentDate) &&
             Objects.equals(bankTrackingId, that.bankTrackingId) &&
             Objects.equals(paymentId, that.paymentId) &&
+            Objects.equals(customer, that.customer) &&
             Objects.equals(customerId, that.customerId) &&
             Objects.equals(billsId, that.billsId);
     }
@@ -259,6 +271,7 @@ public class PayRequestCriteria implements Serializable, Criteria {
         paymentDate,
         bankTrackingId,
         paymentId,
+        customer,
         customerId,
         billsId
         );
@@ -282,6 +295,7 @@ public class PayRequestCriteria implements Serializable, Criteria {
                 (paymentDate != null ? "paymentDate=" + paymentDate + ", " : "") +
                 (bankTrackingId != null ? "bankTrackingId=" + bankTrackingId + ", " : "") +
                 (paymentId != null ? "paymentId=" + paymentId + ", " : "") +
+                (customer != null ? "customer=" + customer + ", " : "") +
                 (customerId != null ? "customerId=" + customerId + ", " : "") +
                 (billsId != null ? "billsId=" + billsId + ", " : "") +
             "}";

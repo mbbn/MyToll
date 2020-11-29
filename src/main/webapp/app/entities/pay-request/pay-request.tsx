@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import {Translate, translate, getSortState} from 'react-jhipster';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {
   Paper,
   TableContainer,
@@ -14,19 +15,23 @@ import {
   TableSortLabel,
   Link,
   TableFooter,
-  TablePagination
+  TablePagination,
+  Grid,
+  Button
 } from '@material-ui/core';
+import {Formik} from 'formik';
 import {Alert} from '@material-ui/lab';
 import { IRootState } from 'app/shared/reducers';
-import { getEntities } from './pay-request.reducer';
+import {getEntities, PayRequestState} from './pay-request.reducer';
 import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
 import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
-import {
+import DatePicker, {
   dateStrToJalali,
   dateStrToJalaliWithFormat,
   JALALI_DATE_TIME_FORMAT
 } from "app/component/datePicker";
 import {convertBooleanToYesNo} from "app/shared/util/persian-utils";
+import TextField from "app/component/textField";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -97,14 +102,39 @@ export const PayRequest = (props: IPayRequestProps) => {
     });
 
   const { payRequestList, match, loading, totalItems } = props;
-  /* eslint-disable no-console */
-  console.log(loading, totalItems);
   const classes = useStyles();
   return (
     <Paper elevation={2}>
       <h2 id="pay-request-heading">
         <Translate contentKey="myTollApp.payRequest.home.title">Pay Requests</Translate>
       </h2>
+      <Formik initialValues={{}} onSubmit={values => {}}>{({handleSubmit, errors, values, handleChange, handleBlur, setFieldValue}) => (
+        <form onSubmit={handleSubmit}>
+          <Grid container spacing={2}>
+            <Grid item xs={8} md={2}>
+              {/* <DatePicker id={'requestTime'} name={'requestTime'} onBlur={handleBlur}
+                          autoComplete={'off'} value={values['requestTime']}
+                          error={errors['requestTime'] !== undefined} helperText={errors['requestTime']}
+                          label={translate('myTollApp.payRequest.requestTime')} onChange={date => setFieldValue('requestTime', date)}/>*/}
+              <TextField id={'customer'} name={'customer'} onBlur={handleBlur}
+                         autoComplete={'off'} value={values['customer']}
+                         error={errors['customer'] !== undefined} helperText={errors['customer']}
+                         label={translate('myTollApp.payRequest.customer')} onChange={event => {
+                const reg = /^\d+$/;
+                if(!reg.test(event.target.value) && event.target.value.length > 0){
+                  event.target.value = values['login'] ? values['login'] :'';
+                }
+                handleChange(event);
+              }} placeholder={'09123456789'}/>
+            </Grid>
+            <Grid item xs={4} md={1} justify={"flex-start"}>
+              <Button type={'submit'} color={"primary"} variant={"contained"} startIcon={<FontAwesomeIcon icon="search" />}>
+                {translate('entity.action.search')}
+              </Button>
+            </Grid>
+          </Grid>
+        </form>
+      )}</Formik>
       {payRequestList && payRequestList.length > 0 ? (<TableContainer>
         <Table size={"small"}>
           <TableHead>

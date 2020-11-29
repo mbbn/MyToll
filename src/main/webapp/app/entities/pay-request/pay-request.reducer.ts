@@ -103,6 +103,8 @@ const apiUrl = 'api/pay-requests';
 
 export const getEntities: ICrudGetAllAction<IPayRequest> = (page, size, sort) => {
   const requestUrl = `${apiUrl}${sort ? `?page=${page}&size=${size}&sort=${sort}` : ''}`;
+  /* eslint-disable no-console */
+  console.log(requestUrl);
   return {
     type: ACTION_TYPES.FETCH_PAYREQUEST_LIST,
     payload: axios.get<IPayRequest>(`${requestUrl}${sort ? '&' : '?'}cacheBuster=${new Date().getTime()}`),

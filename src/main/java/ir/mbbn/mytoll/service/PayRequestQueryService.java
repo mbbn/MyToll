@@ -124,6 +124,10 @@ public class PayRequestQueryService extends QueryService<PayRequest> {
             if (criteria.getPaymentId() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getPaymentId(), PayRequest_.paymentId));
             }
+            if (criteria.getCustomer() != null) {
+                specification = specification.and(buildSpecification(criteria.getCustomer(),
+                    root -> root.join(PayRequest_.customer, JoinType.LEFT).get(Customer_.MOBILE)));
+            }
             if (criteria.getCustomerId() != null) {
                 specification = specification.and(buildSpecification(criteria.getCustomerId(),
                     root -> root.join(PayRequest_.customer, JoinType.LEFT).get(Customer_.id)));
