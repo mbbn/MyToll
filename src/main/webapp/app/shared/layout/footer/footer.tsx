@@ -2,17 +2,17 @@ import './footer.scss';
 
 import React from 'react';
 import { Translate } from 'react-jhipster';
-import { Col, Row } from 'reactstrap';
+import {Grid} from '@material-ui/core';
 
 const Footer = props => (
   <div className="footer page-content">
-    <Row>
-      <Col md="12">
+    <Grid container>
+      <Grid item md={12}>
         <p>
           <Translate contentKey="footer">Your footer</Translate>
         </p>
-      </Col>
-    </Row>
+      </Grid>
+    </Grid>
   </div>
 );
 

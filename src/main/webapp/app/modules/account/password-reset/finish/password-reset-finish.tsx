@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Col, Row, Button } from 'reactstrap';
+import { Grid, Button } from '@material-ui/core';
 import { AvForm, AvField } from 'availity-reactstrap-validation';
 import { Translate, translate, getUrlParameter } from 'react-jhipster';
 import { RouteComponentProps } from 'react-router-dom';
@@ -53,7 +53,7 @@ export const PasswordResetFinishPage = (props: IPasswordResetFinishProps) => {
             match: { value: 'newPassword', errorMessage: translate('global.messages.error.dontmatch') },
           }}
         />
-        <Button color="success" type="submit">
+        <Button color="primary" type="submit">
           <Translate contentKey="reset.finish.form.button">Validate new password</Translate>
         </Button>
       </AvForm>
@@ -62,14 +62,14 @@ export const PasswordResetFinishPage = (props: IPasswordResetFinishProps) => {
 
   return (
     <div>
-      <Row className="justify-content-center">
-        <Col md="4">
+      <Grid container justify={"center"}>
+        <Grid md={4}>
           <h1>
             <Translate contentKey="reset.finish.title">Reset password</Translate>
           </h1>
           <div>{key ? getResetForm() : null}</div>
-        </Col>
-      </Row>
+        </Grid>
+      </Grid>
     </div>
   );
 };

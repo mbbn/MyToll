@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Translate, translate } from 'react-jhipster';
 import { connect } from 'react-redux';
 import { AvForm, AvField } from 'availity-reactstrap-validation';
-import { Row, Col, Button } from 'reactstrap';
+import {Grid, Button} from '@material-ui/core';
 
 import { IRootState } from 'app/shared/reducers';
 import { getSession } from 'app/shared/reducers/authentication';
@@ -30,8 +30,8 @@ export const PasswordPage = (props: IUserPasswordProps) => {
 
   return (
     <div>
-      <Row className="justify-content-center">
-        <Col md="8">
+      <Grid container justify={"center"}>
+        <Grid item md={8}>
           <h2 id="password-title">
             <Translate contentKey="password.title" interpolate={{ username: props.account.login }}>
               Password for {props.account.login}
@@ -84,12 +84,12 @@ export const PasswordPage = (props: IUserPasswordProps) => {
                 },
               }}
             />
-            <Button color="success" type="submit">
+            <Button color="primary" type="submit">
               <Translate contentKey="password.form.button">Save</Translate>
             </Button>
           </AvForm>
-        </Col>
-      </Row>
+        </Grid>
+      </Grid>
     </div>
   );
 };

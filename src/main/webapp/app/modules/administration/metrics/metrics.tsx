@@ -36,8 +36,6 @@ export const MetricsPage = (props: IMetricsPageProps) => {
   };
 
   const { metrics, threadDump, isFetching } = props;
-  /* eslint no-console: off */
-  console.log(metrics && metrics.jvm ? 'salam':'');
 
   return (
     <Paper dir={'ltr'} elevation={2}>
@@ -65,7 +63,7 @@ export const MetricsPage = (props: IMetricsPageProps) => {
             {metrics && metrics.processMetrics ? <SystemMetrics systemMetrics={metrics.processMetrics} wholeNumberFormat={'0'} timestampFormat={APP_TIMESTAMP_FORMAT} />: null}
           </Grid>
           <Grid item md={4}>
-            {/*{metrics && metrics.garbageCollector ?
+            {/* {metrics && metrics.garbageCollector ?
         <GarbageCollectorMetrics garbageCollectorMetrics={metrics.garbageCollector} wholeNumberFormat={'0'}/> : null}*/}
           </Grid>
           <Grid item md={4}>

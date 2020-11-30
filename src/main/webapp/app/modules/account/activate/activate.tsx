@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { Row, Col, Alert } from 'reactstrap';
+import {Alert} from '@material-ui/lab';
+import {Grid} from '@material-ui/core';
 import { Translate, getUrlParameter } from 'react-jhipster';
 
 import { IRootState } from 'app/shared/reducers';
@@ -20,7 +21,7 @@ const successAlert = (
 );
 
 const failureAlert = (
-  <Alert color="danger">
+  <Alert color="error">
     <Translate contentKey="activate.messages.error">
       <strong>Your user could not be activated.</strong> Please use the registration form to sign up.
     </Translate>
@@ -40,15 +41,15 @@ export const ActivatePage = (props: IActivateProps) => {
 
   return (
     <div>
-      <Row className="justify-content-center">
-        <Col md="8">
+      <Grid container justify={"center"}>
+        <Grid item md={8}>
           <h1>
             <Translate contentKey="activate.title">Activation</Translate>
           </h1>
           {props.activationSuccess ? successAlert : undefined}
           {props.activationFailure ? failureAlert : undefined}
-        </Col>
-      </Row>
+        </Grid>
+      </Grid>
     </div>
   );
 };

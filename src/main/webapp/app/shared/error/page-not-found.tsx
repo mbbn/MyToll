@@ -1,12 +1,12 @@
 import React from 'react';
 import { Translate } from 'react-jhipster';
-import { Row, Col, Alert } from 'reactstrap';
+import {Alert} from '@material-ui/lab';
 
 class PageNotFound extends React.Component {
   render() {
     return (
       <div>
-        <Alert color="danger">
+        <Alert color="error">
           <Translate contentKey="error.http.404">The page does not exist.</Translate>
         </Alert>
       </div>
