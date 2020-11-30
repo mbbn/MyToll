@@ -1,10 +1,10 @@
 import React from 'react';
 import {Translate, translate} from 'react-jhipster';
 import {Formik} from 'formik';
-import {Dialog, DialogTitle, DialogContent, DialogActions, Link} from '@material-ui/core';
+import {Paper, Grid, Divider, Link} from '@material-ui/core';
 import {FormControlLabel, Checkbox, Button} from '@material-ui/core';
-import {Alert} from '@material-ui/lab';
 import TextField from "app/component/textField";
+import Alert from "app/component/alert";
 
 export interface ILoginModalProps {
   showModal: boolean;
@@ -32,21 +32,19 @@ export const LoginModal = (props: ILoginModalProps) => {
     handleLogin(values['username'], values['password'], values['rememberMe']);
   };
 
-  return (<>
-    <Formik initialValues={{}} validate={values => isValid(values)} onSubmit={values => login(values)}>{({handleSubmit, errors, handleChange, handleBlur}) => (
-      <form>
-        <Dialog id="login-page" open={props.showModal} maxWidth={"xs"} onClose={() => {handleClose()}}>
-          <DialogTitle>
-            <Translate contentKey="login.title">Sign in</Translate>
-          </DialogTitle>
-          <DialogContent>
-            {loginError ? (
-              <Alert color="error">
-                <Translate contentKey="login.messages.error.authentication">
-                  <strong>Failed to sign in!</strong> Please check your credentials and try again.
-                </Translate>
-              </Alert>
-            ) : null}
+  return (<Formik initialValues={{}} validate={values => isValid(values)} onSubmit={values => login(values)}>{({handleSubmit, errors, handleChange, handleBlur}) => (
+    <form>
+      <Grid container justify={"center"}>
+        <Grid item xs={12} md={4}>
+          <Paper square={true}>
+            <h2>
+              <Translate contentKey="login.title">Sign in</Translate>
+            </h2>
+            {loginError ? <Alert color="error">
+              <Translate contentKey="login.messages.error.authentication">
+                <strong>Failed to sign in!</strong> Please check your credentials and try again.
+              </Translate>
+            </Alert> : null}
             <TextField name={'username'} onBlur={handleBlur} required
                        placeholder={translate('global.form.username.placeholder')}
                        error={errors['username'] !== undefined} helperText={errors['username']}
@@ -67,24 +65,29 @@ export const LoginModal = (props: ILoginModalProps) => {
             <Alert color={"warning"}>
               <span>
                 <Translate contentKey="global.messages.info.register.noaccount">You don&apos;t have an account yet?</Translate>
-              </span>{' '}
+              </span>
               <Link href={"/account/register"}>
                 <Translate contentKey="global.messages.info.register.link">Register a new account</Translate>
               </Link>
             </Alert>
-          </DialogContent>
-          <DialogActions>
-            <Button color="default" variant={"contained"} onClick={() => handleClose()}>
-              <Translate contentKey="entity.action.cancel">Cancel</Translate>
-            </Button>
-            <Button color="primary" variant={"contained"} onClick={()=>handleSubmit()}>
-              <Translate contentKey="login.form.button">Sign in</Translate>
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </form>
-    )}</Formik>
-  </>);
+            <Divider style={{marginBottom: 5}}/>
+            <Grid container justify={"flex-end"} spacing={1}>
+              <Grid item>
+                <Button color="default" variant={"contained"} onClick={() => handleClose()}>
+                  <Translate contentKey="entity.action.cancel">Cancel</Translate>
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button color="primary" variant={"contained"} onClick={()=>handleSubmit()}>
+                  <Translate contentKey="login.form.button">Sign in</Translate>
+                </Button>
+              </Grid>
+            </Grid>
+          </Paper>
+        </Grid>
+      </Grid>
+    </form>
+  )}</Formik>);
 };
 
 export default LoginModal;

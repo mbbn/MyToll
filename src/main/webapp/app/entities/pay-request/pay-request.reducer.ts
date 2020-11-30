@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ICrudGetAction, ICrudGetAllAction, ICrudPutAction, ICrudDeleteAction } from 'react-jhipster';
+import { ICrudGetAction, ICrudSearchAction, ICrudPutAction, ICrudDeleteAction } from 'react-jhipster';
 
 import { cleanEntity } from 'app/shared/util/entity-utils';
 import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
@@ -101,8 +101,13 @@ const apiUrl = 'api/pay-requests';
 
 // Actions
 
-export const getEntities: ICrudGetAllAction<IPayRequest> = (page, size, sort) => {
-  const requestUrl = `${apiUrl}${sort ? `?page=${page}&size=${size}&sort=${sort}` : ''}`;
+export const getEntities: ICrudSearchAction<IPayRequest> = (customer, page, size, sort) => {
+  let requestUrl;
+  if(customer){
+    requestUrl = `${apiUrl}${sort ? `?customer.equals=${customer}&page=${page}&size=${size}&sort=${sort}` : ''}`;
+  }else {
+    requestUrl = `${apiUrl}${sort ? `?page=${page}&size=${size}&sort=${sort}` : ''}`;
+  }
   /* eslint-disable no-console */
   console.log(requestUrl);
   return {

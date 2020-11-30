@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Button, Col, Progress, Row, Table } from 'reactstrap';
+import {Paper, Button, Grid} from '@material-ui/core';
 import {
   CacheMetrics,
   DatasourceMetrics,
@@ -36,12 +36,14 @@ export const MetricsPage = (props: IMetricsPageProps) => {
   };
 
   const { metrics, threadDump, isFetching } = props;
+  /* eslint no-console: off */
+  console.log(metrics && metrics.jvm ? 'salam':'');
 
   return (
-    <div>
+    <Paper dir={'ltr'} elevation={2}>
       <h2 id="metrics-page-heading">Application Metrics</h2>
       <p>
-        <Button onClick={getMetrics} color={isFetching ? 'btn btn-danger' : 'btn btn-primary'} disabled={isFetching}>
+        <Button onClick={getMetrics} color={isFetching ? 'secondary' : 'primary'} disabled={isFetching}>
           <FontAwesomeIcon icon="sync" />
           &nbsp;
           <Translate component="span" contentKey="health.refresh.button">
@@ -50,70 +52,41 @@ export const MetricsPage = (props: IMetricsPageProps) => {
         </Button>
       </p>
       <hr />
-
-      <Row>
-        <Col sm="12">
-          <h3>JVM Metrics</h3>
-          <Row>
-            <Col md="4">
-              {metrics && metrics.jvm ? <JvmMemory jvmMetrics={metrics.jvm} wholeNumberFormat={APP_WHOLE_NUMBER_FORMAT} /> : ''}
-            </Col>
-            <Col md="4">{threadDump ? <JvmThreads jvmThreads={threadDump} wholeNumberFormat={APP_WHOLE_NUMBER_FORMAT} /> : ''}</Col>
-            <Col md="4">
-              {metrics && metrics.processMetrics ? (
-                <SystemMetrics
-                  systemMetrics={metrics.processMetrics}
-                  wholeNumberFormat={APP_WHOLE_NUMBER_FORMAT}
-                  timestampFormat={APP_TIMESTAMP_FORMAT}
-                />
-              ) : (
-                ''
-              )}
-            </Col>
-          </Row>
-        </Col>
-      </Row>
-
-      {metrics && metrics.garbageCollector ? (
-        <GarbageCollectorMetrics garbageCollectorMetrics={metrics.garbageCollector} wholeNumberFormat={APP_WHOLE_NUMBER_FORMAT} />
-      ) : (
-        ''
-      )}
-      {metrics && metrics['http.server.requests'] ? (
-        <HttpRequestMetrics
-          requestMetrics={metrics['http.server.requests']}
-          twoDigitAfterPointFormat={APP_TWO_DIGITS_AFTER_POINT_NUMBER_FORMAT}
-          wholeNumberFormat={APP_WHOLE_NUMBER_FORMAT}
-        />
-      ) : (
-        ''
-      )}
-      {metrics && metrics.services ? (
-        <EndpointsRequestsMetrics endpointsRequestsMetrics={metrics.services} wholeNumberFormat={APP_WHOLE_NUMBER_FORMAT} />
-      ) : (
-        ''
-      )}
-
-      {metrics.cache ? (
-        <Row>
-          <Col sm="12">
-            <CacheMetrics cacheMetrics={metrics.cache} twoDigitAfterPointFormat={APP_TWO_DIGITS_AFTER_POINT_NUMBER_FORMAT} />
-          </Col>
-        </Row>
-      ) : (
-        ''
-      )}
-
-      {metrics.databases && JSON.stringify(metrics.databases) !== '{}' ? (
-        <Row>
-          <Col sm="12">
-            <DatasourceMetrics datasourceMetrics={metrics.databases} twoDigitAfterPointFormat={APP_TWO_DIGITS_AFTER_POINT_NUMBER_FORMAT} />
-          </Col>
-        </Row>
-      ) : (
-        ''
-      )}
-    </div>
+      <Grid container>
+        <h3>JVM Metrics</h3>
+        <Grid container justify={"center"} spacing={2}>
+          <Grid item md={4}>
+            {metrics && metrics.jvm ? <JvmMemory jvmMetrics={metrics.jvm} wholeNumberFormat={'0'} /> : null}
+          </Grid>
+          <Grid item md={4}>
+            {threadDump ? <JvmThreads jvmThreads={threadDump} wholeNumberFormat={'0'} /> : null}
+          </Grid>
+          <Grid item md={4}>
+            {metrics && metrics.processMetrics ? <SystemMetrics systemMetrics={metrics.processMetrics} wholeNumberFormat={'0'} timestampFormat={APP_TIMESTAMP_FORMAT} />: null}
+          </Grid>
+          <Grid item md={4}>
+            {/*{metrics && metrics.garbageCollector ?
+        <GarbageCollectorMetrics garbageCollectorMetrics={metrics.garbageCollector} wholeNumberFormat={'0'}/> : null}*/}
+          </Grid>
+          <Grid item md={4}>
+            {metrics && metrics['http.server.requests'] ?
+              <HttpRequestMetrics requestMetrics={metrics['http.server.requests']} twoDigitAfterPointFormat={'0'}
+                                  wholeNumberFormat={'0'}/> : null}
+          </Grid>
+          <Grid item md={4}>
+            {metrics && metrics.services ?
+              <EndpointsRequestsMetrics endpointsRequestsMetrics={metrics.services} wholeNumberFormat={'0'}/> : null}
+          </Grid>
+          <Grid item md={12}>
+            {metrics.cache ? <CacheMetrics cacheMetrics={metrics.cache} twoDigitAfterPointFormat={'0'}/> : null}
+          </Grid>
+          <Grid item md={12}>
+            {metrics.databases && JSON.stringify(metrics.databases) !== '{}' ?
+              <DatasourceMetrics datasourceMetrics={metrics.databases} twoDigitAfterPointFormat={'0'}/> : null}
+          </Grid>
+        </Grid>
+      </Grid>
+    </Paper>
   );
 };
 

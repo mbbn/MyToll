@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
-import { Input, Row, Table, Card } from 'reactstrap';
-import { Translate, TextFormat, JhiPagination, JhiItemCount, getSortState, IPaginationBaseState } from 'react-jhipster';
+import {Paper, TableContainer, Table, TableHead, TableRow, TableBody, TableCell, TableFooter, TablePagination} from '@material-ui/core';
+import {translate, Translate, TextFormat, getSortState } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { APP_TIMESTAMP_FORMAT } from 'app/config/constants';
@@ -11,6 +11,8 @@ import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-u
 
 import { IRootState } from 'app/shared/reducers';
 import { getAudits } from '../administration.reducer';
+import Alert from "app/component/alert";
+import DatePicker from "app/component/datePicker";
 
 export interface IAuditsPageProps extends StateProps, DispatchProps, RouteComponentProps<{}> {}
 
@@ -63,9 +65,10 @@ export const AuditsPage = (props: IAuditsPageProps) => {
     }
   }, [props.location.search]);
 
-  const onChangeFromDate = evt => setFromDate(evt.target.value);
+  // const onChangeFromDate = evt => setFromDate(evt.target.value);
+  const onChangeFromDate = (date) => setFromDate(date.locale('en-US').format('YYYY-MM-DD'));
 
-  const onChangeToDate = evt => setToDate(evt.target.value);
+  const onChangeToDate = (date) => setToDate(date.locale('en-US').format('YYYY-MM-DD'));
 
   const sort = p => () =>
     setPagination({
@@ -94,75 +97,72 @@ export const AuditsPage = (props: IAuditsPageProps) => {
   const { audits, totalItems } = props;
 
   return (
-    <Card>
+    <Paper elevation={2}>
       <h2 id="audits-page-heading">Audits</h2>
-      <span>
-        <Translate contentKey="audits.filter.from">from</Translate>
-      </span>
-      <Input type="date" value={fromDate} onChange={onChangeFromDate} name="fromDate" id="fromDate" />
-      <span>
-        <Translate contentKey="audits.filter.to">to</Translate>
-      </span>
-      <Input type="date" value={toDate} onChange={onChangeToDate} name="toDate" id="toDate" />
+      <DatePicker name="fromDate" id="fromDate" value={fromDate} label={translate('audits.filter.from')} onChange={date => onChangeFromDate(date)}/>
+      <DatePicker name="toDate" id="toDate" value={toDate} label={translate('audits.filter.to')} onChange={date => onChangeToDate(date)}/>
       {audits && audits.length > 0 ? (
-        <Table striped responsive>
-          <thead>
-            <tr>
-              <th onClick={sort('auditEventDate')}>
+        <TableContainer>
+          <Table>
+            <TableHead>
+            <TableRow>
+              <TableCell onClick={sort('auditEventDate')}>
                 <Translate contentKey="audits.table.header.date">Date</Translate>
-                <FontAwesomeIcon icon="sort" />
-              </th>
-              <th onClick={sort('principal')}>
+                <FontAwesomeIcon icon="sort"/>
+              </TableCell>
+              <TableCell onClick={sort('principal')}>
                 <Translate contentKey="audits.table.header.principal">User</Translate>
-                <FontAwesomeIcon icon="sort" />
-              </th>
-              <th onClick={sort('auditEventType')}>
+                <FontAwesomeIcon icon="sort"/>
+              </TableCell>
+              <TableCell onClick={sort('auditEventType')}>
                 <Translate contentKey="audits.table.header.status">State</Translate>
-                <FontAwesomeIcon icon="sort" />
-              </th>
-              <th>
+                <FontAwesomeIcon icon="sort"/>
+              </TableCell>
+              <TableCell>
                 <Translate contentKey="audits.table.header.data">Extra data</Translate>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
+              </TableCell>
+            </TableRow>
+            </TableHead>
+            <TableBody>
             {audits.map((audit, i) => (
-              <tr key={`audit-${i}`}>
-                <td>{<TextFormat value={audit.timestamp} type="date" format={APP_TIMESTAMP_FORMAT} />}</td>
-                <td>{audit.principal}</td>
-                <td>{audit.type}</td>
-                <td>
+              <TableRow key={`audit-${i}`}>
+                <TableCell>{<TextFormat value={audit.timestamp} type="date" format={APP_TIMESTAMP_FORMAT}/>}</TableCell>
+                <TableCell>{audit.principal}</TableCell>
+                <TableCell>{audit.type}</TableCell>
+                <TableCell>
                   {audit.data ? audit.data.message : null}
                   {audit.data ? audit.data.remoteAddress : null}
-                </td>
-              </tr>
+                </TableCell>
+              </TableRow>
             ))}
-          </tbody>
-        </Table>
+            </TableBody>
+            <TableFooter>
+              <TableRow>
+                <TablePagination rowsPerPageOptions={[5, 10, 20, 50]} variant={"footer"}
+                                 labelDisplayedRows={paginationInfo => translate('global.item-count', {
+                                   'first': paginationInfo.from,
+                                   'second': paginationInfo.to,
+                                   'total': paginationInfo.count
+                                 })}
+                                 labelRowsPerPage={translate('global.rows-per-page')} count={props.totalItems}
+                                 rowsPerPage={pagination.itemsPerPage}
+                                 page={pagination.activePage} onChangePage={(event, page) => handlePagination(page)}
+                                 onChangeRowsPerPage={event => {
+                                   setPagination({
+                                     ...pagination,
+                                     itemsPerPage: Number(event.target.value)
+                                   });
+                                 }}/>
+              </TableRow>
+            </TableFooter>
+          </Table>
+        </TableContainer>
       ) : (
-        <div className="alert alert-warning">
-          <Translate contentKey="audits.notFound">No audit found</Translate>
-        </div>
+          <Alert color={"warning"}>
+              <Translate contentKey="audits.notFound">No audit found</Translate>
+          </Alert>
       )}
-      {props.totalItems ? (
-        <div className={audits && audits.length > 0 ? '' : 'd-none'}>
-          <Row className="justify-content-center">
-            <JhiItemCount page={pagination.activePage} total={totalItems} itemsPerPage={pagination.itemsPerPage} i18nEnabled />
-          </Row>
-          <Row className="justify-content-center">
-            <JhiPagination
-              activePage={pagination.activePage}
-              onSelect={handlePagination}
-              maxButtons={5}
-              itemsPerPage={pagination.itemsPerPage}
-              totalItems={props.totalItems}
-            />
-          </Row>
-        </div>
-      ) : (
-        ''
-      )}
-    </Card>
+    </Paper>
   );
 };
 

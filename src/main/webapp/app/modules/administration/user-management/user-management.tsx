@@ -28,6 +28,7 @@ import { getUsers, updateUser } from './user-management.reducer';
 import { IRootState } from 'app/shared/reducers';
 import {dateToJalaliStrWithFormat} from "app/component/datePicker";
 import {green, red, blueGrey} from '@material-ui/core/colors';
+import {convertEnglishNumberToPersian} from "app/shared/util/persian-utils";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -186,7 +187,7 @@ export const UserManagement = (props: IUserManagementProps) => {
             {users.map((user, i) => (
               <TableRow key={'user_'+i}>
                 <TableCell>
-                  <Link href={`${match.url}/${user.login}`}>{user.id}</Link>
+                  <Link href={`${match.url}/${user.login}`}>{convertEnglishNumberToPersian(user.id)}</Link>
                 </TableCell>
                 <TableCell>{user.login}</TableCell>
                 <TableCell>{user.email}</TableCell>

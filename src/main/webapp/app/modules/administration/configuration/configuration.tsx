@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Table, Input, Row, Col, Badge } from 'reactstrap';
-import { Translate } from 'react-jhipster';
+import {Paper, Badge, Grid, TableContainer, Table, TableHead, TableRow, TableBody, TableCell} from '@material-ui/core';
+import {Translate, translate} from 'react-jhipster';
 
 import { getConfigurations, getEnv } from '../administration.reducer';
 import { IRootState } from 'app/shared/reducers';
+import TextField from "app/component/textField";
 
 export interface IConfigurationPageProps extends StateProps, DispatchProps {}
 
@@ -40,78 +41,77 @@ export const ConfigurationPage = (props: IConfigurationPageProps) => {
   const env = configuration && configuration.env ? configuration.env : {};
 
   return (
-    <div>
+    <Paper elevation={2} dir={'ltr'}>
       <h2 id="configuration-page-heading">
         <Translate contentKey="configuration.title">Configuration</Translate>
       </h2>
-      <span>
-        <Translate contentKey="configuration.filter">Filter</Translate>
-      </span>{' '}
-      <Input type="search" value={filter} onChange={changeFilter} name="search" id="search" />
+      <TextField name="search" id="search" label={translate('configuration.filter')} value={filter} onChange={changeFilter}/>
       <label>Spring configuration</label>
-      <Table className="table table-striped table-bordered table-responsive d-table">
-        <thead>
-          <tr>
-            <th onClick={changeReversePrefix}>
-              <Translate contentKey="configuration.table.prefix">Prefix</Translate>
-            </th>
-            <th onClick={changeReverseProperties}>
-              <Translate contentKey="configuration.table.properties">Properties</Translate>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {configProps.contexts
-            ? Object.values(getContextList(configProps.contexts))
+      <TableContainer>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell onClick={changeReversePrefix}>
+                <Translate contentKey="configuration.table.prefix">Prefix</Translate>
+              </TableCell>
+              <TableCell onClick={changeReverseProperties}>
+                <Translate contentKey="configuration.table.properties">Properties</Translate>
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {configProps.contexts
+              ? Object.values(getContextList(configProps.contexts))
                 .filter(propsFilterFn)
                 .map((property: any, propIndex) => (
-                  <tr key={propIndex}>
-                    <td>{property['prefix']}</td>
-                    <td>
+                  <TableRow key={propIndex}>
+                    <TableCell>{property['prefix']}</TableCell>
+                    <TableCell>
                       {Object.keys(property['properties']).map((propKey, index) => (
-                        <Row key={index}>
-                          <Col md="4">{propKey}</Col>
-                          <Col md="8">
+                        <Grid container key={index}>
+                          <Grid item md={4}>{propKey}</Grid>
+                          <Grid item md={8}>
                             <Badge className="float-right badge-secondary break">{JSON.stringify(property['properties'][propKey])}</Badge>
-                          </Col>
-                        </Row>
+                          </Grid>
+                        </Grid>
                       ))}
-                    </td>
-                  </tr>
+                    </TableCell>
+                  </TableRow>
                 ))
-            : null}
-        </tbody>
-      </Table>
+              : null}
+          </TableBody>
+        </Table>
+      </TableContainer>
       {env.propertySources
         ? env.propertySources.map((envKey, envIndex) => (
             <div key={envIndex}>
               <h4>
                 <span>{envKey.name}</span>
               </h4>
-              <Table className="table table-sm table-striped table-bordered table-responsive d-table">
-                <thead>
-                  <tr key={envIndex}>
-                    <th className="w-40">Property</th>
-                    <th className="w-60">Value</th>
-                  </tr>
-                </thead>
-                <tbody>
+              <TableContainer>
+                <TableHead>
+                  <TableRow>
+                    <TableCell className="w-40">Property</TableCell>
+                    <TableCell className="w-60">Value</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
                   {Object.keys(envKey.properties)
                     .filter(envFilterFn)
                     .map((propKey, propIndex) => (
-                      <tr key={propIndex}>
-                        <td className="break">{propKey}</td>
-                        <td className="break">
+                      <TableRow key={propIndex}>
+                        <TableCell className="break">{propKey}</TableCell>
+                        <TableCell className="break">
                           <span className="float-right badge badge-secondary break">{envKey.properties[propKey].value}</span>
-                        </td>
-                      </tr>
+                        </TableCell>
+                      </TableRow>
                     ))}
-                </tbody>
-              </Table>
+                </TableBody>
+              </TableContainer>
             </div>
           ))
         : null}
-    </div>
+    </Paper>
   );
 };
 

@@ -19,6 +19,9 @@ const myTollTheme = createMuiTheme({
     MuiTypography: {
       root:{
         fontFamily: 'IRANSansWeb'
+      },
+      body2:{
+        fontFamily: 'IRANSansWeb'
       }
     },
     MuiToolbar: {
@@ -38,8 +41,12 @@ const myTollTheme = createMuiTheme({
     MuiFormControl:{
       root:{
         marginBottom: 10,
-        // marginRight: 5,
         fontFamily: 'IRANSansWeb'
+      }
+    },
+    MuiFormHelperText:{
+      root:{
+        fontFamily: 'IRANSansWeb',
       }
     },
     MuiInputBase:{
@@ -50,7 +57,6 @@ const myTollTheme = createMuiTheme({
     MuiInput:{
       root:{
         fontFamily: 'IRANSansWeb',
-        // fontSize: 'large',
         textAlign: 'center',
       },
     },
@@ -62,7 +68,6 @@ const myTollTheme = createMuiTheme({
     },
     MuiTable:{
       root:{
-        // backgroundColor:blueGrey["50"]
       }
     },
     MuiTableRow: {
@@ -76,6 +81,9 @@ const myTollTheme = createMuiTheme({
       },
     },
     MuiTableCell: {
+      root:{
+        fontFamily: 'IRANSansWeb'
+      },
       head:{
         color: blueGrey["100"],
       }
@@ -95,18 +103,26 @@ const myTollTheme = createMuiTheme({
         paddingTop: 0,
         paddingBottom: 0
       }
+    },
+    MuiTab:{
+      wrapper:{
+        fontFamily: 'IRANSansWeb',
+      }
+    },
+    MuiButton:{
+      label:{
+        fontFamily: 'IRANSansWeb',
+      }
+    },
+    MuiOutlinedInput: {
+      notchedOutline:{
+        borderRadius: 1
+      }
     }
   },
   props: {
     MuiOutlinedInput: {
       labelWidth: 10,
-    },
-    MuiInputBase:{
-      inputProps:{
-        style:{
-          // fontSize: 'large',
-        }
-      }
     },
     MuiSelect:{
       style:{
@@ -119,7 +135,6 @@ const myTollTheme = createMuiTheme({
     type: "light",
     primary: {
       main: grey["900"],
-      // contrastText: common.white
     },
     text:{
 

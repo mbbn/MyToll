@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import {Paper, Button, Badge, TableContainer, Table, TableHead, TableRow, TableBody, TableCell} from '@material-ui/core';
 import { Translate } from 'react-jhipster';
-import { Table, Badge, Col, Row, Button } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
@@ -37,10 +37,10 @@ export const HealthPage = (props: IHealthPageProps) => {
   const data = (health || {}).components || {};
 
   return (
-    <div>
+    <Paper elevation={2} dir={'ltr'}>
       <h2 id="health-page-heading">Health Checks</h2>
       <p>
-        <Button onClick={getSystemHealth} color={isFetching ? 'btn btn-danger' : 'btn btn-primary'} disabled={isFetching}>
+        <Button onClick={getSystemHealth} color={isFetching ? 'secondary' : 'primary'} disabled={isFetching}>
           <FontAwesomeIcon icon="sync" />
           &nbsp;
           <Translate component="span" contentKey="health.refresh.button">
@@ -48,40 +48,35 @@ export const HealthPage = (props: IHealthPageProps) => {
           </Translate>
         </Button>
       </p>
-      <Row>
-        <Col md="12">
-          <Table bordered aria-describedby="health-page-heading">
-            <thead>
-              <tr>
-                <th>Service Name</th>
-                <th>Status</th>
-                <th>Details</th>
-              </tr>
-            </thead>
-            <tbody>
-              {Object.keys(data).map((configPropKey, configPropIndex) =>
-                configPropKey !== 'status' ? (
-                  <tr key={configPropIndex}>
-                    <td>{configPropKey}</td>
-                    <td>
-                      <Badge color={data[configPropKey].status !== 'UP' ? 'danger' : 'success'}>{data[configPropKey].status}</Badge>
-                    </td>
-                    <td>
-                      {data[configPropKey].details ? (
-                        <a onClick={getSystemHealthInfo(configPropKey, data[configPropKey])}>
-                          <FontAwesomeIcon icon="eye" />
-                        </a>
-                      ) : null}
-                    </td>
-                  </tr>
-                ) : null
-              )}
-            </tbody>
-          </Table>
-        </Col>
-      </Row>
+      <TableContainer dir={'ltr'}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Service Name</TableCell>
+              <TableCell>Status</TableCell>
+              <TableCell>Details</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {Object.keys(data).map((configPropKey, configPropIndex) => 'status' !== configPropKey ? <TableRow>
+              <TableCell>{configPropKey}</TableCell>
+              <TableCell>
+                <Badge
+                  color={data[configPropKey].status !== 'UP' ? 'error' : 'primary'}>{data[configPropKey].status}</Badge>
+              </TableCell>
+              <TableCell>
+                {data[configPropKey].details ? (
+                  <a onClick={getSystemHealthInfo(configPropKey, data[configPropKey])}>
+                    <FontAwesomeIcon icon="eye"/>
+                  </a>
+                ) : null}
+              </TableCell>
+            </TableRow> : null)}
+          </TableBody>
+        </Table>
+      </TableContainer>
       {renderModal()}
-    </div>
+    </Paper>
   );
 };
 

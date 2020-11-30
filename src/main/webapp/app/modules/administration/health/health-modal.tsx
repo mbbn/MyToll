@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
+import {Dialog, DialogTitle, DialogContent, DialogActions, TableContainer, Table, TableHead, TableRow, TableBody, TableCell, Button} from '@material-ui/core';
 
 const formatDiskSpaceOutput = rawValue => {
   // Should display storage space in an human readable unit
@@ -15,32 +15,34 @@ const formatDiskSpaceOutput = rawValue => {
 const HealthModal = ({ handleClose, healthObject, showModal }) => {
   const data = healthObject.details || {};
   return (
-    <Modal isOpen={showModal} modalTransition={{ timeout: 20 }} backdropTransition={{ timeout: 10 }} toggle={handleClose}>
-      <ModalHeader toggle={handleClose}>{healthObject.name}</ModalHeader>
-      <ModalBody>
-        <Table bordered>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            {Object.keys(data).map((key, index) => (
-              <tr key={index}>
-                <td>{key}</td>
-                <td>{healthObject.name === 'diskSpace' ? formatDiskSpaceOutput(data[key]) : JSON.stringify(data[key])}</td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
-      </ModalBody>
-      <ModalFooter>
-        <Button color="primary" onClick={handleClose}>
-          Close
-        </Button>
-      </ModalFooter>
-    </Modal>
+      <Dialog open={showModal} onClose={handleClose} dir={'ltr'}>
+        <DialogTitle>{healthObject.name}</DialogTitle>
+        <DialogContent>
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Name</TableCell>
+                  <TableCell>Value</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {Object.keys(data).map((key, index) => (
+                  <TableRow key={index}>
+                    <TableCell>{key}</TableCell>
+                    <TableCell>{healthObject.name === 'diskSpace' ? formatDiskSpaceOutput(data[key]) : JSON.stringify(data[key])}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </DialogContent>
+        <DialogActions>
+          <Button color="primary" onClick={handleClose}>
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
   );
 };
 

@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Translate } from 'react-jhipster';
+import {translate, Translate} from 'react-jhipster';
+import {Paper, TableContainer, Table, TableHead, TableRow, TableBody, TableCell} from '@material-ui/core';
 
 import { getLoggers, changeLogLevel } from '../administration.reducer';
 import { IRootState } from 'app/shared/reducers';
+import TextField from "app/component/textField";
 
 export interface ILogsPageProps extends StateProps, DispatchProps {}
 
@@ -32,7 +34,7 @@ export const LogsPage = (props: ILogsPageProps) => {
   const loggers = logs ? Object.entries(logs.loggers).map(e => ({ name: e[0], level: e[1].effectiveLevel })) : [];
 
   return (
-    <div>
+    <Paper elevation={2}>
       <h2 id="logs-page-heading">
         <Translate contentKey="logs.title">Logs</Translate>
       </h2>
@@ -42,33 +44,30 @@ export const LogsPage = (props: ILogsPageProps) => {
         </Translate>
       </p>
 
-      <span>
-        <Translate contentKey="logs.filter">Filter</Translate>
-      </span>
-      <input type="text" value={filter} onChange={changeFilter} className="form-control" disabled={isFetching} />
-
-      <table className="table table-sm table-striped table-bordered" aria-describedby="logs-page-heading">
-        <thead>
-          <tr title="click to order">
-            <th>
+      <TextField name={''} label={translate('logs.filter')} value={filter} onChange={changeFilter} className="form-control" disabled={isFetching}/>
+      <TableContainer>
+        <Table>
+          <TableHead>
+          <TableRow>
+            <TableCell>
               <span>
                 <Translate contentKey="logs.table.name">Name</Translate>
               </span>
-            </th>
-            <th>
+            </TableCell>
+            <TableCell>
               <span>
                 <Translate contentKey="logs.table.level">Level</Translate>
               </span>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
+            </TableCell>
+          </TableRow>
+          </TableHead>
+          <TableBody>
           {loggers.filter(filterFn).map((logger, i) => (
-            <tr key={`log-row-${i}`}>
-              <td>
+            <TableRow key={`log-row-${i}`}>
+              <TableCell>
                 <small>{logger.name}</small>
-              </td>
-              <td>
+              </TableCell>
+              <TableCell>
                 <button
                   disabled={isFetching}
                   onClick={changeLevel(logger.name, 'TRACE')}
@@ -111,12 +110,13 @@ export const LogsPage = (props: ILogsPageProps) => {
                 >
                   OFF
                 </button>
-              </td>
-            </tr>
+              </TableCell>
+            </TableRow>
           ))}
-        </tbody>
-      </table>
-    </div>
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Paper>
   );
 };
 

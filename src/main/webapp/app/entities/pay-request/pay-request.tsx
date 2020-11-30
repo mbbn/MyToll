@@ -56,12 +56,12 @@ export const PayRequest = (props: IPayRequestProps) => {
     overridePaginationStateWithQueryParams(getSortState(props.location, ITEMS_PER_PAGE), props.location.search)
   );
 
-  const getAllEntities = () => {
-    props.getEntities(paginationState.activePage - 1, paginationState.itemsPerPage, `${paginationState.sort},${paginationState.order}`);
+  const getAllEntities = (customer: string) => {
+    props.getEntities(customer, paginationState.activePage - 1, paginationState.itemsPerPage, `${paginationState.sort},${paginationState.order}`);
   };
 
-  const sortEntities = () => {
-    getAllEntities();
+  const sortEntities = (customer: string) => {
+    getAllEntities(customer);
     const endURL = `?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`;
     if (props.location.search !== endURL) {
       props.history.push(`${props.location.pathname}${endURL}`);
@@ -69,7 +69,7 @@ export const PayRequest = (props: IPayRequestProps) => {
   };
 
   useEffect(() => {
-    sortEntities();
+    sortEntities(undefined);
   }, [paginationState.activePage, paginationState.order, paginationState.sort]);
 
   useEffect(() => {
@@ -108,7 +108,7 @@ export const PayRequest = (props: IPayRequestProps) => {
       <h2 id="pay-request-heading">
         <Translate contentKey="myTollApp.payRequest.home.title">Pay Requests</Translate>
       </h2>
-      <Formik initialValues={{}} onSubmit={values => {}}>{({handleSubmit, errors, values, handleChange, handleBlur, setFieldValue}) => (
+      <Formik initialValues={{}} onSubmit={values => {sortEntities(values['customer'])}}>{({handleSubmit, errors, values, handleChange, handleBlur, setFieldValue}) => (
         <form onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={8} md={2}>
@@ -117,7 +117,7 @@ export const PayRequest = (props: IPayRequestProps) => {
                           error={errors['requestTime'] !== undefined} helperText={errors['requestTime']}
                           label={translate('myTollApp.payRequest.requestTime')} onChange={date => setFieldValue('requestTime', date)}/>*/}
               <TextField id={'customer'} name={'customer'} onBlur={handleBlur}
-                         autoComplete={'off'} value={values['customer']}
+                         autoComplete={'off'} value={values['customer']} maxLength={11}
                          error={errors['customer'] !== undefined} helperText={errors['customer']}
                          label={translate('myTollApp.payRequest.customer')} onChange={event => {
                 const reg = /^\d+$/;
@@ -218,9 +218,9 @@ export const PayRequest = (props: IPayRequestProps) => {
             <TableRow>
               <TablePagination rowsPerPageOptions={[5, 10, 20, 50]} variant={"footer"}
                                labelDisplayedRows={paginationInfo => translate('global.item-count', {
-                                 'first': 0,
-                                 'second': 1,
-                                 'total': props.totalItems
+                                 'first': paginationInfo.from,
+                                 'second': paginationInfo.to,
+                                 'total': paginationInfo.count
                                })}
                                labelRowsPerPage={translate('global.rows-per-page')} count={totalItems}
                                rowsPerPage={paginationState.itemsPerPage}
@@ -248,6 +248,7 @@ const mapStateToProps = ({ payRequest }: IRootState) => ({
   payRequestList: payRequest.entities,
   loading: payRequest.loading,
   totalItems: payRequest.totalItems,
+  customer: ''
 });
 
 const mapDispatchToProps = {
