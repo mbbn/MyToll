@@ -20,12 +20,10 @@ import org.springframework.web.util.UriBuilder;
 
 import java.net.URI;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 @Service
@@ -77,11 +75,16 @@ public class PaymentService extends RestTemplate {
                     LoginResponseDto loginResponseDto = sepandarResponseDto.getResult();
                     expireTime = loginResponseDto.getExpiredTime();
                     token = loginResponseDto.getToken();
+                    log.trace("login with params username:{}, password:{}, appId:{}, orgId:{}", username, password, appId, orgId);
                     return token;
                 }else {
+                    assert sepandarResponseDto != null;
+                    log.error("failed to login with params username:{}, password:{}, appId:{}, orgId:{} ({})==> {}", username, password, appId, orgId, sepandarResponseDto.getErrorCode(), sepandarResponseDto.getMessage());
                     throw new RuntimeException("failed to login");
                 }
             } catch (RestClientException e) {
+                log.error("failed to login with params username:{}, password:{}, appId:{}, orgId:{}", username, password, appId, orgId);
+                log.trace("failed to login with params username:{}, password:{}, appId:{}, orgId:{}", username, password, appId, orgId, e);
                 throw new RuntimeException("failed to login");
             }
         }else {
@@ -139,17 +142,21 @@ public class PaymentService extends RestTemplate {
                 PayResponseDto result = sepandarResponseDto.getResult();
                 payRequest.setShortId(result.getShortId());
                 return result.getUrl();
-            }else {
-                throw new RuntimeException("failed to login");
+            } else {
+                assert sepandarResponseDto != null;
+                log.error("failed to pay with trackingId:{} ({})==>{}", payRequest.getTrackingId(), sepandarResponseDto.getErrorCode(), sepandarResponseDto.getMessage());
+                throw new RuntimeException("failed to pay");
             }
         } catch (RestClientException e) {
+            log.error("failed to pay");
+            log.trace("failed to pay", e);
             throw new RuntimeException("failed to login");
         } finally {
             payRequestRepository.save(payRequest);
         }
     }
 
-    public List<PaymentDto> paid(LocalDateTime startTime, LocalDateTime endTime){
+    /*public List<PaymentDto> paid(LocalDateTime startTime, LocalDateTime endTime){
         try {
             String token = login();
             String PAYMENT_CREATE_PATH = "api/payment/getall/paid";
@@ -178,5 +185,5 @@ public class PaymentService extends RestTemplate {
         } catch (RestClientException e) {
             throw new RuntimeException("failed to login");
         }
-    }
+    }*/
 }

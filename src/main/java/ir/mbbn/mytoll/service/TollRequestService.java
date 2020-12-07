@@ -9,7 +9,6 @@ import ir.mbbn.mytoll.domain.enumeration.BillStatus;
 import ir.mbbn.mytoll.domain.enumeration.TaxCategory;
 import ir.mbbn.mytoll.repository.BillRepository;
 import ir.mbbn.mytoll.repository.CustomerRepository;
-import ir.mbbn.mytoll.repository.PayRequestRepository;
 import ir.mbbn.mytoll.service.dto.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,17 +42,15 @@ public class TollRequestService extends RestTemplate {
     private final CustomerRepository customerRepository;
     private final BillRepository billRepository;
     private final PaymentService paymentService;
-    private final PayRequestRepository payRequestRepository;
 
     private String token;
     private Date expireTime;
 
-    public TollRequestService(ApplicationProperties applicationProperties, CustomerRepository customerRepository, BillRepository billRepository, PaymentService paymentService, PayRequestRepository payRequestRepository) {
+    public TollRequestService(ApplicationProperties applicationProperties, CustomerRepository customerRepository, BillRepository billRepository, PaymentService paymentService) {
         sepandar = applicationProperties.getTax();
         this.customerRepository = customerRepository;
         this.billRepository = billRepository;
         this.paymentService = paymentService;
-        this.payRequestRepository = payRequestRepository;
     }
 
     private UriBuilder getUrlBuilder(){
@@ -77,21 +74,25 @@ public class TollRequestService extends RestTemplate {
                     .queryParam("password", password)
                     .queryParam("appId", appId)
                     .queryParam("orgId", orgId).build();
-                ResponseEntity<SepandarResponseDto<LoginResponseDto>> response = exchange(uri, HttpMethod.POST, null, new ParameterizedTypeReference<SepandarResponseDto<LoginResponseDto>>() {
-                });
+                ResponseEntity<SepandarResponseDto<LoginResponseDto>> response = exchange(uri, HttpMethod.POST, null, new ParameterizedTypeReference<SepandarResponseDto<LoginResponseDto>>() {});
                 SepandarResponseDto<LoginResponseDto> sepandarResponseDto = response.getBody();
                 if(sepandarResponseDto!= null && sepandarResponseDto.isSuccess()){
                     LoginResponseDto loginResponseDto = sepandarResponseDto.getResult();
                     expireTime = loginResponseDto.getExpiredTime();
                     token = loginResponseDto.getToken();
+                    log.trace("login with params username:{}, password:{}, appId:{}, orgId:{}", username, password, appId, orgId);
                     return token;
-                }else {
+                } else {
+                    assert sepandarResponseDto != null;
+                    log.error("failed to login with params username:{}, password:{}, appId:{}, orgId:{} ({})==> {}", username, password, appId, orgId, sepandarResponseDto.getErrorCode(), sepandarResponseDto.getMessage());
                     throw new RuntimeException("failed to login");
                 }
             } catch (RestClientException e) {
+                log.error("failed to login with params username:{}, password:{}, appId:{}, orgId:{}", username, password, appId, orgId);
+                log.trace("failed to login with params username:{}, password:{}, appId:{}, orgId:{}", username, password, appId, orgId, e);
                 throw new RuntimeException("failed to login");
             }
-        }else {
+        } else {
             return token;
         }
     }
@@ -121,38 +122,39 @@ public class TollRequestService extends RestTemplate {
                 PlateBillsResponseDto result = sepandarResponseDto.getResult();
                 List<Bill> results = new ArrayList<>();
                 for(BillDto billDto:result.getData()){
-                    Bill bill = billRepository.findOneByExternalNumber(billDto.getExternalNumber()).orElse(new Bill());
-                    if(bill.getBillStatus() == null){
-                        bill.setBillStatus(BillStatus.UNPAID);
-                        bill.setCategory(TaxCategory.SIDEPARK);
-                        BillTypeDto billType = billDto.getBillType();
-                        if(billType!= null){
-                            bill.setBillType(billType.getBillTypeabbrivation());
-                            bill.setBillTypeTitle(billType.getBillTypeTitle());
-                            bill.setCategory(TaxCategory.valueOf(billType.getCategoryName()));
-                        }
-                        ExtraInfoDto extraInfo = billDto.getExtraInfo();
-                        if(extraInfo!=null){
-                            bill.setStreet(extraInfo.getStreet());
-                            bill.setFromDate(extraInfo.getFrom());
-                            bill.setToDate(extraInfo.getTo());
-                        }
-                        bill.setPlate(String.valueOf(plate));
-                        bill.setBillId(billDto.get_id());
-                        bill.setAmount(billDto.getAmount());
-                        bill.setExternalNumber(billDto.getExternalNumber());
-                        bill.setBillDate(billDto.getBillDate());
-                        results.add(bill);
-                    } else if (BillStatus.UNPAID.equals(bill.getBillStatus())) {
-                        results.add(bill);
+                    Bill bill = new Bill();
+                    bill.setBillStatus(BillStatus.UNPAID);
+                    bill.setCategory(TaxCategory.SIDEPARK);
+                    BillTypeDto billType = billDto.getBillType();
+                    if(billType!= null){
+                        bill.setBillType(billType.getBillTypeabbrivation());
+                        bill.setBillTypeTitle(billType.getBillTypeTitle());
+                        bill.setCategory(TaxCategory.valueOf(billType.getCategoryName()));
                     }
+                    ExtraInfoDto extraInfo = billDto.getExtraInfo();
+                    if(extraInfo!=null){
+                        bill.setStreet(extraInfo.getStreet());
+                        bill.setFromDate(extraInfo.getFrom());
+                        bill.setToDate(extraInfo.getTo());
+                    }
+                    bill.setPlate(String.valueOf(plate));
+                    bill.setBillId(billDto.get_id());
+                    bill.setAmount(billDto.getAmount());
+                    bill.setExternalNumber(billDto.getExternalNumber());
+                    bill.setBillDate(billDto.getBillDate());
+                    results.add(bill);
                 }
+                log.trace("get plate bills of {} ==> {}", plate, results);
                 return results;
-            }else {
-                throw new RuntimeException("failed to login");
+            } else {
+                assert sepandarResponseDto != null;
+                log.error("failed to get plate bills of {} ({})==>{}", plate, sepandarResponseDto.getErrorCode(), sepandarResponseDto.getMessage());
+                throw new RuntimeException("failed to get plate bills");
             }
         } catch (RestClientException e) {
-            throw new RuntimeException("failed to login");
+            log.error("failed to get plate bills of {}", plate);
+            log.trace("failed to get plate bills of {}", plate, e);
+            throw new RuntimeException("failed to get plate bills");
         }
     }
 
@@ -169,6 +171,7 @@ public class TollRequestService extends RestTemplate {
             customer.lastUpdateTime(ZonedDateTime.now());
             customer.setMobile(mobileNumber);
             customerRepository.save(customer);
+            log.trace("register customer with mobileNumber:{}", mobileNumber);
         }
         payRequest.setCustomer(customer);
 
@@ -192,7 +195,7 @@ public class TollRequestService extends RestTemplate {
         return paymentService.pay(payRequest);
     }
 
-    public PayRequest mPayBill(PayRequest payRequest) {
+    /*public PayRequest mPayBill(PayRequest payRequest) {
         String trackingId = payRequest.getTrackingId();
         try {
             String token = login();
@@ -266,5 +269,5 @@ public class TollRequestService extends RestTemplate {
         } catch (RestClientException e) {
             throw new RuntimeException("failed to login");
         }
-    }
+    }*/
 }
