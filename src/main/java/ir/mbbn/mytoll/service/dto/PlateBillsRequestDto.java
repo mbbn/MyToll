@@ -5,11 +5,13 @@ import java.util.List;
 
 public class PlateBillsRequestDto implements Serializable {
 
-    private Integer plate;
+    private String plate;
 
     private String fromDate;
 
     private String toDate;
+
+    private String categoryName;
 
     private List<String> billTypeabbrivation;
 
@@ -17,11 +19,11 @@ public class PlateBillsRequestDto implements Serializable {
 
     private int count;
 
-    public Integer getPlate() {
+    public String getPlate() {
         return plate;
     }
 
-    public void setPlate(Integer plate) {
+    public void setPlate(String plate) {
         this.plate = plate;
     }
 
@@ -39,6 +41,14 @@ public class PlateBillsRequestDto implements Serializable {
 
     public void setToDate(String toDate) {
         this.toDate = toDate;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
     public List<String> getBillTypeabbrivation() {

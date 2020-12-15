@@ -7,7 +7,7 @@ const myTollTheme = createMuiTheme({
       '@global':{
         body:{
           backgroundColor:grey["300"],
-          fontFamily: 'IRANSansWeb !important'
+          fontFamily: 'yekan !important'
         },
       }
     },
@@ -18,21 +18,21 @@ const myTollTheme = createMuiTheme({
     },
     MuiTypography: {
       root:{
-        fontFamily: 'IRANSansWeb'
+        fontFamily: 'yekan'
       },
       body2:{
-        fontFamily: 'IRANSansWeb'
+        fontFamily: 'yekan'
       }
     },
     MuiToolbar: {
       root:{
-        fontFamily: 'IRANSansWeb'
+        fontFamily: 'yekan'
       }
     },
     MuiIconButton: {
       root:{
         color: 'inherit',
-        fontFamily: 'IRANSansWeb',
+        fontFamily: 'yekan',
         fontSize: "small"
       },
       label:{
@@ -41,22 +41,22 @@ const myTollTheme = createMuiTheme({
     MuiFormControl:{
       root:{
         marginBottom: 10,
-        fontFamily: 'IRANSansWeb'
+        fontFamily: 'yekan'
       }
     },
     MuiFormHelperText:{
       root:{
-        fontFamily: 'IRANSansWeb',
+        fontFamily: 'yekan',
       }
     },
     MuiInputBase:{
       root:{
-        fontFamily: 'IRANSansWeb'
+        fontFamily: 'yekan'
       }
     },
     MuiInput:{
       root:{
-        fontFamily: 'IRANSansWeb',
+        fontFamily: 'yekan',
         textAlign: 'center',
       },
     },
@@ -82,7 +82,7 @@ const myTollTheme = createMuiTheme({
     },
     MuiTableCell: {
       root:{
-        fontFamily: 'IRANSansWeb'
+        fontFamily: 'yekan'
       },
       head:{
         color: blueGrey["100"],
@@ -106,12 +106,12 @@ const myTollTheme = createMuiTheme({
     },
     MuiTab:{
       wrapper:{
-        fontFamily: 'IRANSansWeb',
+        fontFamily: 'yekan',
       }
     },
     MuiButton:{
       label:{
-        fontFamily: 'IRANSansWeb',
+        fontFamily: 'yekan',
       }
     },
     MuiOutlinedInput: {

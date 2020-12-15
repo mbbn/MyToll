@@ -1,5 +1,7 @@
 package ir.mbbn.mytoll.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import ir.mbbn.mytoll.config.ApplicationProperties;
 import ir.mbbn.mytoll.domain.Bill;
 import ir.mbbn.mytoll.domain.Customer;
@@ -9,7 +11,9 @@ import ir.mbbn.mytoll.domain.enumeration.BillStatus;
 import ir.mbbn.mytoll.domain.enumeration.TaxCategory;
 import ir.mbbn.mytoll.repository.BillRepository;
 import ir.mbbn.mytoll.repository.CustomerRepository;
+import ir.mbbn.mytoll.repository.PayRequestRepository;
 import ir.mbbn.mytoll.service.dto.*;
+import org.mapstruct.Mapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,15 +46,17 @@ public class TollRequestService extends RestTemplate {
     private final CustomerRepository customerRepository;
     private final BillRepository billRepository;
     private final PaymentService paymentService;
+    private final PayRequestRepository payRequestRepository;
 
     private String token;
     private Date expireTime;
 
-    public TollRequestService(ApplicationProperties applicationProperties, CustomerRepository customerRepository, BillRepository billRepository, PaymentService paymentService) {
+    public TollRequestService(ApplicationProperties applicationProperties, CustomerRepository customerRepository, BillRepository billRepository, PaymentService paymentService, PayRequestRepository payRequestRepository) {
         sepandar = applicationProperties.getTax();
         this.customerRepository = customerRepository;
         this.billRepository = billRepository;
         this.paymentService = paymentService;
+        this.payRequestRepository = payRequestRepository;
     }
 
     private UriBuilder getUrlBuilder(){
@@ -97,7 +103,7 @@ public class TollRequestService extends RestTemplate {
         }
     }
 
-    public List<Bill> getPlateBills(@Valid Integer plate) {
+    public List<Bill> getPlateBills(@Valid String plate, @Valid String category) {
         try {
             String token = login();
             String GET_PLATE_BILLS_PATH = "api/bill/getPlateBills";
@@ -107,6 +113,7 @@ public class TollRequestService extends RestTemplate {
             headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
 
             PlateBillsRequestDto plateBillsRequestDto = new PlateBillsRequestDto();
+            plateBillsRequestDto.setCategoryName(category);
             ArrayList<String> billTypeabbrivation = new ArrayList<>();
             billTypeabbrivation.add("NSHRPR");
             billTypeabbrivation.add("TEHPRK");
@@ -118,31 +125,35 @@ public class TollRequestService extends RestTemplate {
             HttpEntity<PlateBillsRequestDto> requestEntity = new HttpEntity<>(plateBillsRequestDto, headers);
             ResponseEntity<SepandarResponseDto<PlateBillsResponseDto>> response = exchange(uri, HttpMethod.POST, requestEntity, new ParameterizedTypeReference<SepandarResponseDto<PlateBillsResponseDto>>() {});
             SepandarResponseDto<PlateBillsResponseDto> sepandarResponseDto = response.getBody();
-            if(sepandarResponseDto!= null && sepandarResponseDto.isSuccess()){
+            if (sepandarResponseDto != null && sepandarResponseDto.isSuccess()) {
                 PlateBillsResponseDto result = sepandarResponseDto.getResult();
                 List<Bill> results = new ArrayList<>();
-                for(BillDto billDto:result.getData()){
-                    Bill bill = new Bill();
-                    bill.setBillStatus(BillStatus.UNPAID);
-                    bill.setCategory(TaxCategory.SIDEPARK);
-                    BillTypeDto billType = billDto.getBillType();
-                    if(billType!= null){
-                        bill.setBillType(billType.getBillTypeabbrivation());
-                        bill.setBillTypeTitle(billType.getBillTypeTitle());
-                        bill.setCategory(TaxCategory.valueOf(billType.getCategoryName()));
+                for (BillDto billDto : result.getData()) {
+                    Bill bill = billRepository.findOneByExternalNumber(billDto.getExternalNumber()).orElse(new Bill());
+                    if (bill.getBillStatus() == null) {
+                        bill.setBillStatus(BillStatus.UNPAID);
+                        bill.setCategory(TaxCategory.SIDEPARK);
+                        BillTypeDto billType = billDto.getBillType();
+                        if (billType != null) {
+                            bill.setBillType(billType.getBillTypeabbrivation());
+                            bill.setBillTypeTitle(billType.getBillTypeTitle());
+                            bill.setCategory(TaxCategory.valueOf(billType.getCategoryName()));
+                        }
+                        ExtraInfoDto extraInfo = billDto.getExtraInfo();
+                        if (extraInfo != null) {
+                            bill.setStreet(extraInfo.getStreet());
+                            bill.setFromDate(extraInfo.getFrom());
+                            bill.setToDate(extraInfo.getTo());
+                        }
+                        bill.setPlate(String.valueOf(plate));
+                        bill.setBillId(billDto.get_id());
+                        bill.setAmount(billDto.getAmount());
+                        bill.setExternalNumber(billDto.getExternalNumber());
+                        bill.setBillDate(billDto.getBillDate());
+                        results.add(bill);
+                    } else if (BillStatus.UNPAID.equals(bill.getBillStatus())) {
+                        results.add(bill);
                     }
-                    ExtraInfoDto extraInfo = billDto.getExtraInfo();
-                    if(extraInfo!=null){
-                        bill.setStreet(extraInfo.getStreet());
-                        bill.setFromDate(extraInfo.getFrom());
-                        bill.setToDate(extraInfo.getTo());
-                    }
-                    bill.setPlate(String.valueOf(plate));
-                    bill.setBillId(billDto.get_id());
-                    bill.setAmount(billDto.getAmount());
-                    bill.setExternalNumber(billDto.getExternalNumber());
-                    bill.setBillDate(billDto.getBillDate());
-                    results.add(bill);
                 }
                 log.trace("get plate bills of {} ==> {}", plate, results);
                 return results;

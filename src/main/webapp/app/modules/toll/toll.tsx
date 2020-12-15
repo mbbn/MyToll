@@ -8,10 +8,11 @@ import TextField from "app/component/textField";
 import {connect} from 'react-redux';
 import {IRootState} from "app/shared/reducers";
 
-export interface IMarginalProps extends StateProps, DispatchProps {
+export interface ITollProps extends StateProps, DispatchProps {
+  category: string;
 }
 
-export const Marginal = (props: IMarginalProps) => {
+export const Toll = (props: ITollProps) => {
   const history = useHistory();
 
   const isValid = (values: any) => {
@@ -30,7 +31,7 @@ export const Marginal = (props: IMarginalProps) => {
   };
 
   const save = (values: any) => {
-    history.push(values['mobile']+'/'+values['plate']+'/bills');
+    history.push(values['mobile'] + '/' + values['plate'] + '/' + props.category + '/bills');
   };
 
   return (<>
@@ -68,4 +69,4 @@ const mapDispatchToProps = {
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;
 
-export default connect(mapStateToProps, mapDispatchToProps)(Marginal);
+export default connect(mapStateToProps, mapDispatchToProps)(Toll);

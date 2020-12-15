@@ -41,9 +41,9 @@ export default (state: TollRequestState = initialState, action): TollRequestStat
 const apiUrl = 'api/toll-requests';
 
 // Actions
-export const getBills: (plate: number) => IPayload<IBill> = plate => ({
+export const getBills: (plate: string, category: string) => IPayload<IBill> = (plate, category) => ({
   type: ACTION_TYPES.GET_BILLS,
-  payload: axios.get(apiUrl+'/get-plate-bills?plate='+plate)
+  payload: axios.get(apiUrl + '/get-plate-bills?plate=' + plate + '&category=' + category)
 });
 
 export const getPayRequest: (trackingId: string) => IPayload<IPayRequest> = (trackingId) => ({

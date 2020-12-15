@@ -55,12 +55,6 @@ export const Callback = (props: ICallbackProps) => {
     }
   }, []);
 
-  if(!open && '1' === paid){
-    toast.success(translate('myTollApp.payRequest.payStatus.paid'));
-  }else {
-    toast.error(translate('myTollApp.payRequest.payStatus.fail'));
-  }
-
   return (<>
           <Grid container spacing={1}>
               <Grid xs={12} sm={6} md={4} item>

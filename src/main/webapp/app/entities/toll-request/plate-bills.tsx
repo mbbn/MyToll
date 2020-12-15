@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-export interface IPlateBillsProps extends StateProps, DispatchProps, RouteComponentProps<{mobile:string, plate: string}> {
+export interface IPlateBillsProps extends StateProps, DispatchProps, RouteComponentProps<{ mobile: string, plate: string, category: string }> {
 }
 
 export const PlateBills = (props: IPlateBillsProps) => {
@@ -37,7 +37,8 @@ export const PlateBills = (props: IPlateBillsProps) => {
   const [selectedBills, setSelectedBills] = useState([]);
   useEffect(() => {
     setOpen(true);
-    getBills(Number(plate)).payload.then(response => {
+    const category = props.match.params.category;
+    getBills(plate, category).payload.then(response => {
       if(200 === response.status){
         setSelectedBills(Object.assign([], response.data));
         setBills(response.data as IBill[]);

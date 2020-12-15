@@ -2,10 +2,9 @@ import './home.scss';
 
 import React, {useState} from 'react';
 import {connect} from 'react-redux';
-import {Freeway} from "app/modules/toll/freeway";
-import Marginal from "app/modules/toll/marginal";
 import {translate} from 'react-jhipster';
 import {Tabs, Tab, Paper, Divider, Grid} from '@material-ui/core';
+import Toll from "app/modules/toll/toll";
 
 export type IHomeProp = StateProps;
 
@@ -19,7 +18,7 @@ export const Home = (props: IHomeProp) => {
         <Paper elevation={2} square={true}>
           <Tabs aria-label="simple tabs example" value={activeTab} onChange={(event, value) => {setActiveTab(value)}}>
             <Tab id={'toll-0'} label={translate('home.tabs.marginalTolls')} icon={<img alt={translate('home.tabs.marginalTolls')} src="./content/images/park.png"/>}/>
-            <Tab disabled={true} id={'toll-1'} label={translate('home.tabs.freeWayTolls')} icon={<img alt={translate('home.tabs.freeWayTolls')} src="./content/images/Freeway.png"/>}/>
+            <Tab id={'toll-1'} label={translate('home.tabs.freeWayTolls')} icon={<img alt={translate('home.tabs.freeWayTolls')} src="./content/images/Freeway.png"/>}/>
           </Tabs>
           <Divider style={{marginBottom:10}}/>
           <div
@@ -28,7 +27,7 @@ export const Home = (props: IHomeProp) => {
             id={`toll-0`}
             aria-labelledby={`simple-tab-0`}
           >
-            <Marginal/>
+            <Toll category={'SIDEPARK'}/>
           </div>
           <div
             role="tabpanel"
@@ -36,7 +35,7 @@ export const Home = (props: IHomeProp) => {
             id={`toll-1`}
             aria-labelledby={`simple-tab-1`}
           >
-            <Freeway/>
+            <Toll category={'HIGHWAY'}/>
           </div>
         </Paper>
       </Grid>
